@@ -74,6 +74,7 @@ namespace MinesweeperLibrary
             }
 
             ShuffleBoard();
+            CalculateAdjacentMines();
 
             return "Board Initialized"; // Change to display board
 
@@ -101,6 +102,59 @@ namespace MinesweeperLibrary
                     }
                 }
             }
+        }
+
+        public void CalculateAdjacentMines()
+        {
+            for (int row = 0; row < BoardSize; row++)
+            {
+                for (int col = 0; col < BoardSize; col++)
+                {
+                    if (Cells[row, col].IsMine)
+                    {
+                        Cells[row, col].AdjacentMines = -1;
+                    }
+                    else
+                    {
+                        int count = 0;
+                        for (int i = -1; i <= 1; i++)
+                        {
+                            for (int j = -1; j <= 1; j++)
+                            {
+                                if (row + i >= 0 && row + i < BoardSize && col + j >= 0 && col + j < BoardSize)
+                                {
+                                    if (Cells[row + i, col + j].IsMine)
+                                    {
+                                        count++;
+                                    }
+                                }
+                            }
+                        }
+                        Cells[row, col].AdjacentMines = count;
+                    }
+                }
+            }
+        }
+
+        public String DisplayBoard()
+        {
+            String board = "";
+            for (int row = 0; row < BoardSize; row++)
+            {
+                for (int col = 0; col < BoardSize; col++)
+                {
+                    if (Cells[row, col].IsMine)
+                    {
+                        board += "X ";
+                    }
+                    else
+                    {
+                        board += Cells[row, col].AdjacentMines + " ";
+                    }
+                }
+                board += "\n";
+            }
+            return board;
         }
 
     }
