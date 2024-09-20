@@ -143,21 +143,64 @@ namespace MinesweeperLibrary
 
         public String DisplayBoard()
         {
-            String board = "";
+            String line = string.Concat(Enumerable.Repeat("+---", BoardSize)) + "+";
+            String board = " ";
+            for (int col = 0; col < BoardSize; col++)
+            {
+                board += "   " + (col + 1);
+            }
+            board += ("\n  " + line + "\n");
+
             for (int row = 0; row < BoardSize; row++)
             {
+                board += (row + 1) + " ";
+
                 for (int col = 0; col < BoardSize; col++)
                 {
                     if (Cells[row, col].IsMine)
                     {
-                        board += " X ";
+                        board += "| \u001B[31mX\u001B[0m ";
                     }
                     else
                     {
-                        board += Cells[row, col].AdjacentMines + " ";
+                        switch (Cells[row, col].AdjacentMines)
+                        {
+                            case 0:
+                                board += "| . ";
+                                break;
+                            case 1:
+                                board += "| \u001B[34m1\u001B[0m ";
+                                break;
+                            case 2:
+                                board += "| \u001B[32m2\u001B[0m ";
+                                break;
+                            case 3:
+                                board += "| \u001B[33m3\u001B[0m ";
+                                break;
+                            case 4:
+                                board += "| \u001B[35m4\u001B[0m ";
+                                break;
+                            case 5:
+                                board += "| \u001B[36m5\u001B[0m ";
+                                break;
+                            case 6:
+                                board += "| \u001B[37m6\u001B[0m ";
+                                break;
+                            case 7:
+                                board += "| \u001B[31m7\u001B[0m ";
+                                break;
+                            case 8:
+                                board += "| \u001B[31m8\u001B[0m ";
+                                break;
+                            default:
+                                board += "| " + Cells[row, col].AdjacentMines + " ";
+                                break;
+                        }
                     }
+                    board += (col == BoardSize - 1) ? "|" : "";
                 }
-                board += "\n";
+
+                board += ("\n  " + line + "\n");
             }
             return board;
         }
