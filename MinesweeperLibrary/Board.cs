@@ -21,8 +21,8 @@ namespace MinesweeperLibrary
         {
 
             Difficulty = 1;
-            SetDifficulty(Difficulty);// Sets Board Size And Bomb Count
-            InitBoard();// Sets Cells
+            SetDifficulty(Difficulty); // Sets Board Size And Bomb Count
+            InitBoard(); // Sets Cells
 
 
 
@@ -33,10 +33,6 @@ namespace MinesweeperLibrary
             Difficulty = difficulty;
             SetDifficulty(difficulty); // Sets Board Size And Bomb Count
             InitBoard(); // Sets Cells
-
-
-
-
         }
 
         // Sets board size and bomb count based on difficulty,
