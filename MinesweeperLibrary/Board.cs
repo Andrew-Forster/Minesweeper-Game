@@ -17,6 +17,11 @@ namespace MinesweeperLibrary
         //public string StartTime { get; set; }
         //public string EndTime { get; set; }
 
+        /// <summary>
+        /// Default Constructor for Board
+        /// Sets Difficulty to 1 (Easy)
+        /// Initializes Board
+        /// </summary>
         public Board()
         {
 
@@ -28,6 +33,10 @@ namespace MinesweeperLibrary
 
         }
 
+        /// <summary>
+        /// Sets up game board based on difficulty
+        /// </summary>
+        /// <param name="difficulty"></param>
         public Board(int difficulty)
         {
             Difficulty = difficulty;
@@ -35,7 +44,10 @@ namespace MinesweeperLibrary
             InitBoard(); // Sets Cells
         }
 
-        // Sets board size and bomb count based on difficulty,
+        /// <summary>
+        /// Sets the Board Size and Bomb Count based on difficulty
+        /// </summary>
+        /// <param name="difficulty"></param>
         public void SetDifficulty(int difficulty)
         {
             switch (difficulty)
@@ -59,8 +71,10 @@ namespace MinesweeperLibrary
             }
         }
 
-        // Initializes the board with cells & bombs, then shuffles the board to randomize bomb placement
-        // Will then display the board
+        /// <summary>
+        /// Initializes the game board with cells and bombs, 
+        /// then shuffles the board to randomize bomb placement
+        /// </summary>
         public void InitBoard()
         {
 
@@ -81,10 +95,18 @@ namespace MinesweeperLibrary
 
         }
 
+        /// <summary>
+        /// Overloaded ShuffleBoard method to shuffle board 5 times by default
+        /// </summary>
         public void ShuffleBoard()
         {
             ShuffleBoard(5);
         }
+
+        /// <summary>
+        /// Shuffles Game Board to randomize bomb placement
+        /// </summary>
+        /// <param name="num"></param>
         public void ShuffleBoard(int num)
         {
             for (int i = 0; i < num; i++)
@@ -105,6 +127,10 @@ namespace MinesweeperLibrary
             }
         }
 
+        /// <summary>
+        /// Calculates the number of adjacent mines for each cell 
+        /// and sets the AdjacentMines property of each cell
+        /// </summary>
         public void CalculateAdjacentMines()
         {
             for (int row = 0; row < BoardSize; row++)
@@ -137,10 +163,16 @@ namespace MinesweeperLibrary
             }
         }
 
-        public String DisplayBoard()
+        /// <summary>
+        /// Returns a string representation of the game board
+        /// </summary>
+        /// <returns></returns>
+        public String GetBoard()
         {
+            // Creates border for board
             String line = string.Concat(Enumerable.Repeat("+---", BoardSize)) + "+";
             String board = " ";
+            // Prints index of columns
             for (int col = 0; col < BoardSize; col++)
             {
                 board += "   " + (col + 1);
@@ -159,6 +191,7 @@ namespace MinesweeperLibrary
                     }
                     else
                     {
+                        // Colors numbers based on adjacent mines
                         switch (Cells[row, col].AdjacentMines)
                         {
                             case 0:

@@ -15,6 +15,9 @@ namespace MinesweeperLibrary
         public int AdjacentMines { get; set; }
         public (int row, int col) Position { get; set; }
 
+        /// <summary>
+        /// Default Constructor for Cell
+        /// </summary>
         public Cell()
         {
             IsMine = false;
@@ -24,6 +27,14 @@ namespace MinesweeperLibrary
             Position = (0, 0);
         }
 
+        /// <summary>
+        /// Constructor for Cell
+        /// </summary>
+        /// <param name="isMine"></param>
+        /// <param name="isFlagged"></param>
+        /// <param name="isRevealed"></param>
+        /// <param name="adjacentMines"></param>
+        /// <param name="position"></param>
         public Cell(bool isMine, bool isFlagged, bool isRevealed, int adjacentMines, (int row, int col) position)
         {
             IsMine = isMine;

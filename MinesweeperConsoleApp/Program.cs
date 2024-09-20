@@ -23,7 +23,7 @@ while (choice != 0)
     if (choice == 1 || choice == 2 || choice == 3)
     {
         board = new Board(choice);
-        Console.WriteLine(board.DisplayBoard());
+        Console.WriteLine(board.GetBoard());
     } else if (choice == 0)
     {
         Console.WriteLine("Goodbye!");
