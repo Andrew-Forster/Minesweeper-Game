@@ -1,2 +1,5 @@
-﻿
-Console.WriteLine("Hello, World!");
+﻿using MinesweeperLibrary;
+
+
+
+Board board = new Board(5);

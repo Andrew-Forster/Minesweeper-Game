@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MinesweeperLibrary
 {
-    internal class Cell
+    public class Cell
     {
 
         public bool IsMine { get; set; }
@@ -32,6 +32,7 @@ namespace MinesweeperLibrary
             AdjacentMines = adjacentMines;
             Position = position;
         }
+
 
     }
 }
