@@ -185,6 +185,12 @@ namespace MinesweeperLibrary
 
                 for (int col = 0; col < BoardSize; col++)
                 {
+                    if (!Cells[row, col].IsRevealed)
+                    {
+                        board += "| ? ";
+                    }
+                    else
+
                     if (Cells[row, col].IsMine)
                     {
                         board += "| \u001B[31mX\u001B[0m ";
@@ -195,7 +201,7 @@ namespace MinesweeperLibrary
                         switch (Cells[row, col].AdjacentMines)
                         {
                             case 0:
-                                board += "| . ";
+                                board += "|   ";
                                 break;
                             case 1:
                                 board += "| \u001B[34m1\u001B[0m ";
@@ -232,6 +238,27 @@ namespace MinesweeperLibrary
                 board += ("\n  " + line + "\n");
             }
             return board;
+        }
+
+        /// <summary>
+        /// Reveals cell
+        /// If cell is a mine, game is over
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
+        public void Reveal(Cell cell)
+        {
+            if (cell.IsRevealed)
+            {
+                return;
+            }
+
+            if (cell.IsMine)
+            {
+                cell.IsRevealed = true;
+                return;
+            }
+            cell.IsRevealed = true;
         }
 
 

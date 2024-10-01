@@ -4,7 +4,7 @@ int choice = -1;
 Board board;
 
 while (choice != 0)
-{
+{   
     Console.WriteLine("Choose Your difficulty: ");
     Console.WriteLine("1. Easy");
     Console.WriteLine("2. Medium");
