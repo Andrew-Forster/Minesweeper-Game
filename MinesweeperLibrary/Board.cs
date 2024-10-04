@@ -297,6 +297,11 @@ namespace MinesweeperLibrary
             cell.IsRevealed = true;
         }
 
+        /// <summary>
+        /// Flags a cell
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
         public void Flag(int row, int col)
         {
             Cell cell = Cells[row - 1, col - 1];
@@ -308,6 +313,12 @@ namespace MinesweeperLibrary
             cell.IsFlagged = !cell.IsFlagged;
         }
 
+        /// <summary>
+        /// Uses a detector to check if a cell is a mine
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <returns></returns>
         public bool UseDetector(int row, int col)
         {
             Cell cell = Cells[row - 1, col - 1];

@@ -7,12 +7,22 @@ namespace MinesweeperLibrary
 {
     public class Utils
     {
+        /// <summary>
+        /// Get user input as a string
+        /// </summary>
+        /// <param name="prompt"></param>
+        /// <returns></returns>
         public static String GetUserInputStr(string prompt)
         {
             Console.WriteLine(prompt);
             return Console.ReadLine();
         }
 
+        /// <summary>
+        /// Get user input as an integer and validates the input
+        /// </summary>
+        /// <param name="prompt"></param>
+        /// <returns></returns>
         public static int GetUserInput(string prompt)
         {
             int intInput;
@@ -24,6 +34,10 @@ namespace MinesweeperLibrary
             return intInput;
         }
 
+        /// <summary>
+        /// Outputs the reward found and its effects
+        /// </summary>
+        /// <param name="reward"></param>
         public static void RewardFound(string reward)
         {
             Console.WriteLine($"\u001b[32mYou found a {reward}!\u001b[0m");
