@@ -6,7 +6,8 @@ This is a **Minesweeper** game developed as part of multiple class assignments. 
 
 ### Current Version
 
-- **First Assignment:** The base structure of Minesweeper has been implemented. This version prints the board to the console, displaying all relevant cell information such as whether a cell contains a mine, has mines around it, or has no mines in its vicinity
+- **Milestone 1:** The base structure of Minesweeper has been implemented. This version prints the board to the console, displaying all relevant cell information such as whether a cell contains a mine, has mines around it, or has no mines in its vicinity
+- **Milestone 2:** Built upon Milestone 1, this version implements, revealing cells, flagging bombs, basic game flow, rewards & more. 
 
 ## Features
 
