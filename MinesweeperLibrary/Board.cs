@@ -13,6 +13,9 @@ namespace MinesweeperLibrary
         public int BombCount { get; set; }
         public int Difficulty { get; set; }
         public Cell[,] Cells { get; set; }
+        public bool GameOver { get; set; }
+        public List<string> RewardsInventory { get; set; }
+
         // Implement Later
         //public string StartTime { get; set; }
         //public string EndTime { get; set; }
@@ -28,6 +31,8 @@ namespace MinesweeperLibrary
             Difficulty = 1;
             SetDifficulty(Difficulty); // Sets Board Size And Bomb Count
             InitBoard(); // Sets Cells
+            GameOver = false;
+            RewardsInventory = new List<string>();
 
 
 
@@ -42,6 +47,8 @@ namespace MinesweeperLibrary
             Difficulty = difficulty;
             SetDifficulty(difficulty); // Sets Board Size And Bomb Count
             InitBoard(); // Sets Cells
+            GameOver = false;
+            RewardsInventory = new List<string>();
         }
 
         /// <summary>
@@ -53,20 +60,20 @@ namespace MinesweeperLibrary
             switch (difficulty)
             {
                 case 1: // Easy
-                    BoardSize = 9;
-                    BombCount = BoardSize * 2; // 18
+                    BoardSize = 4;
+                    BombCount = 4;
                     break;
                 case 2: // Medium
-                    BoardSize = 16;
-                    BombCount = BoardSize * 2; // 32
+                    BoardSize = 9;
+                    BombCount = BoardSize * 2; // 18`
                     break;
                 case 3: // Hard
                     BoardSize = 24;
                     BombCount = BoardSize * 2; // 48
                     break;
                 default: // Easy
-                    BoardSize = 9;
-                    BombCount = BoardSize * 2; // 18
+                    BoardSize = 4;
+                    BombCount = 4;
                     break;
             }
         }
@@ -80,13 +87,21 @@ namespace MinesweeperLibrary
 
             Cells = new Cell[BoardSize, BoardSize];
 
-            int I = 0;
+            int i = 0;
             for (int row = 0; row < BoardSize; row++)
             {
                 for (int col = 0; col < BoardSize; col++)
                 {
-                    I++;
-                    Cells[row, col] = new Cell((BombCount >= I), false, false, 0, (row, col));
+                    i++;
+                    Cells[row, col] = new Cell((BombCount >= i), false, false, 0, (row, col), "None");
+
+                    if (i > BombCount && i < (BombCount + Difficulty + 1))
+                    {
+                        Cells[row, col] = new Cell(false, false, false, 0, (row, col), "Detector");
+                        continue;
+                    }
+
+
                 }
             }
 
@@ -185,6 +200,11 @@ namespace MinesweeperLibrary
 
                 for (int col = 0; col < BoardSize; col++)
                 {
+                    if (Cells[row, col].IsFlagged)
+                    {
+                        board += "| \u001B[33mX\u001B[0m ";
+                    }
+                    else
                     if (!Cells[row, col].IsRevealed)
                     {
                         board += "| ? ";
@@ -193,7 +213,14 @@ namespace MinesweeperLibrary
 
                     if (Cells[row, col].IsMine)
                     {
-                        board += "| \u001B[31mX\u001B[0m ";
+                        board += "| \u001B[31m*\u001B[0m ";
+                    }
+                    else
+
+                    if (Cells[row, col].RewardType == "Detector")
+                    {
+                        board += "| \u001B[39mR\u001B[0m ";
+
                     }
                     else
                     {
@@ -246,8 +273,9 @@ namespace MinesweeperLibrary
         /// </summary>
         /// <param name="cell"></param>
         /// <returns></returns>
-        public void Reveal(Cell cell)
+        public void Reveal(int row, int col)
         {
+            Cell cell = Cells[row - 1, col - 1];
             if (cell.IsRevealed)
             {
                 return;
@@ -256,11 +284,79 @@ namespace MinesweeperLibrary
             if (cell.IsMine)
             {
                 cell.IsRevealed = true;
+                GameOver = true;
                 return;
             }
+
+            if (cell.RewardType != "None" && cell.RewardType != "")
+            {
+                RewardsInventory.Add(cell.RewardType);
+                Utils.RewardFound(cell.RewardType);
+            }
+
             cell.IsRevealed = true;
         }
 
+        public void Flag(int row, int col)
+        {
+            Cell cell = Cells[row - 1, col - 1];
+            if (cell.IsRevealed)
+            {
+                return;
+            }
+
+            cell.IsFlagged = !cell.IsFlagged;
+        }
+
+        public bool UseDetector(int row, int col)
+        {
+            Cell cell = Cells[row - 1, col - 1];
+
+            if (cell.IsMine)
+            {
+                cell.IsRevealed = true;
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if the game is over
+        /// Returns 
+        /// </summary>
+        /// <returns></returns>
+        public string CheckGameState()
+        {
+            int count = 0;
+            int flagged = 0;
+            for (int row = 0; row < BoardSize; row++)
+            {
+                for (int col = 0; col < BoardSize; col++)
+                {
+                    if (Cells[row, col].IsRevealed)
+                    {
+                        count++;
+                    }
+                    if (Cells[row, col].IsFlagged && Cells[row, col].IsMine)
+                    {
+                        flagged++;
+                    }
+                }
+            }
+            if (flagged == BombCount)
+            {
+                return "Won";
+            }
+            if (count == (BoardSize * BoardSize) - BombCount)
+            {
+                return "Won";
+            }
+            if (GameOver)
+            {
+                return "Lost";
+            }
+            return "Continue";
+        }
 
     }
 }
