@@ -35,6 +35,7 @@ while (choice != 0)
 
     // Display the board to the user (assuming the 'GetBoard' method returns a string representation of the board)
     Console.WriteLine(board.GetBoard());
+    //Console.WriteLine(board.GetBoard(true));
 
     // Initialize variables for row and column selections
     int row = -1;

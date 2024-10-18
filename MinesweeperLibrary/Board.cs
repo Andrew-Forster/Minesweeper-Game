@@ -65,11 +65,11 @@ namespace MinesweeperLibrary
                     break;
                 case 2: // Medium
                     BoardSize = 9;
-                    BombCount = BoardSize * 2; // 18`
+                    BombCount = 10;
                     break;
                 case 3: // Hard
                     BoardSize = 24;
-                    BombCount = BoardSize * 2; // 48
+                    BombCount = 20;
                     break;
                 default: // Easy
                     BoardSize = 4;
@@ -178,11 +178,16 @@ namespace MinesweeperLibrary
             }
         }
 
+        public String GetBoard()
+        {
+            return GetBoard(false);
+        }
+
         /// <summary>
         /// Returns a string representation of the game board
         /// </summary>
         /// <returns></returns>
-        public String GetBoard()
+        public String GetBoard(bool answerKey)
         {
             // Creates border for board
             String line = string.Concat(Enumerable.Repeat("+---", BoardSize)) + "+";
@@ -205,7 +210,7 @@ namespace MinesweeperLibrary
                         board += "| \u001B[33mX\u001B[0m ";
                     }
                     else
-                    if (!Cells[row, col].IsRevealed)
+                    if (!Cells[row, col].IsRevealed && !answerKey)
                     {
                         board += "| ? ";
                     }
@@ -293,8 +298,10 @@ namespace MinesweeperLibrary
                 RewardsInventory.Add(cell.RewardType);
                 Utils.RewardFound(cell.RewardType);
             }
-
+            FloodFill(row - 1, col - 1);
             cell.IsRevealed = true;
+
+
         }
 
         /// <summary>
@@ -369,5 +376,38 @@ namespace MinesweeperLibrary
             return "Continue";
         }
 
+        /// <summary>
+        /// Flood Fill Algorithm to reveal all adjacent cells
+        /// </summary>
+        /// <param name="c"></param>
+        public void FloodFill(int row, int col)
+            {
+            Cell c = Cells[row, col];
+            if (c.IsRevealed || c.AdjacentMines != 0)
+            {
+                if (c.RewardType != "None" && c.RewardType != "")
+                {
+                    RewardsInventory.Add(c.RewardType);
+                    Utils.RewardFound(c.RewardType);
+                }
+                // Reveals the edges of the flood fill
+                c.IsRevealed = true;
+                return;
+            }
+
+
+            for (int i = -1; i <= 1; i++)
+            {
+                for (int j = -1; j <= 1; j++)
+                {
+
+                    if (row + i >= 0 && row + i < BoardSize && col + j >= 0 && col + j < BoardSize)
+                    {
+                        c.IsRevealed = true;
+                        FloodFill(row + i, col + j);
+                    }
+                }
+            }
+        }
     }
 }
