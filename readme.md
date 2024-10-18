@@ -6,8 +6,15 @@ This is a **Minesweeper** game developed as part of multiple class assignments. 
 
 ### Current Version
 
-- **Milestone 1:** The base structure of Minesweeper has been implemented. This version prints the board to the console, displaying all relevant cell information such as whether a cell contains a mine, has mines around it, or has no mines in its vicinity
-- **Milestone 2:** Built upon Milestone 1, this version implements, revealing cells, flagging bombs, basic game flow, rewards & more. 
+- **Milestone 1:** The base structure of Minesweeper has been implemented. This version prints the board to the console, displaying all relevant cell information such as whether a cell contains a mine, has mines around it, or has no mines in its vicinity.
+
+  [View This Version Here](https://github.com/Andrew-Forster/Minesweeper-Game/releases/tag/v1.0)
+- **Milestone 2:** Built upon Milestone 1, this version implements, revealing cells, flagging bombs, basic game flow, rewards & more.
+
+  [View This Version Here](https://github.com/Andrew-Forster/Minesweeper-Game/releases/tag/v2.0)
+- **Milestone 3:** Added flood fill algorithm, added a way to reveal the board for dev purposes.
+
+  [View This Version Here](https://github.com/Andrew-Forster/Minesweeper-Game/releases/tag/v3.0)
 
 ## Features
 
