@@ -199,7 +199,7 @@ namespace MinesweeperLibrary
                 {
                     board += " ";
                 }
-                    board += "  " + (col + 1);
+                board += "  " + (col + 1);
             }
             board += ("\n  " + line + "\n");
 
@@ -389,7 +389,7 @@ namespace MinesweeperLibrary
         /// </summary>
         /// <param name="c"></param>
         public void FloodFill(int row, int col)
-            {
+        {
             Cell c = Cells[row, col];
             if (c.IsRevealed || c.AdjacentMines != 0)
             {
@@ -397,6 +397,7 @@ namespace MinesweeperLibrary
                 {
                     RewardsInventory.Add(c.RewardType);
                     Utils.RewardFound(c.RewardType);
+                    c.RewardType = "None";
                 }
                 // Reveals the edges of the flood fill
                 c.IsRevealed = true;
