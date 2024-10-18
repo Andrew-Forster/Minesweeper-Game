@@ -68,7 +68,7 @@ namespace MinesweeperLibrary
                     BombCount = 10;
                     break;
                 case 3: // Hard
-                    BoardSize = 24;
+                    BoardSize = 14;
                     BombCount = 20;
                     break;
                 default: // Easy
@@ -190,18 +190,26 @@ namespace MinesweeperLibrary
         public String GetBoard(bool answerKey)
         {
             // Creates border for board
-            String line = string.Concat(Enumerable.Repeat("+---", BoardSize)) + "+";
-            String board = " ";
+            String line = " " + string.Concat(Enumerable.Repeat("+---", BoardSize)) + "+";
+            String board = "  ";
             // Prints index of columns
             for (int col = 0; col < BoardSize; col++)
             {
-                board += "   " + (col + 1);
+                if (col < 9)
+                {
+                    board += " ";
+                }
+                    board += "  " + (col + 1);
             }
             board += ("\n  " + line + "\n");
 
             for (int row = 0; row < BoardSize; row++)
             {
                 board += (row + 1) + " ";
+                if (row < 9)
+                {
+                    board += " ";
+                }
 
                 for (int col = 0; col < BoardSize; col++)
                 {
