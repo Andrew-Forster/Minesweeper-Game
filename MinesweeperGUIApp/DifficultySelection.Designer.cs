@@ -43,13 +43,13 @@
             tipMedium = new ToolTip(components);
             tipHard = new ToolTip(components);
             panelCustom = new Panel();
-            trackBar1 = new TrackBar();
-            label5 = new Label();
+            tbMineCount = new TrackBar();
+            lblMineCount = new Label();
             tbBoardSize = new TrackBar();
-            label4 = new Label();
+            lblBoardSize = new Label();
             panelMain.SuspendLayout();
             panelCustom.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)tbMineCount).BeginInit();
             ((System.ComponentModel.ISupportInitialize)tbBoardSize).BeginInit();
             SuspendLayout();
             // 
@@ -174,51 +174,59 @@
             // panelCustom
             // 
             panelCustom.BorderStyle = BorderStyle.FixedSingle;
-            panelCustom.Controls.Add(trackBar1);
-            panelCustom.Controls.Add(label5);
+            panelCustom.Controls.Add(tbMineCount);
+            panelCustom.Controls.Add(lblMineCount);
             panelCustom.Controls.Add(tbBoardSize);
-            panelCustom.Controls.Add(label4);
+            panelCustom.Controls.Add(lblBoardSize);
             panelCustom.ForeColor = Color.White;
             panelCustom.Location = new Point(17, 212);
             panelCustom.Name = "panelCustom";
             panelCustom.Size = new Size(250, 138);
             panelCustom.TabIndex = 1;
             // 
-            // trackBar1
+            // tbMineCount
             // 
-            trackBar1.AutoSize = false;
-            trackBar1.Location = new Point(-1, 89);
-            trackBar1.Name = "trackBar1";
-            trackBar1.Size = new Size(242, 40);
-            trackBar1.TabIndex = 10;
-            trackBar1.TickStyle = TickStyle.Both;
+            tbMineCount.AutoSize = false;
+            tbMineCount.Location = new Point(-1, 89);
+            tbMineCount.Maximum = 6;
+            tbMineCount.Minimum = 5;
+            tbMineCount.Name = "tbMineCount";
+            tbMineCount.Size = new Size(242, 40);
+            tbMineCount.TabIndex = 10;
+            tbMineCount.TickStyle = TickStyle.Both;
+            tbMineCount.Value = 5;
+            tbMineCount.Scroll += MineCount_OnChanged;
             // 
-            // label5
+            // lblMineCount
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(-2, 66);
-            label5.Name = "label5";
-            label5.Size = new Size(88, 20);
-            label5.TabIndex = 9;
-            label5.Text = "Mine Count:";
+            lblMineCount.AutoSize = true;
+            lblMineCount.Location = new Point(-2, 66);
+            lblMineCount.Name = "lblMineCount";
+            lblMineCount.Size = new Size(100, 20);
+            lblMineCount.TabIndex = 9;
+            lblMineCount.Text = "Mine Count: 5";
             // 
             // tbBoardSize
             // 
             tbBoardSize.AutoSize = false;
             tbBoardSize.Location = new Point(0, 23);
+            tbBoardSize.Maximum = 32;
+            tbBoardSize.Minimum = 5;
             tbBoardSize.Name = "tbBoardSize";
             tbBoardSize.Size = new Size(242, 40);
             tbBoardSize.TabIndex = 2;
             tbBoardSize.TickStyle = TickStyle.Both;
+            tbBoardSize.Value = 5;
+            tbBoardSize.Scroll += BoardSize_OnChanged;
             // 
-            // label4
+            // lblBoardSize
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(0, 0);
-            label4.Name = "label4";
-            label4.Size = new Size(83, 20);
-            label4.TabIndex = 8;
-            label4.Text = "Board Size:";
+            lblBoardSize.AutoSize = true;
+            lblBoardSize.Location = new Point(0, 0);
+            lblBoardSize.Name = "lblBoardSize";
+            lblBoardSize.Size = new Size(95, 20);
+            lblBoardSize.TabIndex = 8;
+            lblBoardSize.Text = "Board Size: 5";
             // 
             // Minesweeper
             // 
@@ -237,7 +245,7 @@
             panelMain.PerformLayout();
             panelCustom.ResumeLayout(false);
             panelCustom.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)tbMineCount).EndInit();
             ((System.ComponentModel.ISupportInitialize)tbBoardSize).EndInit();
             ResumeLayout(false);
         }
@@ -258,9 +266,9 @@
         private Label label2;
         private Label label3;
         private Panel panelCustom;
-        private Label label4;
+        private Label lblBoardSize;
         private TrackBar tbBoardSize;
-        private Label label5;
-        private TrackBar trackBar1;
+        private Label lblMineCount;
+        private TrackBar tbMineCount;
     }
 }

@@ -15,6 +15,11 @@ namespace MinesweeperGUIApp
             boardSize = 0;
             mineCount = 0;
 
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+
 
             tipCustom.SetToolTip(rbCustom, "Allows you to set your own board size and mine count.");
 
@@ -46,7 +51,7 @@ namespace MinesweeperGUIApp
                         mineCount = 40;
                         break;
                     case "Hard":
-                        boardSize = 32;
+                        boardSize = 24;
                         mineCount = 99;
                         break;
                 }
@@ -62,6 +67,29 @@ namespace MinesweeperGUIApp
             Board board = new Board(boardSize, mineCount);
             BoardGUI boardGUI = new BoardGUI(board);
             boardGUI.Show();
+        }
+
+
+        private void MineCount_OnChanged(object sender, EventArgs e)
+        {
+            lblMineCount.Text = "Mine Count: " + tbMineCount.Value.ToString();
+            mineCount = tbMineCount.Value;
+
+
+        }
+
+        private void BoardSize_OnChanged(object sender, EventArgs e)
+        {
+            lblBoardSize.Text = "Board Size: " + tbBoardSize.Value.ToString();
+
+            tbMineCount.Maximum = (tbBoardSize.Value * tbBoardSize.Value) / 4;
+            tbMineCount.Value = !((tbMineCount.Maximum / 2) > 5) ? 5 : (tbMineCount.Maximum / 2);
+            lblMineCount.Text = "Mine Count: " + tbMineCount.Value.ToString();
+            boardSize = tbBoardSize.Value;
+
+
+
+
         }
     }
 }
