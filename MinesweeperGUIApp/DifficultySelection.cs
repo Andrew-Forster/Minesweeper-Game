@@ -1,13 +1,19 @@
+using MinesweeperLibrary;
+
 namespace MinesweeperGUIApp
 {
     public partial class Minesweeper : Form
     {
+        private int boardSize;
+        private int mineCount;
         public Minesweeper()
         {
             InitializeComponent();
             panelCustom.Visible = false;
             this.MaximumSize = new Size(300, 270);
             this.Height = 270;
+            boardSize = 0;
+            mineCount = 0;
 
 
             tipCustom.SetToolTip(rbCustom, "Allows you to set your own board size and mine count.");
@@ -29,11 +35,33 @@ namespace MinesweeperGUIApp
             }
             else
             {
+                switch (rb.Text)
+                {
+                    case "Easy":
+                        boardSize = 9;
+                        mineCount = 10;
+                        break;
+                    case "Medium":
+                        boardSize = 16;
+                        mineCount = 40;
+                        break;
+                    case "Hard":
+                        boardSize = 32;
+                        mineCount = 99;
+                        break;
+                }
+
                 panelCustom.Visible = false;
                 this.MaximumSize = new Size(300, 270);
                 this.Height = 270;
             }
+        }
 
+        private void StartGame_OnClick(object sender, EventArgs e)
+        {
+            Board board = new Board(boardSize, mineCount);
+            BoardGUI boardGUI = new BoardGUI(board);
+            boardGUI.Show();
         }
     }
 }

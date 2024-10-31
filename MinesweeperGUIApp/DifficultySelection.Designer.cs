@@ -96,6 +96,7 @@
             btnStart.TabIndex = 6;
             btnStart.Text = "Start Game";
             btnStart.UseVisualStyleBackColor = false;
+            btnStart.Click += StartGame_OnClick;
             // 
             // rbCustom
             // 

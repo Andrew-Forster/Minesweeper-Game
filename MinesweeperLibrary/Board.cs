@@ -33,9 +33,6 @@ namespace MinesweeperLibrary
             InitBoard(); // Sets Cells
             GameOver = false;
             RewardsInventory = new List<string>();
-
-
-
         }
 
         /// <summary>
@@ -50,6 +47,17 @@ namespace MinesweeperLibrary
             GameOver = false;
             RewardsInventory = new List<string>();
         }
+
+        public Board(int boardSize, int bombCount)
+        {
+            BombCount = bombCount;
+            BoardSize = boardSize;
+            InitBoard();
+            GameOver = false;
+            RewardsInventory = new List<string>();
+        }
+
+
 
         /// <summary>
         /// Sets the Board Size and Bomb Count based on difficulty
