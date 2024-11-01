@@ -25,7 +25,7 @@ namespace MinesweeperGUIApp
 
             tipEasy.SetToolTip(rbEasy, "9x9 board with 10 mines.");
             tipMedium.SetToolTip(rbMedium, "16x16 board with 40 mines.");
-            tipHard.SetToolTip(rbHard, "16x30 board with 99 mines.");
+            tipHard.SetToolTip(rbHard, "24x24 board with 99 mines.");
         }
 
         /// <summary>

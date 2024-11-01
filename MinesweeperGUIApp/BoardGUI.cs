@@ -22,6 +22,12 @@ namespace MinesweeperGUIApp
 
         TimeSpan timeElapsed;
 
+
+        /// <summary>
+        /// Constructor for the BoardGUI
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="m"></param>
         public BoardGUI(Board board, Minesweeper m)
         {
             InitializeComponent();
@@ -33,6 +39,9 @@ namespace MinesweeperGUIApp
 
         }
 
+        /// <summary>
+        /// Important to ensure that images are quickly loaded and not loaded again and again from the disk
+        /// </summary>
         private void LoadImages()
         {
             // Load each image once and store it in the dictionary
@@ -54,7 +63,9 @@ namespace MinesweeperGUIApp
             imageCache["Skull"] = Image.FromFile("Assets/Skull.png");
         }
 
-
+        /// <summary>
+        /// Generates the UI for the board and adds the buttons to the panel
+        /// </summary>
         public void GenerateUI()
         {
             LoadImages();
@@ -74,6 +85,11 @@ namespace MinesweeperGUIApp
             }
         }
 
+        /// <summary>
+        /// Event handler for when a button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, EventArgs e)
         {
             PictureBox button = (PictureBox)sender;
@@ -97,7 +113,13 @@ namespace MinesweeperGUIApp
                 return;
             }
 
-            if(board.Cells[row, col].IsFlagged)
+            if (lblRewards.Text != "")
+            {
+                UseRewardFunction(row, col);
+                return;
+            }
+
+            if (board.Cells[row, col].IsFlagged)
             {
                 return;
             }
@@ -142,6 +164,10 @@ namespace MinesweeperGUIApp
             }
         }
 
+        /// <summary>
+        /// Updates the UI for the entire board
+        /// </summary>
+        /// <param name="force"></param>
         private void UpdateUI(bool force)
         {
             for (int i = 0; i < boardSize; i++)
@@ -153,12 +179,28 @@ namespace MinesweeperGUIApp
             }
         }
 
+        private void UseRewardFunction(int row, int col)
+        {
+            switch (lblRewards.Text.Split(',')[0])
+            {
+                case "Detector":
+                    UpdateButton(row, col, true);
+                    board.Cells[row,col].IsRevealed = true;
+                    lblRewards.Text = "";
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Updates the button image state at the given row and column
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="force"></param>
         private void UpdateButton(int row, int col, bool force)
         {
             PictureBox button = (PictureBox)panelBoard.Controls[row * boardSize + col];
             Cell cell = board.Cells[row, col];
-
-
 
             if (cell.IsRevealed || force)
             {
@@ -167,6 +209,12 @@ namespace MinesweeperGUIApp
                     : (cell.RewardType != "None") ? imageCache["Gold"]
                     : cell.AdjacentMines == 0 ? imageCache["TileFlat"]
                     : imageCache[$"Number{cell.AdjacentMines}"];
+
+                if (cell.RewardType != "None" && !cell.RewardUsed && lblRewards.Text == "")
+                {
+                    lblRewards.Text += $"{cell.RewardType}, This will be use on your next click!\n\n";
+                    cell.RewardUsed = true;
+                }
 
                 if (cell.IsMine)
                 {
@@ -194,6 +242,12 @@ namespace MinesweeperGUIApp
                         : (row % 2 == 0 ? imageCache["Tile1"] : imageCache["Tile2"]);
             }
         }
+
+        /// <summary>
+        /// Timer tick event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Timer_OnTick(object sender, EventArgs e)
         {
             timeElapsed = timeElapsed.Add(new TimeSpan(0, 0, 1));
@@ -204,6 +258,11 @@ namespace MinesweeperGUIApp
 
         }
 
+        /// <summary>
+        /// Quit button click event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnQuit_OnClick(object sender, EventArgs e)
         {
             this.Close();

@@ -12,6 +12,7 @@ namespace MinesweeperLibrary
         public int BoardSize { get; set; }
         public int BombCount { get; set; }
         public int Difficulty { get; set; }
+        public int RewardCount { get; set; }
         public Cell[,] Cells { get; set; }
         public bool GameOver { get; set; }
         public List<string> RewardsInventory { get; set; }
@@ -30,9 +31,10 @@ namespace MinesweeperLibrary
 
             Difficulty = 1;
             SetDifficulty(Difficulty); // Sets Board Size And Bomb Count
-            InitBoard(); // Sets Cells
             GameOver = false;
             RewardsInventory = new List<string>();
+            RewardCount = 0;
+            InitBoard(); // Sets Cells
         }
 
         /// <summary>
@@ -43,18 +45,20 @@ namespace MinesweeperLibrary
         {
             Difficulty = difficulty;
             SetDifficulty(difficulty); // Sets Board Size And Bomb Count
-            InitBoard(); // Sets Cells
             GameOver = false;
             RewardsInventory = new List<string>();
+            RewardCount = difficulty;
+            InitBoard(); // Sets Cells
         }
 
         public Board(int boardSize, int bombCount)
         {
             BombCount = bombCount;
             BoardSize = boardSize;
-            InitBoard();
             GameOver = false;
             RewardsInventory = new List<string>();
+            RewardCount = (BombCount / BoardSize) + 1;
+            InitBoard();
         }
 
 
@@ -103,9 +107,10 @@ namespace MinesweeperLibrary
                     i++;
                     Cells[row, col] = new Cell((BombCount >= i), false, false, 0, (row, col), "None");
 
-                    if (i > BombCount && i < (BombCount + Difficulty + 1))
+                    if (i > BombCount && i < (BombCount + RewardCount + 1))
                     {
                         Cells[row, col] = new Cell(false, false, false, 0, (row, col), "Detector");
+                        
                         continue;
                     }
 
@@ -309,7 +314,7 @@ namespace MinesweeperLibrary
                 return;
             }
 
-            if (cell.RewardType != "None" && cell.RewardType != "")
+            if (cell.RewardType != "None" && !cell.RewardUsed)
             {
                 RewardsInventory.Add(cell.RewardType);
                 Utils.RewardFound(cell.RewardType);
@@ -405,7 +410,7 @@ namespace MinesweeperLibrary
                 {
                     RewardsInventory.Add(c.RewardType);
                     Utils.RewardFound(c.RewardType);
-                    c.RewardType = "None";
+                    //c.RewardType = "None";
                 }
                 // Reveals the edges of the flood fill
                 c.IsRevealed = true;

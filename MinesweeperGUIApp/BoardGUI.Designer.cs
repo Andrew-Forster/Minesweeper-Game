@@ -36,6 +36,8 @@
             lblScore = new Label();
             tmrTimer = new System.Windows.Forms.Timer(components);
             panelBoard = new Panel();
+            lblRewardsText = new Label();
+            lblRewards = new Label();
             flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -57,6 +59,8 @@
             flowLayoutPanel1.Controls.Add(lblTimer);
             flowLayoutPanel1.Controls.Add(lblScoreText);
             flowLayoutPanel1.Controls.Add(lblScore);
+            flowLayoutPanel1.Controls.Add(lblRewardsText);
+            flowLayoutPanel1.Controls.Add(lblRewards);
             flowLayoutPanel1.Location = new Point(808, 5);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(183, 540);
@@ -112,6 +116,28 @@
             panelBoard.Size = new Size(798, 540);
             panelBoard.TabIndex = 3;
             // 
+            // lblRewardsText
+            // 
+            lblRewardsText.Font = new Font("Azonix", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblRewardsText.ForeColor = Color.FromArgb(255, 255, 192);
+            lblRewardsText.Location = new Point(5, 167);
+            lblRewardsText.Margin = new Padding(5, 0, 3, 0);
+            lblRewardsText.Name = "lblRewardsText";
+            lblRewardsText.Size = new Size(144, 51);
+            lblRewardsText.TabIndex = 5;
+            lblRewardsText.Text = "Rewards:";
+            lblRewardsText.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblRewards
+            // 
+            lblRewards.Font = new Font("Azonix", 7.79999971F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblRewards.ForeColor = Color.FromArgb(255, 255, 192);
+            lblRewards.Location = new Point(5, 218);
+            lblRewards.Margin = new Padding(5, 0, 3, 0);
+            lblRewards.Name = "lblRewards";
+            lblRewards.Size = new Size(170, 84);
+            lblRewards.TabIndex = 6;
+            // 
             // BoardGUI
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -136,5 +162,7 @@
         private Button btnQuit;
         private Panel panelBoard;
         private Label lblScore;
+        private Label lblRewardsText;
+        private Label lblRewards;
     }
 }

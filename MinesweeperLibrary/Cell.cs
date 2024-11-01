@@ -16,6 +16,8 @@ namespace MinesweeperLibrary
         public (int row, int col) Position { get; set; }
         public string RewardType { get; set; }
         public bool PointsGiven { get; set; }
+        public bool RewardUsed { get; set; }
+    
 
         /// <summary>
         /// Default Constructor for Cell
@@ -29,6 +31,7 @@ namespace MinesweeperLibrary
             Position = (0, 0);
             RewardType = "None";
             PointsGiven = false;
+            RewardUsed = false;
         }
 
         /// <summary>
@@ -48,6 +51,7 @@ namespace MinesweeperLibrary
             Position = position;
             RewardType = reward;
             PointsGiven = false;
+            RewardUsed = false;
         }
 
 
