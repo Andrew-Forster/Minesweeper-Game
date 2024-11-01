@@ -15,6 +15,10 @@ This is a **Minesweeper** game developed as part of multiple class assignments. 
 - **Milestone 3:** Added flood fill algorithm, added a way to reveal the board for dev purposes.
 
   [View This Version Here](https://github.com/Andrew-Forster/Minesweeper-Game/releases/tag/v3.0)
+  - **Milestone 4:** Implemented a User Interface / GUI for the Minesweeper Application with Rewards, Different Board Sizes, Scoring and a timer.
+
+  [View This Version Here](https://github.com/Andrew-Forster/Minesweeper-Game/releases/tag/v4.0)
+
 
 ## Features
 
