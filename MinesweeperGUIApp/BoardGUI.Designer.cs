@@ -32,8 +32,8 @@
             lblTimer = new Label();
             flowLayoutPanel1 = new FlowLayoutPanel();
             btnQuit = new Button();
-            label2 = new Label();
-            label1 = new Label();
+            lblScoreText = new Label();
+            lblScore = new Label();
             tmrTimer = new System.Windows.Forms.Timer(components);
             panelBoard = new Panel();
             flowLayoutPanel1.SuspendLayout();
@@ -55,8 +55,8 @@
             flowLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             flowLayoutPanel1.Controls.Add(btnQuit);
             flowLayoutPanel1.Controls.Add(lblTimer);
-            flowLayoutPanel1.Controls.Add(label2);
-            flowLayoutPanel1.Controls.Add(label1);
+            flowLayoutPanel1.Controls.Add(lblScoreText);
+            flowLayoutPanel1.Controls.Add(lblScore);
             flowLayoutPanel1.Location = new Point(808, 5);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(183, 540);
@@ -74,29 +74,29 @@
             btnQuit.UseVisualStyleBackColor = false;
             btnQuit.Click += BtnQuit_OnClick;
             // 
-            // label2
+            // lblScoreText
             // 
-            label2.Font = new Font("Azonix", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.FromArgb(192, 192, 255);
-            label2.Location = new Point(5, 116);
-            label2.Margin = new Padding(5, 0, 3, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(90, 51);
-            label2.TabIndex = 2;
-            label2.Text = "Score:";
-            label2.TextAlign = ContentAlignment.MiddleCenter;
+            lblScoreText.Font = new Font("Azonix", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblScoreText.ForeColor = Color.FromArgb(192, 192, 255);
+            lblScoreText.Location = new Point(5, 116);
+            lblScoreText.Margin = new Padding(5, 0, 3, 0);
+            lblScoreText.Name = "lblScoreText";
+            lblScoreText.Size = new Size(90, 51);
+            lblScoreText.TabIndex = 2;
+            lblScoreText.Text = "Score:";
+            lblScoreText.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // label1
+            // lblScore
             // 
-            label1.Font = new Font("Azonix", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.FromArgb(128, 128, 255);
-            label1.ImageAlign = ContentAlignment.MiddleLeft;
-            label1.Location = new Point(101, 116);
-            label1.Name = "label1";
-            label1.Size = new Size(74, 51);
-            label1.TabIndex = 3;
-            label1.Text = "0";
-            label1.TextAlign = ContentAlignment.MiddleLeft;
+            lblScore.Font = new Font("Azonix", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblScore.ForeColor = Color.FromArgb(128, 128, 255);
+            lblScore.ImageAlign = ContentAlignment.MiddleLeft;
+            lblScore.Location = new Point(101, 116);
+            lblScore.Name = "lblScore";
+            lblScore.Size = new Size(74, 51);
+            lblScore.TabIndex = 3;
+            lblScore.Text = "0";
+            lblScore.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // tmrTimer
             // 
@@ -132,9 +132,9 @@
         private Label lblTimer;
         private FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Timer tmrTimer;
-        private Label label2;
+        private Label lblScoreText;
         private Button btnQuit;
         private Panel panelBoard;
-        private Label label1;
+        private Label lblScore;
     }
 }

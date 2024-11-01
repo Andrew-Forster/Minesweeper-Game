@@ -158,6 +158,8 @@ namespace MinesweeperGUIApp
             PictureBox button = (PictureBox)panelBoard.Controls[row * boardSize + col];
             Cell cell = board.Cells[row, col];
 
+
+
             if (cell.IsRevealed || force)
             {
                 button.Image =
@@ -165,6 +167,25 @@ namespace MinesweeperGUIApp
                     : (cell.RewardType != "None") ? imageCache["Gold"]
                     : cell.AdjacentMines == 0 ? imageCache["TileFlat"]
                     : imageCache[$"Number{cell.AdjacentMines}"];
+
+                if (cell.IsMine)
+                {
+                    if (board.CheckGameState() == "Lost")
+                    {
+                        button.BackColor = Color.Red;
+                    } else if (board.CheckGameState() == "Won")
+                    {
+                        button.BackColor = Color.Green;
+                    }
+                }
+
+
+                if (!cell.PointsGiven && board.CheckGameState() != "Lost")
+                {
+                    Score += cell.AdjacentMines * 100;
+                    cell.PointsGiven = true;
+                    lblScore.Text = Score.ToString();
+                }
             }
             else
             {
@@ -177,6 +198,9 @@ namespace MinesweeperGUIApp
         {
             timeElapsed = timeElapsed.Add(new TimeSpan(0, 0, 1));
             lblTimer.Text = timeElapsed.ToString(@"hh\:mm\:ss");
+
+            Score -= 10;
+            lblScore.Text = Score.ToString();
 
         }
 

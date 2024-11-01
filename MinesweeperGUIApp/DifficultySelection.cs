@@ -42,6 +42,8 @@ namespace MinesweeperGUIApp
                 panelCustom.Visible = true;
                 this.MaximumSize = new Size(300, 413);
                 this.Height = 413;
+                boardSize = 5;
+                mineCount = 5;
             }
             else
             {
