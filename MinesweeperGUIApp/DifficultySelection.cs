@@ -28,6 +28,11 @@ namespace MinesweeperGUIApp
             tipHard.SetToolTip(rbHard, "16x30 board with 99 mines.");
         }
 
+        /// <summary>
+        /// Event handler for when a difficulty is selected.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DifficultySelected(object sender, EventArgs e)
         {
             RadioButton rb = (RadioButton)sender;
@@ -62,14 +67,24 @@ namespace MinesweeperGUIApp
             }
         }
 
+        /// <summary>
+        /// Starts the game with the selected difficulty.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StartGame_OnClick(object sender, EventArgs e)
         {
             Board board = new Board(boardSize, mineCount);
-            BoardGUI boardGUI = new BoardGUI(board);
+            BoardGUI boardGUI = new BoardGUI(board, this);
             boardGUI.Show();
+            this.Hide();
         }
 
-
+        /// <summary>
+        /// Event handler for when the mine count is changed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MineCount_OnChanged(object sender, EventArgs e)
         {
             lblMineCount.Text = "Mine Count: " + tbMineCount.Value.ToString();
@@ -78,6 +93,11 @@ namespace MinesweeperGUIApp
 
         }
 
+        /// <summary>
+        /// Event handler for when the board size is changed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BoardSize_OnChanged(object sender, EventArgs e)
         {
             lblBoardSize.Text = "Board Size: " + tbBoardSize.Value.ToString();

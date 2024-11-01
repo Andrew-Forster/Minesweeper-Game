@@ -16,20 +16,20 @@ namespace MinesweeperGUIApp
         private Board board;
         int boardSize;
         private Dictionary<string, Image> imageCache = new Dictionary<string, Image>();
+        private Minesweeper minesweeper;
+        private bool openSelector = true;
+        public int Score { get; set; }
 
+        TimeSpan timeElapsed;
 
-
-        public BoardGUI()
-        {
-            InitializeComponent();
-        }
-
-        public BoardGUI(Board board)
+        public BoardGUI(Board board, Minesweeper m)
         {
             InitializeComponent();
             this.board = board;
             boardSize = board.BoardSize;
             GenerateUI();
+            minesweeper = m;
+            timeElapsed = new TimeSpan(0, 0, 0);
 
         }
 
@@ -69,7 +69,7 @@ namespace MinesweeperGUIApp
                     button.Click += Button_Click;
                     button.Tag = new Point(i, j);
                     panelBoard.Controls.Add(button);
-                    UpdateButton(i, j);
+                    UpdateButton(i, j, false);
                 }
             }
         }
@@ -81,28 +81,84 @@ namespace MinesweeperGUIApp
             int row = point.X;
             int col = point.Y;
 
-            board.Reveal(row + 1, col + 1);
+            if (board.GameOver)
+            {
+                return;
+            }
 
-            UpdateUI();
+            if (e is MouseEventArgs mouseEventArgs && mouseEventArgs.Button == MouseButtons.Right)
+            {
+                if (board.Cells[row, col].IsRevealed)
+                {
+                    return;
+                }
+                board.Flag(row + 1, col + 1);
+                UpdateButton(row, col, false);
+                return;
+            }
+
+            if(board.Cells[row, col].IsFlagged)
+            {
+                return;
+            }
+
+            tmrTimer.Enabled = true;
+            board.Reveal(row + 1, col + 1);
+            UpdateUI(false);
+
+
+            if (board.CheckGameState() != "Continue")
+            {
+                tmrTimer.Enabled = false;
+                UpdateUI(true);
+
+
+                if (board.CheckGameState() == "Lost")
+                {
+                    // Show play again yes or no
+                    DialogResult result = MessageBox.Show("You lost! Play again?", "Game Over", MessageBoxButtons.YesNo);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        BoardGUI newBoard = new BoardGUI(new Board(boardSize, board.BombCount), minesweeper);
+                        newBoard.Show();
+                        openSelector = false;
+                        this.Close();
+                    }
+                }
+                else
+                {
+                    DialogResult result = MessageBox.Show("You won! Play again?", "Game Over", MessageBoxButtons.YesNo);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        BoardGUI newBoard = new BoardGUI(new Board(boardSize, board.BombCount), minesweeper);
+                        newBoard.Show();
+                        openSelector = false;
+                        this.Close();
+                    }
+                }
+
+            }
         }
 
-        private void UpdateUI()
+        private void UpdateUI(bool force)
         {
             for (int i = 0; i < boardSize; i++)
             {
                 for (int j = 0; j < boardSize; j++)
                 {
-                    UpdateButton(i, j);
+                    UpdateButton(i, j, force);
                 }
             }
         }
 
-        private void UpdateButton(int row, int col)
+        private void UpdateButton(int row, int col, bool force)
         {
             PictureBox button = (PictureBox)panelBoard.Controls[row * boardSize + col];
             Cell cell = board.Cells[row, col];
 
-            if (cell.IsRevealed)
+            if (cell.IsRevealed || force)
             {
                 button.Image =
                     cell.IsMine ? imageCache["Bomb"]
@@ -117,8 +173,35 @@ namespace MinesweeperGUIApp
                         : (row % 2 == 0 ? imageCache["Tile1"] : imageCache["Tile2"]);
             }
         }
+        private void Timer_OnTick(object sender, EventArgs e)
+        {
+            timeElapsed = timeElapsed.Add(new TimeSpan(0, 0, 1));
+            lblTimer.Text = timeElapsed.ToString(@"hh\:mm\:ss");
+
+        }
+
+        private void BtnQuit_OnClick(object sender, EventArgs e)
+        {
+            this.Close();
+            minesweeper.Show();
+
+        }
 
 
+        /// <summary>
+        /// Used to Open up the main Form on close or else the program hangs
+        /// </summary>
+        /// <param name="m"></param>
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_CLOSE = 0x0010;
 
+            if (m.Msg == WM_CLOSE && openSelector)
+            { minesweeper.Show();
+            }
+
+            // Call the base class method for other messages
+            base.WndProc(ref m);
+        }
     }
 }
