@@ -156,6 +156,7 @@ namespace MinesweeperGUIApp
                     {
                         BoardGUI newBoard = new BoardGUI(new Board(boardSize, board.BombCount), minesweeper);
                         newBoard.Show();
+                        newBoard.Size = this.Size;
                         openSelector = false;
                         this.Close();
                     }
@@ -168,6 +169,7 @@ namespace MinesweeperGUIApp
                     {
                         BoardGUI newBoard = new BoardGUI(new Board(boardSize, board.BombCount), minesweeper);
                         newBoard.Show();
+                        newBoard.Size = this.Size;
                         openSelector = false;
                         this.Close();
                     }
@@ -203,7 +205,7 @@ namespace MinesweeperGUIApp
             {
                 case "Detector":
                     UpdateButton(row, col, true);
-                    board.Cells[row,col].IsRevealed = true;
+                    board.Cells[row, col].IsRevealed = true;
                     lblRewards.Text = "";
                     break;
                 // For Sweep, Scavenge
@@ -241,7 +243,8 @@ namespace MinesweeperGUIApp
                     if (board.CheckGameState() == "Lost")
                     {
                         button.BackColor = Color.Red;
-                    } else if (board.CheckGameState() == "Won")
+                    }
+                    else if (board.CheckGameState() == "Won")
                     {
                         button.BackColor = Color.Green;
                     }
@@ -300,11 +303,13 @@ namespace MinesweeperGUIApp
             const int WM_CLOSE = 0x0010;
 
             if (m.Msg == WM_CLOSE && openSelector)
-            { minesweeper.Show();
+            {
+                minesweeper.Show();
             }
 
             // Call the base class method for other messages
             base.WndProc(ref m);
         }
+
     }
 }

@@ -242,6 +242,7 @@
             MaximumSize = new Size(300, 413);
             MinimumSize = new Size(300, 270);
             Name = "Minesweeper";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Minesweeper";
             panelMain.ResumeLayout(false);
             panelMain.PerformLayout();

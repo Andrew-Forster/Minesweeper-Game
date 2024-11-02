@@ -78,11 +78,11 @@ namespace MinesweeperGUIApp
         {
             Board board = new Board(boardSize, mineCount);
             BoardGUI boardGUI = new BoardGUI(board, this);
-            boardGUI.Show();
             boardGUI.Text = $"Minesweeper - {boardSize}x{boardSize}";
             boardGUI.Size = new Size(
                 50 * boardSize + 250, // 185 for sidebar
                 50 * boardSize + 100);
+            boardGUI.Show();
 
             //boardGUI.MinimumSize = boardGUI.Size; // Uncomment this line to lock the window size
 
@@ -121,8 +121,8 @@ namespace MinesweeperGUIApp
             lblMineCount.Text = "Mine Count: " + tbMineCount.Value.ToString();
             boardSize = tbBoardSize.Value;
             mineCount = tbMineCount.Value;
-
-
         }
+
+
     }
 }

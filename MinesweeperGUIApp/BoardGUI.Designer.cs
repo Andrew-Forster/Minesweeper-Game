@@ -151,6 +151,7 @@
             ForeColor = Color.White;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "BoardGUI";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Minesweeper";
             flowLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
