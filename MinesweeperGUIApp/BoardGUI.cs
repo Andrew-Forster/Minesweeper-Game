@@ -226,11 +226,6 @@ namespace MinesweeperGUIApp
             PictureBox button = (PictureBox)panelBoard.Controls[row * boardSize + col];
             Cell cell = board.Cells[row, col];
 
-            if (cell.RewardType != "None")
-            {
-                button.Image = imageCache["Gold"];
-                return;
-            }
 
             if (cell.IsRevealed || force)
             {
