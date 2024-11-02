@@ -106,20 +106,12 @@ namespace MinesweeperLibrary
                 {
                     i++;
                     Cells[row, col] = new Cell((BombCount >= i), false, false, 0, (row, col), "None");
-
-                    if (i > BombCount && i < (BombCount + RewardCount + 1))
-                    {
-                        Cells[row, col] = new Cell(false, false, false, 0, (row, col), "Detector");
-                        
-                        continue;
-                    }
-
-
                 }
             }
 
             ShuffleBoard();
             CalculateAdjacentMines();
+            SetRewards(RewardCount + 1);
 
         }
 
@@ -189,6 +181,46 @@ namespace MinesweeperLibrary
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Sets the rewards on the board
+        /// Only on cells that do not have a number
+        /// </summary>
+        /// <param name="count"></param>
+        public void SetRewards(int count)
+        {
+            Random random = new Random();
+            int maxSpots = 0;
+            for (int i = 0; i < count; i++)
+            {
+                for (int j = 0; j < count; j++)
+                {
+                    if (Cells[i, j].AdjacentMines == 0 && !Cells[i, j].IsMine)
+                    {
+                        maxSpots++;
+                    }
+                }
+            }
+            count = maxSpots < count ? maxSpots : count;
+
+            for (int i = 0; i < count; i++)
+            {
+                while (true)
+                {
+                    int row = random.Next(BoardSize);
+                    int col = random.Next(BoardSize);
+
+                    if (Cells[row, col].AdjacentMines == 0 && !Cells[row, col].IsMine)
+                    {
+                        string[] rewards = { "Detector", "Detector", "Scavenge", "Scavenge", "Sweep" };
+                        int rewardIndex = random.Next(rewards.Length);
+                        Cells[row, col] = new Cell(false, false, false, 0, (row, col), rewards[rewardIndex]);
+                        break;
+                    }
+                }
+            }
+
         }
 
         public String GetBoard()
@@ -343,6 +375,7 @@ namespace MinesweeperLibrary
 
         /// <summary>
         /// Uses a detector to check if a cell is a mine
+        /// For use in the console app only
         /// </summary>
         /// <param name="row"></param>
         /// <param name="col"></param>
@@ -356,8 +389,53 @@ namespace MinesweeperLibrary
                 cell.IsRevealed = true;
                 return true;
             }
+
             return false;
         }
+
+        public void UseReward(string reward, int row, int col)
+        {
+            switch (reward)
+            {
+                case "Detector":
+                    Cells[row, col].IsRevealed = true;
+                    break;
+                case "Scavenge":
+                    // Reveals a random mine
+                    while (true)
+                    {
+                        Random random = new Random();
+                        int newRow = random.Next(BoardSize);
+                        int newCol = random.Next(BoardSize);
+
+                        if (Cells[newRow, newCol].IsMine && !Cells[newRow, newCol].IsRevealed)
+                        {
+                            Cells[newRow, newCol].IsRevealed = true;
+                            break;
+                        }
+                    }
+                    break;
+                case "Sweep":
+                    // Reveals all open caverns
+                    for (int i = 0; i < BoardSize; i++)
+                    {
+                        for (int j = 0; j < BoardSize; j++)
+                        {
+                            if (!Cells[i, j].IsMine && Cells[i, j].IsRevealed == false && Cells[i, j].AdjacentMines == 0)
+                            {
+                                FloodFill(i, j);
+                            }
+                        }
+                    }
+
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
+
 
         /// <summary>
         /// Checks if the game is over
@@ -406,12 +484,12 @@ namespace MinesweeperLibrary
             Cell c = Cells[row, col];
             if (c.IsRevealed || c.AdjacentMines != 0)
             {
-                if (c.RewardType != "None" && c.RewardType != "")
-                {
-                    RewardsInventory.Add(c.RewardType);
-                    Utils.RewardFound(c.RewardType);
-                    //c.RewardType = "None";
-                }
+                //if (c.RewardType != "None" && c.RewardType != "")
+                //{
+                //    RewardsInventory.Add(c.RewardType);
+                //    Utils.RewardFound(c.RewardType);
+                //    c.RewardType = "None";
+                //}
                 // Reveals the edges of the flood fill
                 c.IsRevealed = true;
                 return;

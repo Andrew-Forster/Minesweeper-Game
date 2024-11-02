@@ -96,15 +96,17 @@ namespace MinesweeperGUIApp
             Point point = (Point)button.Tag;
             int row = point.X;
             int col = point.Y;
+            Cell cell = board.Cells[row, col];
 
             if (board.GameOver)
             {
                 return;
             }
 
+            // Flag Right Click
             if (e is MouseEventArgs mouseEventArgs && mouseEventArgs.Button == MouseButtons.Right)
             {
-                if (board.Cells[row, col].IsRevealed)
+                if (cell.IsRevealed)
                 {
                     return;
                 }
@@ -113,15 +115,24 @@ namespace MinesweeperGUIApp
                 return;
             }
 
+            if (cell.IsFlagged || (cell.IsRevealed && cell.RewardType == "None"))
+            {
+                return;
+            }
+
+            // Rewards Usage
             if (lblRewards.Text != "")
             {
                 UseRewardFunction(row, col);
                 return;
             }
 
-            if (board.Cells[row, col].IsFlagged)
+
+            if (cell.RewardType != "None" && !cell.RewardUsed && lblRewards.Text == "")
             {
-                return;
+                lblRewards.Text += $"{cell.RewardType}, This will be use on your next click!\n\n";
+                cell.RewardUsed = true;
+                cell.RewardType = "None";
             }
 
             tmrTimer.Enabled = true;
@@ -129,6 +140,7 @@ namespace MinesweeperGUIApp
             UpdateUI(false);
 
 
+            // Checks game state
             if (board.CheckGameState() != "Continue")
             {
                 tmrTimer.Enabled = false;
@@ -179,13 +191,25 @@ namespace MinesweeperGUIApp
             }
         }
 
+        /// <summary>
+        /// Rewards function to be used when a reward is selected
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
         private void UseRewardFunction(int row, int col)
         {
-            switch (lblRewards.Text.Split(',')[0])
+            string reward = lblRewards.Text.Split(',')[0];
+            switch (reward)
             {
                 case "Detector":
                     UpdateButton(row, col, true);
                     board.Cells[row,col].IsRevealed = true;
+                    lblRewards.Text = "";
+                    break;
+                // For Sweep, Scavenge
+                default:
+                    board.UseReward(reward, row, col);
+                    UpdateUI(false);
                     lblRewards.Text = "";
                     break;
             }
@@ -202,6 +226,12 @@ namespace MinesweeperGUIApp
             PictureBox button = (PictureBox)panelBoard.Controls[row * boardSize + col];
             Cell cell = board.Cells[row, col];
 
+            if (cell.RewardType != "None")
+            {
+                button.Image = imageCache["Gold"];
+                return;
+            }
+
             if (cell.IsRevealed || force)
             {
                 button.Image =
@@ -210,11 +240,6 @@ namespace MinesweeperGUIApp
                     : cell.AdjacentMines == 0 ? imageCache["TileFlat"]
                     : imageCache[$"Number{cell.AdjacentMines}"];
 
-                if (cell.RewardType != "None" && !cell.RewardUsed && lblRewards.Text == "")
-                {
-                    lblRewards.Text += $"{cell.RewardType}, This will be use on your next click!\n\n";
-                    cell.RewardUsed = true;
-                }
 
                 if (cell.IsMine)
                 {

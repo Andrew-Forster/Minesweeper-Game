@@ -108,8 +108,7 @@ namespace MinesweeperGUIApp
             tbMineCount.Value = !((tbMineCount.Maximum / 2) > 5) ? 5 : (tbMineCount.Maximum / 2);
             lblMineCount.Text = "Mine Count: " + tbMineCount.Value.ToString();
             boardSize = tbBoardSize.Value;
-
-
+            mineCount = tbMineCount.Value;
 
 
         }
