@@ -81,8 +81,8 @@ namespace MinesweeperGUIApp
             boardGUI.Show();
             boardGUI.Text = $"Minesweeper - {boardSize}x{boardSize}";
             boardGUI.Size = new Size(
-                50 * boardSize + 220, // 185 for sidebar
-                50 * boardSize + 70);
+                50 * boardSize + 250, // 185 for sidebar
+                50 * boardSize + 100);
 
             //boardGUI.MinimumSize = boardGUI.Size; // Uncomment this line to lock the window size
 
