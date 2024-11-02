@@ -133,7 +133,7 @@
             // 
             // panelBoard
             // 
-            panelBoard.Anchor = AnchorStyles.None;
+            panelBoard.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panelBoard.AutoScroll = true;
             panelBoard.Location = new Point(12, 12);
             panelBoard.Name = "panelBoard";
