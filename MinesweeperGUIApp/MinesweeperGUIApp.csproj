@@ -34,6 +34,9 @@
     <None Update="Assets\Gold.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\Number 1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

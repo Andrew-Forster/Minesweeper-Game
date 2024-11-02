@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Minesweeper));
             panelMain = new Panel();
             label3 = new Label();
             label2 = new Label();
@@ -237,6 +238,7 @@
             Controls.Add(panelCustom);
             Controls.Add(panelMain);
             ForeColor = Color.White;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximumSize = new Size(300, 413);
             MinimumSize = new Size(300, 270);
             Name = "Minesweeper";

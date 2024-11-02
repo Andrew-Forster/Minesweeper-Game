@@ -29,15 +29,16 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BoardGUI));
             lblTimer = new Label();
             flowLayoutPanel1 = new FlowLayoutPanel();
             btnQuit = new Button();
             lblScoreText = new Label();
             lblScore = new Label();
-            tmrTimer = new System.Windows.Forms.Timer(components);
-            panelBoard = new Panel();
             lblRewardsText = new Label();
             lblRewards = new Label();
+            tmrTimer = new System.Windows.Forms.Timer(components);
+            panelBoard = new Panel();
             flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -61,7 +62,7 @@
             flowLayoutPanel1.Controls.Add(lblScore);
             flowLayoutPanel1.Controls.Add(lblRewardsText);
             flowLayoutPanel1.Controls.Add(lblRewards);
-            flowLayoutPanel1.Location = new Point(808, 5);
+            flowLayoutPanel1.Location = new Point(526, 5);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(183, 540);
             flowLayoutPanel1.TabIndex = 2;
@@ -70,6 +71,7 @@
             // 
             btnQuit.BackColor = Color.Maroon;
             btnQuit.FlatStyle = FlatStyle.Popup;
+            btnQuit.Font = new Font("Azonix", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnQuit.Location = new Point(3, 3);
             btnQuit.Name = "btnQuit";
             btnQuit.Size = new Size(172, 52);
@@ -102,20 +104,6 @@
             lblScore.Text = "0";
             lblScore.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // tmrTimer
-            // 
-            tmrTimer.Interval = 1000;
-            tmrTimer.Tick += Timer_OnTick;
-            // 
-            // panelBoard
-            // 
-            panelBoard.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            panelBoard.AutoScroll = true;
-            panelBoard.Location = new Point(4, 5);
-            panelBoard.Name = "panelBoard";
-            panelBoard.Size = new Size(798, 540);
-            panelBoard.TabIndex = 3;
-            // 
             // lblRewardsText
             // 
             lblRewardsText.Font = new Font("Azonix", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -138,18 +126,32 @@
             lblRewards.Size = new Size(170, 84);
             lblRewards.TabIndex = 6;
             // 
+            // tmrTimer
+            // 
+            tmrTimer.Interval = 1000;
+            tmrTimer.Tick += Timer_OnTick;
+            // 
+            // panelBoard
+            // 
+            panelBoard.Anchor = AnchorStyles.None;
+            panelBoard.AutoScroll = true;
+            panelBoard.Location = new Point(12, 12);
+            panelBoard.Name = "panelBoard";
+            panelBoard.Size = new Size(508, 533);
+            panelBoard.TabIndex = 3;
+            // 
             // BoardGUI
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
-            ClientSize = new Size(995, 557);
-            Controls.Add(panelBoard);
+            ClientSize = new Size(713, 557);
             Controls.Add(flowLayoutPanel1);
+            Controls.Add(panelBoard);
             ForeColor = Color.White;
-            MinimumSize = new Size(1013, 604);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "BoardGUI";
-            Text = "Board";
+            Text = "Minesweeper";
             flowLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }
