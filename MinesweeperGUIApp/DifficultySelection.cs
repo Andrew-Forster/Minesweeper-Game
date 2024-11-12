@@ -10,8 +10,7 @@ namespace MinesweeperGUIApp
         {
             InitializeComponent();
             panelCustom.Visible = false;
-            this.MaximumSize = new Size(300, 270);
-            this.Height = 270;
+            this.MaximumSize = new Size(panelMain.Width + panelCustom.Width + 50, panelMain.Height + panelCustom.Height + 80);
             boardSize = 0;
             mineCount = 0;
 
@@ -40,8 +39,7 @@ namespace MinesweeperGUIApp
             if (rb.Text == "Custom")
             {
                 panelCustom.Visible = true;
-                this.MaximumSize = new Size(300, 413);
-                this.Height = 413;
+                this.Height = this.MaximumSize.Height;
                 boardSize = 5;
                 mineCount = 5;
             }
@@ -64,8 +62,7 @@ namespace MinesweeperGUIApp
                 }
 
                 panelCustom.Visible = false;
-                this.MaximumSize = new Size(300, 270);
-                this.Height = 270;
+                this.Height = panelMain.Height + 10;
             }
         }
 
