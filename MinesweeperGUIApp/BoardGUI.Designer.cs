@@ -56,6 +56,7 @@
             // flowLayoutPanel1
             // 
             flowLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            flowLayoutPanel1.BackColor = Color.Transparent;
             flowLayoutPanel1.Controls.Add(btnQuit);
             flowLayoutPanel1.Controls.Add(lblTimer);
             flowLayoutPanel1.Controls.Add(lblScoreText);
@@ -135,6 +136,7 @@
             // 
             panelBoard.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panelBoard.AutoScroll = true;
+            panelBoard.BackColor = Color.Transparent;
             panelBoard.Location = new Point(12, 12);
             panelBoard.Name = "panelBoard";
             panelBoard.Size = new Size(508, 533);
@@ -145,6 +147,8 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(713, 557);
             Controls.Add(flowLayoutPanel1);
             Controls.Add(panelBoard);

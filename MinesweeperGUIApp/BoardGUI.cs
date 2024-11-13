@@ -56,7 +56,7 @@ namespace MinesweeperGUIApp
                 string numberImagePath = $"Assets/Number {i}.png";
                 if (File.Exists(numberImagePath))
                 {
-                    imageCache[$"Number{i}"] = Image.FromFile(numberImagePath);
+                    imageCache[$"Num{i}"] = Image.FromFile(numberImagePath);
                 }
             }
 
@@ -235,7 +235,7 @@ namespace MinesweeperGUIApp
                     cell.IsMine ? imageCache["Bomb"]
                     : (cell.RewardType != "None") ? imageCache["Gold"]
                     : cell.AdjacentMines == 0 ? imageCache["TileFlat"]
-                    : imageCache[$"Number{cell.AdjacentMines}"];
+                    : imageCache[$"Num{cell.AdjacentMines}"];
 
 
                 if (cell.IsMine)
