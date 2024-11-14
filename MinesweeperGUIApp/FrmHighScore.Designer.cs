@@ -28,12 +28,51 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "FrmHighScore";
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmHighScore));
+            lblHighScores = new Label();
+            panel1 = new Panel();
+            panel1.SuspendLayout();
+            SuspendLayout();
+            // 
+            // lblHighScores
+            // 
+            lblHighScores.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            lblHighScores.AutoSize = true;
+            lblHighScores.Location = new Point(86, 45);
+            lblHighScores.Name = "lblHighScores";
+            lblHighScores.Size = new Size(50, 20);
+            lblHighScores.TabIndex = 0;
+            lblHighScores.Text = "label1";
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.Transparent;
+            panel1.Controls.Add(lblHighScores);
+            panel1.Location = new Point(12, 12);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(776, 426);
+            panel1.TabIndex = 1;
+            // 
+            // FrmHighScore
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(800, 450);
+            Controls.Add(panel1);
+            Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ForeColor = SystemColors.ActiveCaption;
+            Name = "FrmHighScore";
+            Text = "FrmHighScore";
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
+
+        private Label lblHighScores;
+        private Panel panel1;
     }
 }
