@@ -19,7 +19,7 @@ namespace MinesweeperGUIApp
 
         private void BtnEnterNameClickEH(object sender, EventArgs e)
         {
-            
+
         }
     }
 }

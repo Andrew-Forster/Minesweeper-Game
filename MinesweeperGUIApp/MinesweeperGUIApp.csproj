@@ -42,6 +42,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Assets\bg.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\Bomb.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
