@@ -44,7 +44,7 @@
             // 
             // lblTimer
             // 
-            lblTimer.Font = new Font("Azonix", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTimer.Font = new Font("Microsoft Sans Serif", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTimer.ForeColor = Color.FromArgb(192, 255, 192);
             lblTimer.Location = new Point(3, 58);
             lblTimer.Name = "lblTimer";
@@ -72,7 +72,7 @@
             // 
             btnQuit.BackColor = Color.Maroon;
             btnQuit.FlatStyle = FlatStyle.Popup;
-            btnQuit.Font = new Font("Azonix", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnQuit.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnQuit.Location = new Point(3, 3);
             btnQuit.Name = "btnQuit";
             btnQuit.Size = new Size(172, 52);
@@ -83,7 +83,7 @@
             // 
             // lblScoreText
             // 
-            lblScoreText.Font = new Font("Azonix", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblScoreText.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblScoreText.ForeColor = Color.FromArgb(192, 192, 255);
             lblScoreText.Location = new Point(5, 116);
             lblScoreText.Margin = new Padding(5, 0, 3, 0);
@@ -95,7 +95,7 @@
             // 
             // lblScore
             // 
-            lblScore.Font = new Font("Azonix", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblScore.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblScore.ForeColor = Color.FromArgb(128, 128, 255);
             lblScore.ImageAlign = ContentAlignment.MiddleLeft;
             lblScore.Location = new Point(101, 116);
@@ -107,7 +107,7 @@
             // 
             // lblRewardsText
             // 
-            lblRewardsText.Font = new Font("Azonix", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblRewardsText.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblRewardsText.ForeColor = Color.FromArgb(255, 255, 192);
             lblRewardsText.Location = new Point(5, 167);
             lblRewardsText.Margin = new Padding(5, 0, 3, 0);
@@ -119,7 +119,7 @@
             // 
             // lblRewards
             // 
-            lblRewards.Font = new Font("Azonix", 7.79999971F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblRewards.Font = new Font("Microsoft Sans Serif", 7.79999971F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblRewards.ForeColor = Color.FromArgb(255, 255, 192);
             lblRewards.Location = new Point(5, 218);
             lblRewards.Margin = new Padding(5, 0, 3, 0);
