@@ -37,10 +37,10 @@
             // lblHighScores
             // 
             lblHighScores.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lblHighScores.AutoSize = true;
-            lblHighScores.Location = new Point(56, 15);
+            lblHighScores.Font = new Font("Azonix", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblHighScores.Location = new Point(6, 41);
             lblHighScores.Name = "lblHighScores";
-            lblHighScores.Size = new Size(50, 20);
+            lblHighScores.Size = new Size(776, 37);
             lblHighScores.TabIndex = 0;
             lblHighScores.Text = "label1";
             // 
@@ -66,7 +66,6 @@
             Name = "FrmHighScore";
             Text = "FrmHighScore";
             panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ResumeLayout(false);
         }
 

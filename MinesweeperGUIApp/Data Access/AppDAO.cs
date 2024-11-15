@@ -16,17 +16,8 @@ namespace MinesweeperGUIApp.Data_Access
         /// Gets the username from the file.
         /// </summary>
         /// <returns></returns>
-        public string GetUserName()
-        {
-            try
-            {
-                return File.ReadLines(usernameFile).First();
-            }
-            catch (Exception)
-            {
-                return "Anonymous";
-            }
-        }
+        public string GetUserName() => File.ReadLines(usernameFile).FirstOrDefault() ?? "Anonymous";
+
 
         /// <summary>
         /// Saves the username to the file.
