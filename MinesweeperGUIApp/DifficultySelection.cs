@@ -147,5 +147,10 @@ namespace MinesweeperGUIApp
 
         }
 
+        private void BtnHighScoresOnClick(object sender, EventArgs e)
+        {
+            FrmHighScore frmHighScore = new FrmHighScore();
+            frmHighScore.ShowDialog();
+        }
     }
 }

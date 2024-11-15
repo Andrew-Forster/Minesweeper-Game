@@ -17,6 +17,7 @@ namespace MinesweeperGUIApp
         int boardSize;
         private Dictionary<string, Image> imageCache = new Dictionary<string, Image>();
         private Minesweeper minesweeper;
+        // Triggers reopeneing of the main form if true
         private bool openSelector = true;
         public int Score { get; set; }
 
@@ -146,33 +147,32 @@ namespace MinesweeperGUIApp
                 tmrTimer.Enabled = false;
                 UpdateUI(true);
 
+                DialogResult result;
 
                 if (board.CheckGameState() == "Lost")
                 {
                     // Show play again yes or no
-                    DialogResult result = MessageBox.Show("You lost! Play again?", "Game Over", MessageBoxButtons.YesNo);
-
-                    if (result == DialogResult.Yes)
-                    {
-                        BoardGUI newBoard = new BoardGUI(new Board(boardSize, board.BombCount), minesweeper);
-                        newBoard.Show();
-                        newBoard.Size = this.Size;
-                        openSelector = false;
-                        this.Close();
-                    }
+                    result = MessageBox.Show("You lost! Play again?", "Game Over", MessageBoxButtons.YesNo);
                 }
                 else
                 {
-                    DialogResult result = MessageBox.Show("You won! Play again?", "Game Over", MessageBoxButtons.YesNo);
+                    result = MessageBox.Show("You won! Play again?", "Game Over", MessageBoxButtons.YesNo);
 
-                    if (result == DialogResult.Yes)
+                }
+
+                if (result == DialogResult.Yes)
+                {
+                    BoardGUI newBoard = new BoardGUI(new Board(boardSize, board.BombCount), minesweeper);
+                    newBoard.Size = this.Size;
+                    newBoard.Text = this.Text;
+                    openSelector = false;
+
+                    if (boardSize >= 18)
                     {
-                        BoardGUI newBoard = new BoardGUI(new Board(boardSize, board.BombCount), minesweeper);
-                        newBoard.Show();
-                        newBoard.Size = this.Size;
-                        openSelector = false;
-                        this.Close();
+                        newBoard.WindowState = FormWindowState.Maximized;
                     }
+                    newBoard.Show();
+                    this.Close();
                 }
 
             }

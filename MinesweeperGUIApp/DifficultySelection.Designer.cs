@@ -46,19 +46,17 @@
             lblMineCount = new Label();
             tbBoardSize = new TrackBar();
             lblBoardSize = new Label();
-            pictureBox1 = new PictureBox();
             BtnHighScores = new Button();
             btnChangeName = new Button();
             panelMain.SuspendLayout();
             panelCustom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)tbMineCount).BeginInit();
             ((System.ComponentModel.ISupportInitialize)tbBoardSize).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // panelMain
             // 
-            panelMain.BackColor = Color.Transparent;
+            panelMain.BackColor = Color.Gray;
             panelMain.BorderStyle = BorderStyle.FixedSingle;
             panelMain.Controls.Add(rbCustom);
             panelMain.Controls.Add(rbHard);
@@ -66,7 +64,7 @@
             panelMain.Controls.Add(label1);
             panelMain.Controls.Add(rbEasy);
             panelMain.ForeColor = Color.White;
-            panelMain.Location = new Point(12, 158);
+            panelMain.Location = new Point(12, 88);
             panelMain.Name = "panelMain";
             panelMain.Size = new Size(309, 196);
             panelMain.TabIndex = 0;
@@ -153,7 +151,7 @@
             btnStart.BackColor = Color.LimeGreen;
             btnStart.Cursor = Cursors.Hand;
             btnStart.FlatStyle = FlatStyle.Popup;
-            btnStart.Location = new Point(12, 360);
+            btnStart.Location = new Point(12, 290);
             btnStart.Name = "btnStart";
             btnStart.Size = new Size(508, 41);
             btnStart.TabIndex = 6;
@@ -179,14 +177,14 @@
             // 
             // panelCustom
             // 
-            panelCustom.BackColor = Color.Transparent;
+            panelCustom.BackColor = Color.Gray;
             panelCustom.BorderStyle = BorderStyle.FixedSingle;
             panelCustom.Controls.Add(tbMineCount);
             panelCustom.Controls.Add(lblMineCount);
             panelCustom.Controls.Add(tbBoardSize);
             panelCustom.Controls.Add(lblBoardSize);
             panelCustom.ForeColor = Color.White;
-            panelCustom.Location = new Point(327, 159);
+            panelCustom.Location = new Point(327, 88);
             panelCustom.Name = "panelCustom";
             panelCustom.Size = new Size(193, 196);
             panelCustom.TabIndex = 1;
@@ -240,30 +238,20 @@
             lblBoardSize.TabIndex = 8;
             lblBoardSize.Text = "Board Size: 5";
             // 
-            // pictureBox1
-            // 
-            pictureBox1.BackColor = Color.Transparent;
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(12, 12);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(508, 140);
-            pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
-            pictureBox1.TabIndex = 2;
-            pictureBox1.TabStop = false;
-            // 
             // BtnHighScores
             // 
             BtnHighScores.BackColor = Color.FromArgb(0, 192, 192);
             BtnHighScores.Cursor = Cursors.Hand;
             BtnHighScores.FlatStyle = FlatStyle.Popup;
             BtnHighScores.Font = new Font("Azonix", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            BtnHighScores.Location = new Point(12, 408);
+            BtnHighScores.Location = new Point(13, 336);
             BtnHighScores.Margin = new Padding(4, 2, 4, 2);
             BtnHighScores.Name = "BtnHighScores";
             BtnHighScores.Size = new Size(252, 41);
             BtnHighScores.TabIndex = 8;
             BtnHighScores.Text = "High Scores";
             BtnHighScores.UseVisualStyleBackColor = false;
+            BtnHighScores.Click += BtnHighScoresOnClick;
             // 
             // btnChangeName
             // 
@@ -271,7 +259,7 @@
             btnChangeName.Cursor = Cursors.Hand;
             btnChangeName.FlatStyle = FlatStyle.Popup;
             btnChangeName.Font = new Font("Azonix", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnChangeName.Location = new Point(269, 408);
+            btnChangeName.Location = new Point(269, 336);
             btnChangeName.Margin = new Padding(4, 2, 4, 2);
             btnChangeName.Name = "btnChangeName";
             btnChangeName.Size = new Size(251, 41);
@@ -288,10 +276,9 @@
             BackColor = Color.FromArgb(64, 64, 64);
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(534, 460);
+            ClientSize = new Size(534, 392);
             Controls.Add(btnChangeName);
             Controls.Add(BtnHighScores);
-            Controls.Add(pictureBox1);
             Controls.Add(panelCustom);
             Controls.Add(btnStart);
             Controls.Add(panelMain);
@@ -308,7 +295,6 @@
             panelCustom.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)tbMineCount).EndInit();
             ((System.ComponentModel.ISupportInitialize)tbBoardSize).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -330,7 +316,6 @@
         private TrackBar tbBoardSize;
         private Label lblMineCount;
         private TrackBar tbMineCount;
-        private PictureBox pictureBox1;
         private Button BtnHighScores;
         private Button btnChangeName;
     }

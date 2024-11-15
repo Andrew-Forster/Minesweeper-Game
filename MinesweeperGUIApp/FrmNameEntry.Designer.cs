@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmNameEntry));
             tbName = new TextBox();
-            label1 = new Label();
             panel1 = new Panel();
             btnCancel = new Button();
             btnEnter = new Button();
@@ -40,36 +39,25 @@
             // tbName
             // 
             tbName.BackColor = Color.FromArgb(224, 224, 224);
-            tbName.Location = new Point(9, 36);
+            tbName.Font = new Font("Azonix", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            tbName.ForeColor = Color.FromArgb(34, 34, 34);
+            tbName.Location = new Point(9, 24);
             tbName.Margin = new Padding(4, 2, 4, 2);
             tbName.Name = "tbName";
-            tbName.Size = new Size(204, 23);
+            tbName.Size = new Size(459, 48);
             tbName.TabIndex = 0;
             tbName.KeyPress += FormOnKeyPress;
-            // 
-            // label1
-            // 
-            label1.Font = new Font("Azonix", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.FromArgb(192, 192, 255);
-            label1.Location = new Point(9, 7);
-            label1.Margin = new Padding(4, 0, 4, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(204, 19);
-            label1.TabIndex = 1;
-            label1.Text = "Enter Name:";
-            label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // panel1
             // 
             panel1.BackColor = Color.Transparent;
             panel1.Controls.Add(btnCancel);
             panel1.Controls.Add(btnEnter);
-            panel1.Controls.Add(label1);
             panel1.Controls.Add(tbName);
-            panel1.Location = new Point(167, 183);
+            panel1.Location = new Point(36, 193);
             panel1.Margin = new Padding(4, 2, 4, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(220, 170);
+            panel1.Size = new Size(486, 224);
             panel1.TabIndex = 2;
             // 
             // btnCancel
@@ -77,11 +65,11 @@
             btnCancel.BackColor = Color.FromArgb(255, 128, 128);
             btnCancel.FlatStyle = FlatStyle.Popup;
             btnCancel.Font = new Font("Azonix", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCancel.ForeColor = Color.White;
-            btnCancel.Location = new Point(9, 116);
+            btnCancel.ForeColor = Color.FromArgb(34, 34, 34);
+            btnCancel.Location = new Point(9, 138);
             btnCancel.Margin = new Padding(4, 2, 4, 2);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(204, 36);
+            btnCancel.Size = new Size(459, 58);
             btnCancel.TabIndex = 3;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = false;
@@ -92,11 +80,11 @@
             btnEnter.BackColor = Color.FromArgb(0, 192, 0);
             btnEnter.FlatStyle = FlatStyle.Popup;
             btnEnter.Font = new Font("Azonix", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnEnter.ForeColor = Color.White;
+            btnEnter.ForeColor = Color.FromArgb(34, 34, 34);
             btnEnter.Location = new Point(9, 76);
             btnEnter.Margin = new Padding(4, 2, 4, 2);
             btnEnter.Name = "btnEnter";
-            btnEnter.Size = new Size(204, 36);
+            btnEnter.Size = new Size(459, 58);
             btnEnter.TabIndex = 2;
             btnEnter.Text = "Enter";
             btnEnter.UseVisualStyleBackColor = false;
@@ -109,7 +97,7 @@
             BackColor = Color.FromArgb(64, 64, 64);
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(557, 528);
+            ClientSize = new Size(557, 530);
             Controls.Add(panel1);
             Font = new Font("Azonix", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Margin = new Padding(4, 2, 4, 2);
@@ -125,7 +113,6 @@
         #endregion
 
         private TextBox tbName;
-        private Label label1;
         private Panel panel1;
         private Button btnEnter;
         private Button btnCancel;
