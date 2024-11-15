@@ -9,8 +9,6 @@ namespace MinesweeperGUIApp
         public Minesweeper()
         {
             InitializeComponent();
-            panelCustom.Visible = false;
-            this.MaximumSize = new Size(panelMain.Width + panelCustom.Width + 50, panelMain.Height + panelCustom.Height + 80);
             boardSize = 0;
             mineCount = 0;
 
@@ -38,8 +36,7 @@ namespace MinesweeperGUIApp
 
             if (rb.Text == "Custom")
             {
-                panelCustom.Visible = true;
-                this.Height = this.MaximumSize.Height;
+                EnableCustomPanel(true);
                 boardSize = 5;
                 mineCount = 5;
             }
@@ -60,9 +57,8 @@ namespace MinesweeperGUIApp
                         mineCount = 99;
                         break;
                 }
+                EnableCustomPanel(false);
 
-                panelCustom.Visible = false;
-                this.Height = panelMain.Height + 10;
             }
         }
 
@@ -71,13 +67,13 @@ namespace MinesweeperGUIApp
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void StartGame_OnClick(object sender, EventArgs e)
+        private void StartGameOnClick(object sender, EventArgs e)
         {
             Board board = new Board(boardSize, mineCount);
             BoardGUI boardGUI = new BoardGUI(board, this);
             boardGUI.Text = $"Minesweeper - {boardSize}x{boardSize}";
             boardGUI.Size = new Size(
-                50 * boardSize + 250, // 185 for sidebar
+                50 * boardSize + 300,
                 50 * boardSize + 100);
             boardGUI.Show();
 
@@ -96,7 +92,7 @@ namespace MinesweeperGUIApp
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MineCount_OnChanged(object sender, EventArgs e)
+        private void MineCountOnChanged(object sender, EventArgs e)
         {
             lblMineCount.Text = "Mine Count: " + tbMineCount.Value.ToString();
             mineCount = tbMineCount.Value;
@@ -109,17 +105,39 @@ namespace MinesweeperGUIApp
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void BoardSize_OnChanged(object sender, EventArgs e)
+        private void BoardSizeOnChanged(object sender, EventArgs e)
         {
-            lblBoardSize.Text = "Board Size: " + tbBoardSize.Value.ToString();
+            EnableCustomPanel(true);
 
             tbMineCount.Maximum = (tbBoardSize.Value * tbBoardSize.Value) / 4;
             tbMineCount.Value = !((tbMineCount.Maximum / 2) > 5) ? 5 : (tbMineCount.Maximum / 2);
-            lblMineCount.Text = "Mine Count: " + tbMineCount.Value.ToString();
             boardSize = tbBoardSize.Value;
             mineCount = tbMineCount.Value;
         }
 
+        private void EnableCustomPanel(bool enable)
+        {
+            tbBoardSize.Enabled = enable;
+            tbMineCount.Enabled = enable;
+
+            if (enable)
+            {
+                lblBoardSize.Text = "Board Size: " + tbBoardSize.Value.ToString();
+                lblMineCount.Text = "Mine Count: " + tbMineCount.Value.ToString();
+            }
+            else
+            {
+                lblBoardSize.Text = "Board Size: " + boardSize.ToString();
+                lblMineCount.Text = "Mine Count: " + mineCount.ToString();
+            }
+        }
+
+        private void BtnChangeNameOnClick(object sender, EventArgs e)
+        {
+            FrmNameEntry frmNameEntry = new FrmNameEntry();
+            frmNameEntry.ShowDialog();
+
+        }
 
     }
 }

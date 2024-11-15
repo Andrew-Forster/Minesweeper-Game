@@ -32,17 +32,20 @@
             tbNameEntry = new TextBox();
             label1 = new Label();
             panel1 = new Panel();
+            btnCancel = new Button();
             btnEnter = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
             // tbNameEntry
             // 
+            tbNameEntry.BackColor = Color.FromArgb(224, 224, 224);
             tbNameEntry.Location = new Point(9, 36);
             tbNameEntry.Margin = new Padding(4, 2, 4, 2);
             tbNameEntry.Name = "tbNameEntry";
             tbNameEntry.Size = new Size(204, 23);
             tbNameEntry.TabIndex = 0;
+            tbNameEntry.KeyPress += FormOnKeyPress;
             // 
             // label1
             // 
@@ -59,14 +62,30 @@
             // panel1
             // 
             panel1.BackColor = Color.Transparent;
+            panel1.Controls.Add(btnCancel);
             panel1.Controls.Add(btnEnter);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(tbNameEntry);
-            panel1.Location = new Point(13, 11);
+            panel1.Location = new Point(167, 183);
             panel1.Margin = new Padding(4, 2, 4, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(220, 132);
+            panel1.Size = new Size(220, 170);
             panel1.TabIndex = 2;
+            // 
+            // btnCancel
+            // 
+            btnCancel.BackColor = Color.FromArgb(255, 128, 128);
+            btnCancel.FlatStyle = FlatStyle.Popup;
+            btnCancel.Font = new Font("Azonix", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancel.ForeColor = Color.White;
+            btnCancel.Location = new Point(9, 116);
+            btnCancel.Margin = new Padding(4, 2, 4, 2);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(204, 36);
+            btnCancel.TabIndex = 3;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = false;
+            btnCancel.Click += BtnCancelClick;
             // 
             // btnEnter
             // 
@@ -81,7 +100,7 @@
             btnEnter.TabIndex = 2;
             btnEnter.Text = "Enter";
             btnEnter.UseVisualStyleBackColor = false;
-            btnEnter.Click += BtnEnterNameClickEH;
+            btnEnter.Click += BtnEnterNameOnClick;
             // 
             // FrmNameEntry
             // 
@@ -89,13 +108,15 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
-            ClientSize = new Size(244, 147);
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(557, 528);
             Controls.Add(panel1);
             Font = new Font("Azonix", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Margin = new Padding(4, 2, 4, 2);
             Name = "FrmNameEntry";
+            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FrmNameEntry";
+            KeyPress += FormOnKeyPress;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -107,5 +128,6 @@
         private Label label1;
         private Panel panel1;
         private Button btnEnter;
+        private Button btnCancel;
     }
 }
