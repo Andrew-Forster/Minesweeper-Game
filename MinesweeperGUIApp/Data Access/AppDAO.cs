@@ -37,6 +37,20 @@ namespace MinesweeperGUIApp.Data_Access
             }
         }
 
-        public bool UsernameIsNotSet() => (!File.Exists(usernameFile) || new FileInfo(usernameFile).Length == 0);
+        /// <summary>
+        /// Indicates whether the username has ever been set.
+        /// </summary>
+        /// <returns></returns>
+        public bool UsernameIsNotSet()
+        {
+            if (!File.Exists(usernameFile))
+            {
+                return true;
+            }
+            else
+            {
+                return File.ReadAllText(usernameFile).Trim() == "";
+            }
+        }
     }
 }
