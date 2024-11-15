@@ -31,6 +31,6 @@ namespace MinesweeperLibrary.BussinessLayer
         /// Returns whether the username is set.
         /// </summary>
         /// <returns></returns>
-        public bool UsernameIsSet() => dao.UsernameIsSet();
+        public bool UsernameIsNotSet() => dao.UsernameIsNotSet();
     }
 }

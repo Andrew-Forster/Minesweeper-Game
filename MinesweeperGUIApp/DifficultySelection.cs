@@ -28,7 +28,7 @@ namespace MinesweeperGUIApp
             tipMedium.SetToolTip(rbMedium, "16x16 board with 40 mines.");
             tipHard.SetToolTip(rbHard, "24x24 board with 99 mines.");
 
-            if (!business.UsernameIsSet())
+            if (business.UsernameIsNotSet())
             {
                 frmNameEntry.ShowDialog();
             }

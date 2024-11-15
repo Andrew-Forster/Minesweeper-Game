@@ -37,6 +37,6 @@ namespace MinesweeperGUIApp.Data_Access
             }
         }
 
-        public bool UsernameIsSet() => (File.Exists(usernameFile) || new FileInfo(usernameFile).Length == 0);
+        public bool UsernameIsNotSet() => (!File.Exists(usernameFile) || new FileInfo(usernameFile).Length == 0);
     }
 }
