@@ -38,7 +38,7 @@
             // 
             lblHighScores.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lblHighScores.AutoSize = true;
-            lblHighScores.Location = new Point(86, 45);
+            lblHighScores.Location = new Point(56, 15);
             lblHighScores.Name = "lblHighScores";
             lblHighScores.Size = new Size(50, 20);
             lblHighScores.TabIndex = 0;
@@ -48,9 +48,9 @@
             // 
             panel1.BackColor = Color.Transparent;
             panel1.Controls.Add(lblHighScores);
-            panel1.Location = new Point(12, 12);
+            panel1.Location = new Point(6, 9);
             panel1.Name = "panel1";
-            panel1.Size = new Size(776, 426);
+            panel1.Size = new Size(789, 429);
             panel1.TabIndex = 1;
             // 
             // FrmHighScore

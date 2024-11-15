@@ -1,4 +1,5 @@
 using MinesweeperLibrary;
+using MinesweeperLibrary.BussinessLayer;
 
 namespace MinesweeperGUIApp
 {
@@ -6,6 +7,9 @@ namespace MinesweeperGUIApp
     {
         private int boardSize;
         private int mineCount;
+        MinesweeperBusiness business = new MinesweeperBusiness();
+        FrmNameEntry frmNameEntry = new FrmNameEntry();
+
         public Minesweeper()
         {
             InitializeComponent();
@@ -23,6 +27,11 @@ namespace MinesweeperGUIApp
             tipEasy.SetToolTip(rbEasy, "9x9 board with 10 mines.");
             tipMedium.SetToolTip(rbMedium, "16x16 board with 40 mines.");
             tipHard.SetToolTip(rbHard, "24x24 board with 99 mines.");
+
+            if (!business.UsernameIsSet())
+            {
+                frmNameEntry.ShowDialog();
+            }
         }
 
         /// <summary>
@@ -134,7 +143,6 @@ namespace MinesweeperGUIApp
 
         private void BtnChangeNameOnClick(object sender, EventArgs e)
         {
-            FrmNameEntry frmNameEntry = new FrmNameEntry();
             frmNameEntry.ShowDialog();
 
         }

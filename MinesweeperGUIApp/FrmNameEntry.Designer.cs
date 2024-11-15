@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmNameEntry));
-            tbNameEntry = new TextBox();
+            tbName = new TextBox();
             label1 = new Label();
             panel1 = new Panel();
             btnCancel = new Button();
@@ -37,15 +37,15 @@
             panel1.SuspendLayout();
             SuspendLayout();
             // 
-            // tbNameEntry
+            // tbName
             // 
-            tbNameEntry.BackColor = Color.FromArgb(224, 224, 224);
-            tbNameEntry.Location = new Point(9, 36);
-            tbNameEntry.Margin = new Padding(4, 2, 4, 2);
-            tbNameEntry.Name = "tbNameEntry";
-            tbNameEntry.Size = new Size(204, 23);
-            tbNameEntry.TabIndex = 0;
-            tbNameEntry.KeyPress += FormOnKeyPress;
+            tbName.BackColor = Color.FromArgb(224, 224, 224);
+            tbName.Location = new Point(9, 36);
+            tbName.Margin = new Padding(4, 2, 4, 2);
+            tbName.Name = "tbName";
+            tbName.Size = new Size(204, 23);
+            tbName.TabIndex = 0;
+            tbName.KeyPress += FormOnKeyPress;
             // 
             // label1
             // 
@@ -65,7 +65,7 @@
             panel1.Controls.Add(btnCancel);
             panel1.Controls.Add(btnEnter);
             panel1.Controls.Add(label1);
-            panel1.Controls.Add(tbNameEntry);
+            panel1.Controls.Add(tbName);
             panel1.Location = new Point(167, 183);
             panel1.Margin = new Padding(4, 2, 4, 2);
             panel1.Name = "panel1";
@@ -124,7 +124,7 @@
 
         #endregion
 
-        private TextBox tbNameEntry;
+        private TextBox tbName;
         private Label label1;
         private Panel panel1;
         private Button btnEnter;

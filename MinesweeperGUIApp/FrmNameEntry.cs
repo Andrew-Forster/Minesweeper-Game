@@ -10,17 +10,23 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using MinesweeperLibrary;
+using MinesweeperLibrary.BussinessLayer;
 
 namespace MinesweeperGUIApp
 {
     public partial class FrmNameEntry : Form
     {
-        public string playerName = "";
+        MinesweeperBusiness business = new MinesweeperBusiness();
         public FrmNameEntry()
         {
             InitializeComponent();
+
+            tbName.Text = business.GetUserName();
+
+
             this.FormBorderStyle = FormBorderStyle.None;
 
+            // Makes form rounded
             int radius = 30;
             GraphicsPath path = new GraphicsPath();
             path.StartFigure();
@@ -35,10 +41,14 @@ namespace MinesweeperGUIApp
 
         private void BtnEnterNameOnClick(object sender, EventArgs e)
         {
-            // Set the player name variable to the netered text
-            playerName = tbNameEntry.Text;
-            // Set the DialogResults property to ok
-            this.DialogResult = DialogResult.OK;
+            if (tbName.Text.Trim(' ') == "")
+            {
+                tbName.Text = "Anonymous";
+            }
+
+            MessageBox.Show(business.SaveUserName(tbName.Text));
+            this.Close();
+
         }
 
         private void BtnCancelClick(object sender, EventArgs e)
