@@ -18,6 +18,9 @@ This is a **Minesweeper** game developed as part of multiple class assignments. 
 - **Milestone 4:** Implemented a User Interface / GUI for the Minesweeper Application with Rewards, Different Board Sizes, Scoring and a timer.
 
   [View This Version Here](https://github.com/Andrew-Forster/Minesweeper-Game/releases/tag/v4.0)
+- **Milestone 5:** Implemented a High Score System (Using FileIO for Names and Score Obj's) and Lots of UI Improvements
+
+  [View This Version Here](https://github.com/Andrew-Forster/Minesweeper-Game/releases/tag/v5.0)
 
 
 ## Features
