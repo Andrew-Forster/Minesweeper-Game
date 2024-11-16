@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,45 +25,53 @@ namespace MinesweeperGUIApp
             this.MinimizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
 
-            InputScore1("John", 100);
-            InputScore2("Jane", 200);
-            InputScore3("Jack12345678910123456789", 3000);
-            InputScore("Andrew F", 40000);
-            InputScore("Anonymous", 400);
-            InputScore("Jill", 400);
-            InputScore("Jill", 400);
+            DisplayScores();
+
+            this.FormBorderStyle = FormBorderStyle.None;
+
+            // Makes form rounded
+            int radius = 30;
+            GraphicsPath path = new GraphicsPath();
+            path.StartFigure();
+            path.AddArc(new Rectangle(0, 0, radius, radius), 180, 90); // Top-left corner
+            path.AddArc(new Rectangle(this.Width - radius, 0, radius, radius), 270, 90); // Top-right corner
+            path.AddArc(new Rectangle(this.Width - radius, this.Height - radius, radius, radius), 0, 90); // Bottom-right corner
+            path.AddArc(new Rectangle(0, this.Height - radius, radius, radius), 90, 90); // Bottom-left corner
+            path.CloseFigure();
+
+            this.Region = new Region(path);
+
         }
 
+
+        /// <summary>
+        /// Display the scores on the form.
+        /// </summary>
         public void DisplayScores()
         {
-            List<HighScore> scores =  business.GetHighScore();
+            List<HighScore> scores = business.GetHighScores();
 
-            for (int i = 0; scores.Count < i; i++)
+            for (int i = 0; scores.Count > i; i++)
             {
 
-                if (i <= 15) { break; }
-                    switch (i)
-                    {
-                        case 0:
-                            InputScore1(scores[i].name, scores[i].score);
-                            break;
-                        case 1:
-                            InputScore2(scores[i].name, scores[i].score);
-                            break;
-                        case 2:
-                            InputScore3(scores[i].name, scores[i].score);
-                            break;
-                        case 3:
-                            InputScore(scores[i].name, scores[i].score);
-                            break;
+                if (i >= 15) { break; }
+                switch (i)
+                {
+                    case 0:
+                        InputScore1(scores[i].name, scores[i].score);
+                        break;
+                    case 1:
+                        InputScore2(scores[i].name, scores[i].score);
+                        break;
+                    case 2:
+                        InputScore3(scores[i].name, scores[i].score);
+                        break;
+                    default:
+                        InputScore(scores[i].name, scores[i].score);
+                        break;
 
-                    }
-
-
-
+                }
             }
-            
-            
         }
 
 
@@ -77,6 +86,12 @@ namespace MinesweeperGUIApp
         public void InputScore3(string name, int score) => GenerateScoreTag(name, score, 3);
         public void InputScore(string name, int score) => GenerateScoreTag(name, score, 4);
 
+        /// <summary>
+        /// Generates a score tag for the high score.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="score"></param>
+        /// <param name="fileNum"></param>
         public void GenerateScoreTag(string name, int score, int fileNum)
         {
             Label lblName = new Label();
@@ -123,6 +138,11 @@ namespace MinesweeperGUIApp
             panelScores.Controls.Add(container);
         }
 
+        /// <summary>
+        /// Event handler for exiting the form.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormOnKeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Escape)
@@ -131,6 +151,11 @@ namespace MinesweeperGUIApp
             }
         }
 
+        /// <summary>
+        /// Closes the form.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnCloseOnClick(object sender, EventArgs e)
         {
             this.Close();

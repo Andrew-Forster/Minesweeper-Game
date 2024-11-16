@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MinesweeperGUIApp.Models;
 using MinesweeperLibrary;
+using MinesweeperLibrary.BussinessLayer;
 
 namespace MinesweeperGUIApp
 {
@@ -22,6 +24,8 @@ namespace MinesweeperGUIApp
         public int Score { get; set; }
 
         TimeSpan timeElapsed;
+        MinesweeperBusiness business = new MinesweeperBusiness();
+
 
 
         /// <summary>
@@ -151,12 +155,12 @@ namespace MinesweeperGUIApp
 
                 if (board.CheckGameState() == "Lost")
                 {
-                    // Show play again yes or no
                     result = MessageBox.Show("You lost! Play again?", "Game Over", MessageBoxButtons.YesNo);
                 }
-                else
+                else // won
                 {
                     result = MessageBox.Show("You won! Play again?", "Game Over", MessageBoxButtons.YesNo);
+                    business.SaveHighScore(new HighScore(business.GetUserName(), Score, DateTime.Now));
 
                 }
 

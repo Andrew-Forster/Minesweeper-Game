@@ -55,9 +55,14 @@ namespace MinesweeperGUIApp.Data_Access
             }
         }
 
-        public List<HighScore> GetHighScore()
+        /// <summary>
+        /// Returns the high scores from the file.
+        /// </summary>
+        /// <returns></returns>
+        public List<HighScore> GetHighScores()
         {
             List<HighScore> scores = new List<HighScore>();
+
 
             if (File.Exists(highscoresFile))
             {
@@ -70,13 +75,32 @@ namespace MinesweeperGUIApp.Data_Access
                 foreach (string line in lines)
                 {
                     string[] parts = line.Split(',');
-                    HighScore highScore = new HighScore(parts[0], int.Parse(parts[1]), DateTime.Now);
-                    scores.Add(highScore);
+                    if (parts.Length != 3)
+                    {
+                        continue;
+                    }
+                    try
+                    {
+                        HighScore highScore = new HighScore(parts[0], int.Parse(parts[1]), DateTime.Now);
+                        scores.Add(highScore);
+                    }
+                    catch (Exception e) {
+                        MessageBox.Show(e.Message);
+                    }
                 }
             }
 
             scores = scores.OrderByDescending(x => x.score).ToList();
             return scores;
         }
+
+
+        /// <summary>
+        /// Saves the high score to the file.
+        /// </summary>
+        /// <param name="highScore"></param>
+        public void SaveHighScore(HighScore highScore) => File.AppendAllText(highscoresFile, highScore.ToString());
+
     }
+
 }

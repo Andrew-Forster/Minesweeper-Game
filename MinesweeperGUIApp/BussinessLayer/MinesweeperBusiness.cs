@@ -37,6 +37,8 @@ namespace MinesweeperLibrary.BussinessLayer
         /// Retuns the High Score
         /// </summary>
         /// <returns></returns>
-        public List<HighScore> GetHighScore() => dao.GetHighScore();
+        public List<HighScore> GetHighScores() => dao.GetHighScores();
+
+        public void SaveHighScore(HighScore score) => dao.SaveHighScore(score);
     }
 }

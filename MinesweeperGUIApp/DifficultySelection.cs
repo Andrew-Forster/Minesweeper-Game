@@ -124,6 +124,10 @@ namespace MinesweeperGUIApp
             mineCount = tbMineCount.Value;
         }
 
+        /// <summary>
+        /// For enabling or disabling the custom panel.
+        /// </summary>
+        /// <param name="enable"></param>
         private void EnableCustomPanel(bool enable)
         {
             tbBoardSize.Enabled = enable;

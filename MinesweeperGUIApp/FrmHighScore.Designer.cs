@@ -39,9 +39,9 @@
             panelScores.AutoScroll = true;
             panelScores.BackColor = Color.Gray;
             panelScores.BorderStyle = BorderStyle.FixedSingle;
-            panelScores.Location = new Point(32, 197);
+            panelScores.Location = new Point(47, 202);
             panelScores.Name = "panelScores";
-            panelScores.Size = new Size(442, 226);
+            panelScores.Size = new Size(447, 225);
             panelScores.TabIndex = 0;
             // 
             // btnCancel
@@ -53,7 +53,7 @@
             btnCancel.Location = new Point(15, 458);
             btnCancel.Margin = new Padding(4, 2, 4, 2);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(474, 66);
+            btnCancel.Size = new Size(514, 66);
             btnCancel.TabIndex = 4;
             btnCancel.Text = "Close";
             btnCancel.UseVisualStyleBackColor = false;
@@ -65,14 +65,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(502, 535);
+            ClientSize = new Size(542, 535);
             Controls.Add(btnCancel);
             Controls.Add(panelScores);
             Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ForeColor = SystemColors.ActiveCaption;
             KeyPreview = true;
             Name = "FrmHighScore";
-            Text = "FrmHighScore";
+            StartPosition = FormStartPosition.CenterScreen;
             KeyPress += FormOnKeyPress;
             ResumeLayout(false);
         }

@@ -39,9 +39,14 @@ namespace MinesweeperGUIApp
             this.Region = new Region(path);
         }
 
+        /// <summary>
+        /// Check if the name is empty and save it to the file.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnEnterNameOnClick(object sender, EventArgs e)
         {
-            if (tbName.Text.Trim(' ') == "")
+            if (tbName.Text.Trim() == "")
             {
                 tbName.Text = "Anonymous";
             }
@@ -51,11 +56,21 @@ namespace MinesweeperGUIApp
 
         }
 
+        /// <summary>
+        /// Cancel the name entry and close the form.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnCancelClick(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Exit the form when the Escape key is pressed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormOnKeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)

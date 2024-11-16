@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Formats.Asn1.AsnWriter;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using String = System.String;
 
 namespace MinesweeperGUIApp.Models
 {
@@ -14,6 +15,12 @@ namespace MinesweeperGUIApp.Models
         public int score { get; set; } 
         public DateTime date { get; set; }
 
+        /// <summary>
+        /// For creating a new high score
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="score"></param>
+        /// <param name="date"></param>
         public HighScore (string name, int score, DateTime date)
         {
             this.name = name;   
@@ -21,6 +28,10 @@ namespace MinesweeperGUIApp.Models
             this.date = date;
         }
 
+        /// <summary>
+        /// For reading from file
+        /// </summary>
+        /// <param name="line"></param>
         public HighScore(string[] line)
         {
             name = line[0];
@@ -30,12 +41,12 @@ namespace MinesweeperGUIApp.Models
         
         /// <summary>
         /// To String override 
+        /// Formats for the file
         /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
-            // Return the string forateed for the text file
-            return System.String.Format("{0}, {1}, {2}", name, score, date);
+            return $"\n{name},{score},{date}";
         }
 
        
