@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MinesweeperGUIApp.Models;
+using MinesweeperLibrary.BussinessLayer;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +14,7 @@ namespace MinesweeperGUIApp
 {
     public partial class FrmHighScore : Form
     {
+        MinesweeperBusiness business = new MinesweeperBusiness();
         public FrmHighScore()
         {
             InitializeComponent();
@@ -30,6 +33,37 @@ namespace MinesweeperGUIApp
             InputScore("Jill", 400);
         }
 
+        public void DisplayScores()
+        {
+            List<HighScore> scores =  business.GetHighScore();
+
+            for (int i = 0; scores.Count < i; i++)
+            {
+
+                if (i <= 15) { break; }
+                    switch (i)
+                    {
+                        case 0:
+                            InputScore1(scores[i].name, scores[i].score);
+                            break;
+                        case 1:
+                            InputScore2(scores[i].name, scores[i].score);
+                            break;
+                        case 2:
+                            InputScore3(scores[i].name, scores[i].score);
+                            break;
+                        case 3:
+                            InputScore(scores[i].name, scores[i].score);
+                            break;
+
+                    }
+
+
+
+            }
+            
+            
+        }
 
 
 
