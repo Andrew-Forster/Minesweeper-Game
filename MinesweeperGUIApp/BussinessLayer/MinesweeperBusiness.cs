@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MinesweeperGUIApp.Data_Access;
+using MinesweeperGUIApp.Models;
 
 
 namespace MinesweeperLibrary.BussinessLayer
@@ -32,5 +33,10 @@ namespace MinesweeperLibrary.BussinessLayer
         /// </summary>
         /// <returns></returns>
         public bool UsernameIsNotSet() => dao.UsernameIsNotSet();
+        /// <summary>
+        /// Retuns the High Score
+        /// </summary>
+        /// <returns></returns>
+        public List<HighScore> GetHighScore() => dao.GetHighScore();
     }
 }
