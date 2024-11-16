@@ -15,13 +15,14 @@ namespace MinesweeperGUIApp
 {
     public partial class BoardGUI : Form
     {
-        private Board board;
+        public Board board;
         int boardSize;
-        private Dictionary<string, Image> imageCache = new Dictionary<string, Image>();
-        private Minesweeper minesweeper;
+        public Dictionary<string, Image> imageCache = new Dictionary<string, Image>();
+        public Minesweeper minesweeper;
         // Triggers reopeneing of the main form if true
-        private bool openSelector = true;
-        public int Score { get; set; }
+        public bool openSelector = true;
+        public int score { get; set; }
+        public string difficulty { get; set; }
 
         TimeSpan timeElapsed;
         MinesweeperBusiness business = new MinesweeperBusiness();
@@ -33,7 +34,7 @@ namespace MinesweeperGUIApp
         /// </summary>
         /// <param name="board"></param>
         /// <param name="m"></param>
-        public BoardGUI(Board board, Minesweeper m)
+        public BoardGUI(Board board, Minesweeper m, string difficulty)
         {
             InitializeComponent();
             this.board = board;
@@ -41,7 +42,7 @@ namespace MinesweeperGUIApp
             GenerateUI();
             minesweeper = m;
             timeElapsed = new TimeSpan(0, 0, 0);
-
+            this.difficulty = difficulty;
         }
 
         /// <summary>
@@ -97,16 +98,18 @@ namespace MinesweeperGUIApp
         /// <param name="e"></param>
         private void Button_Click(object sender, EventArgs e)
         {
+
+
             PictureBox button = (PictureBox)sender;
             Point point = (Point)button.Tag;
             int row = point.X;
             int col = point.Y;
             Cell cell = board.Cells[row, col];
 
-            if (board.GameOver)
-            {
-                return;
-            }
+            //if (board.GameOver)
+            //{
+            //    return;
+            //}
 
             // Flag Right Click
             if (e is MouseEventArgs mouseEventArgs && mouseEventArgs.Button == MouseButtons.Right)
@@ -129,13 +132,14 @@ namespace MinesweeperGUIApp
             if (lblRewards.Text != "")
             {
                 UseRewardFunction(row, col);
+                TestGameState();
                 return;
             }
 
 
             if (cell.RewardType != "None" && !cell.RewardUsed && lblRewards.Text == "")
             {
-                lblRewards.Text += $"{cell.RewardType}, This will be use on your next click!\n\n";
+                lblRewards.Text += $"{cell.RewardType}, This will be used on your next click!\n\n";
                 cell.RewardUsed = true;
                 cell.RewardType = "None";
             }
@@ -143,9 +147,11 @@ namespace MinesweeperGUIApp
             tmrTimer.Enabled = true;
             board.Reveal(row + 1, col + 1);
             UpdateUI(false);
+            TestGameState();
+        }
 
-
-            // Checks game state
+        public void TestGameState()
+        {
             if (board.CheckGameState() != "Continue")
             {
                 tmrTimer.Enabled = false;
@@ -160,13 +166,12 @@ namespace MinesweeperGUIApp
                 else // won
                 {
                     result = MessageBox.Show("You won! Play again?", "Game Over", MessageBoxButtons.YesNo);
-                    business.SaveHighScore(new HighScore(business.GetUserName(), Score, DateTime.Now));
-
+                    business.SaveHighScore(new HighScore(business.GetUserName(), score, DateTime.Now, difficulty));
                 }
 
                 if (result == DialogResult.Yes)
                 {
-                    BoardGUI newBoard = new BoardGUI(new Board(boardSize, board.BombCount), minesweeper);
+                    BoardGUI newBoard = new BoardGUI(new Board(boardSize, board.BombCount), minesweeper, difficulty);
                     newBoard.Size = this.Size;
                     newBoard.Text = this.Text;
                     openSelector = false;
@@ -181,6 +186,7 @@ namespace MinesweeperGUIApp
 
             }
         }
+
 
         /// <summary>
         /// Updates the UI for the entire board
@@ -219,6 +225,7 @@ namespace MinesweeperGUIApp
                     lblRewards.Text = "";
                     break;
             }
+
         }
 
         /// <summary>
@@ -257,9 +264,9 @@ namespace MinesweeperGUIApp
 
                 if (!cell.PointsGiven && board.CheckGameState() != "Lost")
                 {
-                    Score += cell.AdjacentMines * 100;
+                    score += cell.AdjacentMines * 100;
                     cell.PointsGiven = true;
-                    lblScore.Text = Score.ToString();
+                    lblScore.Text = score.ToString();
                 }
             }
             else
@@ -280,8 +287,8 @@ namespace MinesweeperGUIApp
             timeElapsed = timeElapsed.Add(new TimeSpan(0, 0, 1));
             lblTimer.Text = timeElapsed.ToString(@"hh\:mm\:ss");
 
-            Score -= 10;
-            lblScore.Text = Score.ToString();
+            score -= 10;
+            lblScore.Text = score.ToString();
 
         }
 

@@ -16,6 +16,7 @@ namespace MinesweeperGUIApp
     public partial class FrmHighScore : Form
     {
         MinesweeperBusiness business = new MinesweeperBusiness();
+        int sort = 0;
         public FrmHighScore()
         {
             InitializeComponent();
@@ -47,27 +48,31 @@ namespace MinesweeperGUIApp
         /// <summary>
         /// Display the scores on the form.
         /// </summary>
-        public void DisplayScores()
+        public void DisplayScores() => DisplayScores("All");
+        public void DisplayScores(string sort)
         {
-            List<HighScore> scores = business.GetHighScores();
+            List<HighScore> scores = business.GetHighScores(sort);
 
             for (int i = 0; scores.Count > i; i++)
             {
 
                 if (i >= 15) { break; }
+
+                string arg1 = $"{i + 1}. {scores[i].name}";
+                HighScore arg2 = scores[i];
                 switch (i)
                 {
                     case 0:
-                        InputScore1(scores[i].name, scores[i].score);
+                        InputScore1(arg1, arg2);
                         break;
                     case 1:
-                        InputScore2(scores[i].name, scores[i].score);
+                        InputScore2(arg1, arg2);
                         break;
                     case 2:
-                        InputScore3(scores[i].name, scores[i].score);
+                        InputScore3(arg1, arg2);
                         break;
                     default:
-                        InputScore(scores[i].name, scores[i].score);
+                        InputScore(arg1, arg2);
                         break;
 
                 }
@@ -81,10 +86,10 @@ namespace MinesweeperGUIApp
 
 
 
-        public void InputScore1(string name, int score) => GenerateScoreTag(name, score, 1);
-        public void InputScore2(string name, int score) => GenerateScoreTag(name, score, 2);
-        public void InputScore3(string name, int score) => GenerateScoreTag(name, score, 3);
-        public void InputScore(string name, int score) => GenerateScoreTag(name, score, 4);
+        public void InputScore1(string name, HighScore score) => GenerateScoreTag(name, score, 1);
+        public void InputScore2(string name, HighScore score) => GenerateScoreTag(name, score, 2);
+        public void InputScore3(string name, HighScore score) => GenerateScoreTag(name, score, 3);
+        public void InputScore(string name, HighScore score) => GenerateScoreTag(name, score, 4);
 
         /// <summary>
         /// Generates a score tag for the high score.
@@ -92,13 +97,17 @@ namespace MinesweeperGUIApp
         /// <param name="name"></param>
         /// <param name="score"></param>
         /// <param name="fileNum"></param>
-        public void GenerateScoreTag(string name, int score, int fileNum)
+        public void GenerateScoreTag(string name, HighScore scoreObj, int fileNum)
         {
+            int score = scoreObj.score;
+            string mode = scoreObj.mode;
+
             Label lblName = new Label();
             Label lblScore = new Label();
             Panel container = new Panel();
             PictureBox pScore = new PictureBox();
             PictureBox pName = new PictureBox();
+            PictureBox pMode = new PictureBox();
 
             lblName.Text = name;
             lblName.Parent = pName;
@@ -134,6 +143,13 @@ namespace MinesweeperGUIApp
             pName.Location = new Point(125, 0);
             pName.Size = new Size(280, 60);
 
+            pMode.BackgroundImage = Image.FromFile($"Assets/{mode}.png");
+            pMode.BackgroundImageLayout = ImageLayout.Stretch;
+            pMode.Location = new Point(235, 12);
+            pMode.Size = new Size(32, 32);
+            pMode.Parent = pName;
+            pMode.BringToFront();
+
 
             panelScores.Controls.Add(container);
         }
@@ -159,6 +175,41 @@ namespace MinesweeperGUIApp
         private void BtnCloseOnClick(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void BtnSortOnClick(object sender, EventArgs e)
+        {
+            sort++;
+
+            switch (sort)
+            {
+                case 1:
+                    panelScores.Controls.Clear();
+                    btnSort.Text = "Difficulty: Easy";
+                    DisplayScores("Easy");
+                    break;
+                case 2:
+                    panelScores.Controls.Clear();
+                    btnSort.Text = "Difficulty: Medium";
+                    DisplayScores("Medium");
+                    break;
+                case 3:
+                    panelScores.Controls.Clear();
+                    btnSort.Text = "Difficulty: Hard";
+                    DisplayScores("Hard");
+                    break;
+                case 4:
+                    panelScores.Controls.Clear();
+                    btnSort.Text = "Difficulty: Custom";
+                    DisplayScores("Custom");
+                    break;
+                default:
+                    panelScores.Controls.Clear();
+                    btnSort.Text = "Difficulty: All";
+                    DisplayScores();
+                    sort = 0;
+                    break;
+            }
         }
     }
 }

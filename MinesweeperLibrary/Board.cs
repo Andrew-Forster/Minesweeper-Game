@@ -192,9 +192,9 @@ namespace MinesweeperLibrary
         {
             Random random = new Random();
             int maxSpots = 0;
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < BoardSize; i++)
             {
-                for (int j = 0; j < count; j++)
+                for (int j = 0; j < BoardSize; j++)
                 {
                     if (Cells[i, j].AdjacentMines == 0 && !Cells[i, j].IsMine)
                     {
@@ -450,7 +450,7 @@ namespace MinesweeperLibrary
             {
                 for (int col = 0; col < BoardSize; col++)
                 {
-                    if (Cells[row, col].IsRevealed)
+                    if (Cells[row, col].IsRevealed && !Cells[row, col].IsMine)
                     {
                         count++;
                     }
@@ -464,7 +464,7 @@ namespace MinesweeperLibrary
             {
                 return "Won";
             }
-            if (count == (BoardSize * BoardSize) - BombCount)
+            if (count >= (BoardSize * BoardSize) - BombCount)
             {
                 return "Won";
             }
@@ -481,6 +481,10 @@ namespace MinesweeperLibrary
         /// <param name="c"></param>
         public void FloodFill(int row, int col)
         {
+            if (row < 0 || row >= BoardSize || col < 0 || col >= BoardSize || Cells[row, col].IsMine)
+            {
+                return;
+            }
             Cell c = Cells[row, col];
             if (c.IsRevealed || c.AdjacentMines != 0)
             {

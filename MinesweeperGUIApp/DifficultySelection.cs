@@ -5,10 +5,11 @@ namespace MinesweeperGUIApp
 {
     public partial class Minesweeper : Form
     {
-        private int boardSize;
-        private int mineCount;
+        public int boardSize;
+        public int mineCount;
         MinesweeperBusiness business = new MinesweeperBusiness();
         FrmNameEntry frmNameEntry = new FrmNameEntry();
+        public string difficulty { get; set; }
 
         public Minesweeper()
         {
@@ -48,6 +49,7 @@ namespace MinesweeperGUIApp
                 EnableCustomPanel(true);
                 boardSize = 5;
                 mineCount = 5;
+                difficulty = "Custom";
             }
             else
             {
@@ -56,14 +58,17 @@ namespace MinesweeperGUIApp
                     case "Easy":
                         boardSize = 9;
                         mineCount = 10;
+                        difficulty = "Easy";
                         break;
                     case "Medium":
                         boardSize = 16;
                         mineCount = 40;
+                        difficulty = "Medium";
                         break;
                     case "Hard":
                         boardSize = 24;
                         mineCount = 99;
+                        difficulty = "Hard";
                         break;
                 }
                 EnableCustomPanel(false);
@@ -79,7 +84,7 @@ namespace MinesweeperGUIApp
         private void StartGameOnClick(object sender, EventArgs e)
         {
             Board board = new Board(boardSize, mineCount);
-            BoardGUI boardGUI = new BoardGUI(board, this);
+            BoardGUI boardGUI = new BoardGUI(board, this, difficulty);
             boardGUI.Text = $"Minesweeper - {boardSize}x{boardSize}";
             boardGUI.Size = new Size(
                 50 * boardSize + 300,
