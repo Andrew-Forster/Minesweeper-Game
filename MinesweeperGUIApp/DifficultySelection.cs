@@ -1,17 +1,19 @@
 using MinesweeperLibrary;
+using MinesweeperLibrary.BussinessLayer;
 
 namespace MinesweeperGUIApp
 {
     public partial class Minesweeper : Form
     {
-        private int boardSize;
-        private int mineCount;
+        public int boardSize;
+        public int mineCount;
+        MinesweeperBusiness business = new MinesweeperBusiness();
+        FrmNameEntry frmNameEntry = new FrmNameEntry();
+        public string difficulty { get; set; }
+
         public Minesweeper()
         {
             InitializeComponent();
-            panelCustom.Visible = false;
-            this.MaximumSize = new Size(300, 270);
-            this.Height = 270;
             boardSize = 0;
             mineCount = 0;
 
@@ -26,6 +28,11 @@ namespace MinesweeperGUIApp
             tipEasy.SetToolTip(rbEasy, "9x9 board with 10 mines.");
             tipMedium.SetToolTip(rbMedium, "16x16 board with 40 mines.");
             tipHard.SetToolTip(rbHard, "24x24 board with 99 mines.");
+
+            if (business.UsernameIsNotSet())
+            {
+                frmNameEntry.ShowDialog();
+            }
         }
 
         /// <summary>
@@ -39,11 +46,10 @@ namespace MinesweeperGUIApp
 
             if (rb.Text == "Custom")
             {
-                panelCustom.Visible = true;
-                this.MaximumSize = new Size(300, 413);
-                this.Height = 413;
+                EnableCustomPanel(true);
                 boardSize = 5;
                 mineCount = 5;
+                difficulty = "Custom";
             }
             else
             {
@@ -52,20 +58,21 @@ namespace MinesweeperGUIApp
                     case "Easy":
                         boardSize = 9;
                         mineCount = 10;
+                        difficulty = "Easy";
                         break;
                     case "Medium":
                         boardSize = 16;
                         mineCount = 40;
+                        difficulty = "Medium";
                         break;
                     case "Hard":
                         boardSize = 24;
                         mineCount = 99;
+                        difficulty = "Hard";
                         break;
                 }
+                EnableCustomPanel(false);
 
-                panelCustom.Visible = false;
-                this.MaximumSize = new Size(300, 270);
-                this.Height = 270;
             }
         }
 
@@ -74,11 +81,23 @@ namespace MinesweeperGUIApp
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void StartGame_OnClick(object sender, EventArgs e)
+        private void StartGameOnClick(object sender, EventArgs e)
         {
             Board board = new Board(boardSize, mineCount);
-            BoardGUI boardGUI = new BoardGUI(board, this);
+            BoardGUI boardGUI = new BoardGUI(board, this, difficulty);
+            boardGUI.Text = $"Minesweeper - {boardSize}x{boardSize}";
+            boardGUI.Size = new Size(
+                50 * boardSize + 300,
+                50 * boardSize + 100);
             boardGUI.Show();
+
+            //boardGUI.MinimumSize = boardGUI.Size; // Uncomment this line to lock the window size
+
+            if (boardSize >= 18)
+            {
+                boardGUI.WindowState = FormWindowState.Maximized;
+            }
+
             this.Hide();
         }
 
@@ -87,7 +106,7 @@ namespace MinesweeperGUIApp
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MineCount_OnChanged(object sender, EventArgs e)
+        private void MineCountOnChanged(object sender, EventArgs e)
         {
             lblMineCount.Text = "Mine Count: " + tbMineCount.Value.ToString();
             mineCount = tbMineCount.Value;
@@ -100,18 +119,47 @@ namespace MinesweeperGUIApp
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void BoardSize_OnChanged(object sender, EventArgs e)
+        private void BoardSizeOnChanged(object sender, EventArgs e)
         {
-            lblBoardSize.Text = "Board Size: " + tbBoardSize.Value.ToString();
+            EnableCustomPanel(true);
 
             tbMineCount.Maximum = (tbBoardSize.Value * tbBoardSize.Value) / 4;
             tbMineCount.Value = !((tbMineCount.Maximum / 2) > 5) ? 5 : (tbMineCount.Maximum / 2);
-            lblMineCount.Text = "Mine Count: " + tbMineCount.Value.ToString();
             boardSize = tbBoardSize.Value;
+            mineCount = tbMineCount.Value;
+        }
 
+        /// <summary>
+        /// For enabling or disabling the custom panel.
+        /// </summary>
+        /// <param name="enable"></param>
+        private void EnableCustomPanel(bool enable)
+        {
+            tbBoardSize.Enabled = enable;
+            tbMineCount.Enabled = enable;
 
+            if (enable)
+            {
+                lblBoardSize.Text = "Board Size: " + tbBoardSize.Value.ToString();
+                lblMineCount.Text = "Mine Count: " + tbMineCount.Value.ToString();
+            }
+            else
+            {
+                lblBoardSize.Text = "Board Size: " + boardSize.ToString();
+                lblMineCount.Text = "Mine Count: " + mineCount.ToString();
+            }
+        }
 
+        private void BtnChangeNameOnClick(object sender, EventArgs e)
+        {
+            frmNameEntry.ShowDialog();
 
+        }
+
+        private void BtnHighScoresOnClick(object sender, EventArgs e)
+        {
+            FrmHighScore frmHighScore = new FrmHighScore();
+            frmHighScore.ShowDialog();
         }
     }
 }

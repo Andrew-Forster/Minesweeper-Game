@@ -7,20 +7,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MinesweeperGUIApp.Models;
 using MinesweeperLibrary;
+using MinesweeperLibrary.BussinessLayer;
 
 namespace MinesweeperGUIApp
 {
     public partial class BoardGUI : Form
     {
-        private Board board;
+        public Board board;
         int boardSize;
-        private Dictionary<string, Image> imageCache = new Dictionary<string, Image>();
-        private Minesweeper minesweeper;
-        private bool openSelector = true;
-        public int Score { get; set; }
+        public Dictionary<string, Image> imageCache = new Dictionary<string, Image>();
+        public Minesweeper minesweeper;
+        // Triggers reopeneing of the main form if true
+        public bool openSelector = true;
+        public int score { get; set; }
+        public string difficulty { get; set; }
 
         TimeSpan timeElapsed;
+        MinesweeperBusiness business = new MinesweeperBusiness();
+
 
 
         /// <summary>
@@ -28,7 +34,7 @@ namespace MinesweeperGUIApp
         /// </summary>
         /// <param name="board"></param>
         /// <param name="m"></param>
-        public BoardGUI(Board board, Minesweeper m)
+        public BoardGUI(Board board, Minesweeper m, string difficulty)
         {
             InitializeComponent();
             this.board = board;
@@ -36,7 +42,7 @@ namespace MinesweeperGUIApp
             GenerateUI();
             minesweeper = m;
             timeElapsed = new TimeSpan(0, 0, 0);
-
+            this.difficulty = difficulty;
         }
 
         /// <summary>
@@ -56,7 +62,7 @@ namespace MinesweeperGUIApp
                 string numberImagePath = $"Assets/Number {i}.png";
                 if (File.Exists(numberImagePath))
                 {
-                    imageCache[$"Number{i}"] = Image.FromFile(numberImagePath);
+                    imageCache[$"Num{i}"] = Image.FromFile(numberImagePath);
                 }
             }
 
@@ -92,19 +98,23 @@ namespace MinesweeperGUIApp
         /// <param name="e"></param>
         private void Button_Click(object sender, EventArgs e)
         {
+
+
             PictureBox button = (PictureBox)sender;
             Point point = (Point)button.Tag;
             int row = point.X;
             int col = point.Y;
+            Cell cell = board.Cells[row, col];
 
-            if (board.GameOver)
-            {
-                return;
-            }
+            //if (board.GameOver)
+            //{
+            //    return;
+            //}
 
+            // Flag Right Click
             if (e is MouseEventArgs mouseEventArgs && mouseEventArgs.Button == MouseButtons.Right)
             {
-                if (board.Cells[row, col].IsRevealed)
+                if (cell.IsRevealed)
                 {
                     return;
                 }
@@ -113,56 +123,70 @@ namespace MinesweeperGUIApp
                 return;
             }
 
-            if (lblRewards.Text != "")
+            if (cell.IsFlagged || (cell.IsRevealed && cell.RewardType == "None"))
             {
-                UseRewardFunction(row, col);
                 return;
             }
 
-            if (board.Cells[row, col].IsFlagged)
+            // Rewards Usage
+            if (lblRewards.Text != "")
             {
+                UseRewardFunction(row, col);
+                TestGameState();
                 return;
+            }
+
+
+            if (cell.RewardType != "None" && !cell.RewardUsed && lblRewards.Text == "")
+            {
+                lblRewards.Text += $"{cell.RewardType}, This will be used on your next click!\n\n";
+                cell.RewardUsed = true;
+                cell.RewardType = "None";
             }
 
             tmrTimer.Enabled = true;
             board.Reveal(row + 1, col + 1);
             UpdateUI(false);
+            TestGameState();
+        }
 
-
+        public void TestGameState()
+        {
             if (board.CheckGameState() != "Continue")
             {
                 tmrTimer.Enabled = false;
                 UpdateUI(true);
 
+                DialogResult result;
 
                 if (board.CheckGameState() == "Lost")
                 {
-                    // Show play again yes or no
-                    DialogResult result = MessageBox.Show("You lost! Play again?", "Game Over", MessageBoxButtons.YesNo);
-
-                    if (result == DialogResult.Yes)
-                    {
-                        BoardGUI newBoard = new BoardGUI(new Board(boardSize, board.BombCount), minesweeper);
-                        newBoard.Show();
-                        openSelector = false;
-                        this.Close();
-                    }
+                    result = MessageBox.Show("You lost! Play again?", "Game Over", MessageBoxButtons.YesNo);
                 }
-                else
+                else // won
                 {
-                    DialogResult result = MessageBox.Show("You won! Play again?", "Game Over", MessageBoxButtons.YesNo);
+                    result = MessageBox.Show("You won! Play again?", "Game Over", MessageBoxButtons.YesNo);
+                    business.SaveHighScore(new HighScore(business.GetUserName(), score, DateTime.Now, difficulty));
+                }
 
-                    if (result == DialogResult.Yes)
+                if (result == DialogResult.Yes)
+                {
+                    BoardGUI newBoard = new BoardGUI(new Board(boardSize, board.BombCount), minesweeper, difficulty);
+                    newBoard.Size = this.Size;
+                    newBoard.Text = this.Text;
+                    openSelector = false;
+
+                    if (boardSize >= 18)
                     {
-                        BoardGUI newBoard = new BoardGUI(new Board(boardSize, board.BombCount), minesweeper);
-                        newBoard.Show();
-                        openSelector = false;
-                        this.Close();
+                        newBoard.WindowState = FormWindowState.Maximized;
                     }
+                    newBoard.Show();
+                    this.Close();
                 }
 
             }
         }
+
 
         /// <summary>
         /// Updates the UI for the entire board
@@ -179,16 +203,29 @@ namespace MinesweeperGUIApp
             }
         }
 
+        /// <summary>
+        /// Rewards function to be used when a reward is selected
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
         private void UseRewardFunction(int row, int col)
         {
-            switch (lblRewards.Text.Split(',')[0])
+            string reward = lblRewards.Text.Split(',')[0];
+            switch (reward)
             {
                 case "Detector":
                     UpdateButton(row, col, true);
-                    board.Cells[row,col].IsRevealed = true;
+                    board.Cells[row, col].IsRevealed = true;
+                    lblRewards.Text = "";
+                    break;
+                // For Sweep, Scavenge
+                default:
+                    board.UseReward(reward, row, col);
+                    UpdateUI(false);
                     lblRewards.Text = "";
                     break;
             }
+
         }
 
         /// <summary>
@@ -202,26 +239,23 @@ namespace MinesweeperGUIApp
             PictureBox button = (PictureBox)panelBoard.Controls[row * boardSize + col];
             Cell cell = board.Cells[row, col];
 
+
             if (cell.IsRevealed || force)
             {
                 button.Image =
                     cell.IsMine ? imageCache["Bomb"]
                     : (cell.RewardType != "None") ? imageCache["Gold"]
                     : cell.AdjacentMines == 0 ? imageCache["TileFlat"]
-                    : imageCache[$"Number{cell.AdjacentMines}"];
+                    : imageCache[$"Num{cell.AdjacentMines}"];
 
-                if (cell.RewardType != "None" && !cell.RewardUsed && lblRewards.Text == "")
-                {
-                    lblRewards.Text += $"{cell.RewardType}, This will be use on your next click!\n\n";
-                    cell.RewardUsed = true;
-                }
 
                 if (cell.IsMine)
                 {
                     if (board.CheckGameState() == "Lost")
                     {
                         button.BackColor = Color.Red;
-                    } else if (board.CheckGameState() == "Won")
+                    }
+                    else if (board.CheckGameState() == "Won")
                     {
                         button.BackColor = Color.Green;
                     }
@@ -230,9 +264,9 @@ namespace MinesweeperGUIApp
 
                 if (!cell.PointsGiven && board.CheckGameState() != "Lost")
                 {
-                    Score += cell.AdjacentMines * 100;
+                    score += cell.AdjacentMines * 100;
                     cell.PointsGiven = true;
-                    lblScore.Text = Score.ToString();
+                    lblScore.Text = score.ToString();
                 }
             }
             else
@@ -253,8 +287,8 @@ namespace MinesweeperGUIApp
             timeElapsed = timeElapsed.Add(new TimeSpan(0, 0, 1));
             lblTimer.Text = timeElapsed.ToString(@"hh\:mm\:ss");
 
-            Score -= 10;
-            lblScore.Text = Score.ToString();
+            score -= 10;
+            lblScore.Text = score.ToString();
 
         }
 
@@ -280,11 +314,13 @@ namespace MinesweeperGUIApp
             const int WM_CLOSE = 0x0010;
 
             if (m.Msg == WM_CLOSE && openSelector)
-            { minesweeper.Show();
+            {
+                minesweeper.Show();
             }
 
             // Call the base class method for other messages
             base.WndProc(ref m);
         }
+
     }
 }
