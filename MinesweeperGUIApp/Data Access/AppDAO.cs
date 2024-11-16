@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using MinesweeperGUIApp.Models;
 
 namespace MinesweeperGUIApp.Data_Access
 {
     internal class AppDAO
     {
         private string usernameFile = "Data/Username.txt";
-        private string highscoresFile = "Highscores.txt";
+        private string highscoresFile = "Data/Highscores.txt";
+
 
         /// <summary>
         /// Gets the username from the file.
@@ -51,6 +53,30 @@ namespace MinesweeperGUIApp.Data_Access
             {
                 return File.ReadAllText(usernameFile).Trim() == "";
             }
+        }
+
+        public List<HighScore> GetHighScore()
+        {
+            List<HighScore> scores = new List<HighScore>();
+
+            if (File.Exists(highscoresFile))
+            {
+                string[] lines = File.ReadAllLines(highscoresFile);
+                if (lines.Length == 0)
+                {
+                    return scores;
+                }
+
+                foreach (string line in lines)
+                {
+                    string[] parts = line.Split(',');
+                    HighScore highScore = new HighScore(parts[0], int.Parse(parts[1]), DateTime.Now);
+                    scores.Add(highScore);
+                }
+            }
+
+            scores = scores.OrderByDescending(x => x.score).ToList();
+            return scores;
         }
     }
 }
