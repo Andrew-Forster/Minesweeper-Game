@@ -32,7 +32,7 @@ namespace MinesweeperGUIApp.Models
         /// For reading from file
         /// </summary>
         /// <param name="line"></param>
-        public HighScore(string[] line)
+        public HighScore(string v, string[] line)
         {
             name = line[0];
             score = Convert.ToInt32(line[1]);

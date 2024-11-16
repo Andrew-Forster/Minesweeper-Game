@@ -81,12 +81,10 @@ namespace MinesweeperGUIApp.Data_Access
                     }
                     try
                     {
-                        HighScore highScore = new HighScore(parts[0], int.Parse(parts[1]), DateTime.Now);
+                        HighScore highScore = new HighScore(parts[0], int.Parse(parts[1]), DateTime.Parse(parts[2]));
                         scores.Add(highScore);
                     }
-                    catch (Exception e) {
-                        MessageBox.Show(e.Message);
-                    }
+                    catch (Exception e) {}
                 }
             }
 
