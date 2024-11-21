@@ -31,12 +31,10 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Minesweeper));
             panelMain = new Panel();
-            rbCustom = new RadioButton();
-            rbHard = new RadioButton();
-            rbMedium = new RadioButton();
-            label1 = new Label();
-            rbEasy = new RadioButton();
-            btnStart = new Button();
+            btnCustom = new PictureBox();
+            btnEasy = new PictureBox();
+            btnMedium = new PictureBox();
+            btnHard = new PictureBox();
             tipCustom = new ToolTip(components);
             tipEasy = new ToolTip(components);
             tipMedium = new ToolTip(components);
@@ -46,118 +44,90 @@
             lblMineCount = new Label();
             tbBoardSize = new TrackBar();
             lblBoardSize = new Label();
-            BtnHighScores = new Button();
-            btnChangeName = new Button();
+            Btn = new PictureBox();
+            pictureBox1 = new PictureBox();
+            pictureBox2 = new PictureBox();
             panelMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)btnCustom).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btnEasy).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btnMedium).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btnHard).BeginInit();
             panelCustom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)tbMineCount).BeginInit();
             ((System.ComponentModel.ISupportInitialize)tbBoardSize).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)Btn).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // panelMain
             // 
-            panelMain.BackColor = Color.Gray;
-            panelMain.BorderStyle = BorderStyle.FixedSingle;
-            panelMain.Controls.Add(rbCustom);
-            panelMain.Controls.Add(rbHard);
-            panelMain.Controls.Add(rbMedium);
-            panelMain.Controls.Add(label1);
-            panelMain.Controls.Add(rbEasy);
+            panelMain.BackColor = Color.Transparent;
+            panelMain.Controls.Add(btnCustom);
+            panelMain.Controls.Add(btnEasy);
+            panelMain.Controls.Add(btnMedium);
+            panelMain.Controls.Add(btnHard);
             panelMain.ForeColor = Color.White;
-            panelMain.Location = new Point(12, 88);
+            panelMain.Location = new Point(244, 191);
             panelMain.Name = "panelMain";
-            panelMain.Size = new Size(309, 196);
+            panelMain.Size = new Size(438, 160);
             panelMain.TabIndex = 0;
             // 
-            // rbCustom
+            // btnCustom
             // 
-            rbCustom.Cursor = Cursors.Hand;
-            rbCustom.FlatAppearance.BorderColor = Color.FromArgb(255, 128, 0);
-            rbCustom.FlatAppearance.CheckedBackColor = Color.Red;
-            rbCustom.FlatStyle = FlatStyle.Popup;
-            rbCustom.ForeColor = Color.FromArgb(255, 128, 255);
-            rbCustom.Location = new Point(3, 150);
-            rbCustom.Name = "rbCustom";
-            rbCustom.Size = new Size(295, 27);
-            rbCustom.TabIndex = 5;
-            rbCustom.TabStop = true;
-            rbCustom.Text = "Custom";
-            rbCustom.TextAlign = ContentAlignment.MiddleCenter;
-            rbCustom.UseVisualStyleBackColor = true;
-            rbCustom.CheckedChanged += DifficultySelected;
+            btnCustom.BackColor = Color.Transparent;
+            btnCustom.Cursor = Cursors.Hand;
+            btnCustom.Image = (Image)resources.GetObject("btnCustom.Image");
+            btnCustom.Location = new Point(216, 81);
+            btnCustom.Name = "btnCustom";
+            btnCustom.Size = new Size(207, 72);
+            btnCustom.SizeMode = PictureBoxSizeMode.StretchImage;
+            btnCustom.TabIndex = 13;
+            btnCustom.TabStop = false;
+            btnCustom.Click += DifficultySelected;
+            btnCustom.MouseEnter += BtnCustomHoverEnter;
             // 
-            // rbHard
+            // btnEasy
             // 
-            rbHard.Cursor = Cursors.Hand;
-            rbHard.FlatAppearance.BorderColor = Color.FromArgb(255, 128, 0);
-            rbHard.FlatAppearance.CheckedBackColor = Color.Red;
-            rbHard.FlatStyle = FlatStyle.Popup;
-            rbHard.ForeColor = Color.FromArgb(255, 128, 128);
-            rbHard.Location = new Point(3, 117);
-            rbHard.Name = "rbHard";
-            rbHard.Size = new Size(301, 27);
-            rbHard.TabIndex = 4;
-            rbHard.TabStop = true;
-            rbHard.Text = "Hard";
-            rbHard.TextAlign = ContentAlignment.MiddleCenter;
-            rbHard.UseVisualStyleBackColor = true;
-            rbHard.CheckedChanged += DifficultySelected;
+            btnEasy.BackColor = Color.Transparent;
+            btnEasy.Cursor = Cursors.Hand;
+            btnEasy.Image = (Image)resources.GetObject("btnEasy.Image");
+            btnEasy.Location = new Point(5, 3);
+            btnEasy.Name = "btnEasy";
+            btnEasy.Size = new Size(207, 72);
+            btnEasy.SizeMode = PictureBoxSizeMode.StretchImage;
+            btnEasy.TabIndex = 12;
+            btnEasy.TabStop = false;
+            btnEasy.Click += DifficultySelected;
+            btnEasy.MouseEnter += BtnCustomHoverEnter;
             // 
-            // rbMedium
+            // btnMedium
             // 
-            rbMedium.Cursor = Cursors.Hand;
-            rbMedium.FlatAppearance.BorderColor = Color.FromArgb(255, 128, 0);
-            rbMedium.FlatAppearance.CheckedBackColor = Color.Red;
-            rbMedium.FlatStyle = FlatStyle.Popup;
-            rbMedium.ForeColor = Color.Yellow;
-            rbMedium.Location = new Point(3, 84);
-            rbMedium.Name = "rbMedium";
-            rbMedium.Size = new Size(301, 27);
-            rbMedium.TabIndex = 3;
-            rbMedium.TabStop = true;
-            rbMedium.Text = "Medium";
-            rbMedium.TextAlign = ContentAlignment.MiddleCenter;
-            rbMedium.UseVisualStyleBackColor = true;
-            rbMedium.CheckedChanged += DifficultySelected;
+            btnMedium.BackColor = Color.Transparent;
+            btnMedium.Cursor = Cursors.Hand;
+            btnMedium.Image = (Image)resources.GetObject("btnMedium.Image");
+            btnMedium.Location = new Point(3, 81);
+            btnMedium.Name = "btnMedium";
+            btnMedium.Size = new Size(207, 72);
+            btnMedium.SizeMode = PictureBoxSizeMode.StretchImage;
+            btnMedium.TabIndex = 11;
+            btnMedium.TabStop = false;
+            btnMedium.Click += DifficultySelected;
+            btnMedium.MouseEnter += BtnCustomHoverEnter;
             // 
-            // label1
+            // btnHard
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(5, 15);
-            label1.Name = "label1";
-            label1.Size = new Size(303, 23);
-            label1.TabIndex = 1;
-            label1.Text = "Choose a Difficulty";
-            // 
-            // rbEasy
-            // 
-            rbEasy.Cursor = Cursors.Hand;
-            rbEasy.FlatAppearance.BorderColor = Color.FromArgb(255, 128, 0);
-            rbEasy.FlatAppearance.CheckedBackColor = Color.Red;
-            rbEasy.FlatStyle = FlatStyle.Popup;
-            rbEasy.ForeColor = Color.Lime;
-            rbEasy.Location = new Point(3, 51);
-            rbEasy.Name = "rbEasy";
-            rbEasy.Size = new Size(301, 27);
-            rbEasy.TabIndex = 2;
-            rbEasy.TabStop = true;
-            rbEasy.Text = "Easy";
-            rbEasy.TextAlign = ContentAlignment.MiddleCenter;
-            rbEasy.UseVisualStyleBackColor = true;
-            rbEasy.CheckedChanged += DifficultySelected;
-            // 
-            // btnStart
-            // 
-            btnStart.BackColor = Color.LimeGreen;
-            btnStart.Cursor = Cursors.Hand;
-            btnStart.FlatStyle = FlatStyle.Popup;
-            btnStart.Location = new Point(12, 290);
-            btnStart.Name = "btnStart";
-            btnStart.Size = new Size(508, 41);
-            btnStart.TabIndex = 6;
-            btnStart.Text = "Start Game";
-            btnStart.UseVisualStyleBackColor = false;
-            btnStart.Click += StartGameOnClick;
+            btnHard.BackColor = Color.Transparent;
+            btnHard.Cursor = Cursors.Hand;
+            btnHard.Image = (Image)resources.GetObject("btnHard.Image");
+            btnHard.Location = new Point(218, 3);
+            btnHard.Name = "btnHard";
+            btnHard.Size = new Size(207, 72);
+            btnHard.SizeMode = PictureBoxSizeMode.StretchImage;
+            btnHard.TabIndex = 10;
+            btnHard.TabStop = false;
+            btnHard.Click += DifficultySelected;
+            btnHard.MouseEnter += BtnCustomHoverEnter;
             // 
             // tipCustom
             // 
@@ -184,20 +154,21 @@
             panelCustom.Controls.Add(tbBoardSize);
             panelCustom.Controls.Add(lblBoardSize);
             panelCustom.ForeColor = Color.White;
-            panelCustom.Location = new Point(327, 88);
+            panelCustom.Location = new Point(717, 223);
             panelCustom.Name = "panelCustom";
-            panelCustom.Size = new Size(193, 196);
+            panelCustom.Size = new Size(182, 206);
             panelCustom.TabIndex = 1;
             // 
             // tbMineCount
             // 
+            tbMineCount.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             tbMineCount.AutoSize = false;
             tbMineCount.BackColor = Color.Gray;
             tbMineCount.Location = new Point(3, 105);
             tbMineCount.Maximum = 6;
             tbMineCount.Minimum = 5;
             tbMineCount.Name = "tbMineCount";
-            tbMineCount.Size = new Size(185, 38);
+            tbMineCount.Size = new Size(171, 38);
             tbMineCount.TabIndex = 10;
             tbMineCount.TickStyle = TickStyle.Both;
             tbMineCount.Value = 5;
@@ -215,14 +186,15 @@
             // 
             // tbBoardSize
             // 
+            tbBoardSize.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             tbBoardSize.AutoSize = false;
             tbBoardSize.BackColor = Color.Gray;
             tbBoardSize.Enabled = false;
             tbBoardSize.Location = new Point(3, 38);
-            tbBoardSize.Maximum = 32;
+            tbBoardSize.Maximum = 24;
             tbBoardSize.Minimum = 5;
             tbBoardSize.Name = "tbBoardSize";
-            tbBoardSize.Size = new Size(185, 39);
+            tbBoardSize.Size = new Size(171, 39);
             tbBoardSize.TabIndex = 2;
             tbBoardSize.TickStyle = TickStyle.Both;
             tbBoardSize.Value = 5;
@@ -238,35 +210,44 @@
             lblBoardSize.TabIndex = 8;
             lblBoardSize.Text = "Board Size: 5";
             // 
-            // BtnHighScores
+            // Btn
             // 
-            BtnHighScores.BackColor = Color.FromArgb(0, 192, 192);
-            BtnHighScores.Cursor = Cursors.Hand;
-            BtnHighScores.FlatStyle = FlatStyle.Popup;
-            BtnHighScores.Font = new Font("Azonix", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            BtnHighScores.Location = new Point(13, 336);
-            BtnHighScores.Margin = new Padding(4, 2, 4, 2);
-            BtnHighScores.Name = "BtnHighScores";
-            BtnHighScores.Size = new Size(252, 41);
-            BtnHighScores.TabIndex = 8;
-            BtnHighScores.Text = "High Scores";
-            BtnHighScores.UseVisualStyleBackColor = false;
-            BtnHighScores.Click += BtnHighScoresOnClick;
+            Btn.BackColor = Color.Transparent;
+            Btn.Cursor = Cursors.Hand;
+            Btn.Image = (Image)resources.GetObject("Btn.Image");
+            Btn.Location = new Point(261, 357);
+            Btn.Name = "Btn";
+            Btn.Size = new Size(393, 72);
+            Btn.SizeMode = PictureBoxSizeMode.StretchImage;
+            Btn.TabIndex = 14;
+            Btn.TabStop = false;
+            Btn.Click += StartGameOnClick;
             // 
-            // btnChangeName
+            // pictureBox1
             // 
-            btnChangeName.BackColor = Color.SteelBlue;
-            btnChangeName.Cursor = Cursors.Hand;
-            btnChangeName.FlatStyle = FlatStyle.Popup;
-            btnChangeName.Font = new Font("Azonix", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnChangeName.Location = new Point(269, 336);
-            btnChangeName.Margin = new Padding(4, 2, 4, 2);
-            btnChangeName.Name = "btnChangeName";
-            btnChangeName.Size = new Size(251, 41);
-            btnChangeName.TabIndex = 9;
-            btnChangeName.Text = "Change Name";
-            btnChangeName.UseVisualStyleBackColor = false;
-            btnChangeName.Click += BtnChangeNameOnClick;
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Cursor = Cursors.Hand;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(12, 239);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(207, 72);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 14;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += BtnChangeNameOnClick;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.BackColor = Color.Transparent;
+            pictureBox2.Cursor = Cursors.Hand;
+            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+            pictureBox2.Location = new Point(12, 329);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(207, 72);
+            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox2.TabIndex = 15;
+            pictureBox2.TabStop = false;
+            pictureBox2.Click += BtnHighScoresOnClick;
             // 
             // Minesweeper
             // 
@@ -276,11 +257,11 @@
             BackColor = Color.FromArgb(64, 64, 64);
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(534, 392);
-            Controls.Add(btnChangeName);
-            Controls.Add(BtnHighScores);
+            ClientSize = new Size(911, 556);
+            Controls.Add(pictureBox2);
+            Controls.Add(pictureBox1);
+            Controls.Add(Btn);
             Controls.Add(panelCustom);
-            Controls.Add(btnStart);
             Controls.Add(panelMain);
             Font = new Font("Azonix", 13.7999992F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ForeColor = Color.White;
@@ -289,34 +270,40 @@
             Name = "Minesweeper";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Minesweeper";
+            MouseEnter += BtnEnteredForm;
             panelMain.ResumeLayout(false);
-            panelMain.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)btnCustom).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btnEasy).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btnMedium).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btnHard).EndInit();
             panelCustom.ResumeLayout(false);
             panelCustom.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)tbMineCount).EndInit();
             ((System.ComponentModel.ISupportInitialize)tbBoardSize).EndInit();
+            ((System.ComponentModel.ISupportInitialize)Btn).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private Panel panelMain;
-        private Label label1;
-        private RadioButton rbCustom;
-        private RadioButton rbHard;
-        private RadioButton rbMedium;
-        private RadioButton rbEasy;
         private ToolTip tipCustom;
         private ToolTip tipEasy;
         private ToolTip tipMedium;
         private ToolTip tipHard;
-        private Button btnStart;
         private Panel panelCustom;
         private Label lblBoardSize;
         private TrackBar tbBoardSize;
         private Label lblMineCount;
         private TrackBar tbMineCount;
-        private Button BtnHighScores;
-        private Button btnChangeName;
+        private PictureBox btnHard;
+        private PictureBox btnCustom;
+        private PictureBox btnEasy;
+        private PictureBox btnMedium;
+        private PictureBox Btn;
+        private PictureBox pictureBox1;
+        private PictureBox pictureBox2;
     }
 }

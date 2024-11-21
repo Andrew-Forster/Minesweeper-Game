@@ -10,6 +10,8 @@ namespace MinesweeperGUIApp
         MinesweeperBusiness business = new MinesweeperBusiness();
         FrmNameEntry frmNameEntry = new FrmNameEntry();
         public string difficulty { get; set; }
+        PictureBox selectBtn;
+        PictureBox hoverBtn;
 
         public Minesweeper()
         {
@@ -23,16 +25,29 @@ namespace MinesweeperGUIApp
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
 
 
-            tipCustom.SetToolTip(rbCustom, "Allows you to set your own board size and mine count.");
+            tipCustom.SetToolTip(btnCustom, "Allows you to set your own board size and mine count.");
 
-            tipEasy.SetToolTip(rbEasy, "9x9 board with 10 mines.");
-            tipMedium.SetToolTip(rbMedium, "16x16 board with 40 mines.");
-            tipHard.SetToolTip(rbHard, "24x24 board with 99 mines.");
+            tipEasy.SetToolTip(btnEasy, "9x9 board with 10 mines.");
+            tipMedium.SetToolTip(btnMedium, "16x16 board with 40 mines.");
+            tipHard.SetToolTip(btnHard, "24x24 board with 99 mines.");
 
             if (business.UsernameIsNotSet())
             {
                 frmNameEntry.ShowDialog();
             }
+
+            // Select Button
+            selectBtn = new PictureBox();
+            selectBtn.Image = Image.FromFile("Assets/BtnSelect.png");
+            selectBtn.Size = new Size(207, 67);
+            selectBtn.SizeMode = PictureBoxSizeMode.StretchImage;
+
+            // Hover Button
+            hoverBtn = new PictureBox();
+            hoverBtn.Image = Image.FromFile("Assets/BtnHover.png");
+            hoverBtn.Size = new Size(207, 67);
+            hoverBtn.SizeMode = PictureBoxSizeMode.StretchImage;
+            hoverBtn.Click += CustomHoverClick;
         }
 
         /// <summary>
@@ -42,9 +57,17 @@ namespace MinesweeperGUIApp
         /// <param name="e"></param>
         private void DifficultySelected(object sender, EventArgs e)
         {
-            RadioButton rb = (RadioButton)sender;
+            PictureBox rb = (PictureBox)sender;
 
-            if (rb.Text == "Custom")
+            btnCustom.Controls.Remove(selectBtn);
+            btnEasy.Controls.Remove(selectBtn);
+            btnMedium.Controls.Remove(selectBtn);
+            btnHard.Controls.Remove(selectBtn);
+
+            rb.Controls.Add(selectBtn);
+
+
+            if (rb.Name == "btnCustom")
             {
                 EnableCustomPanel(true);
                 boardSize = 5;
@@ -53,19 +76,19 @@ namespace MinesweeperGUIApp
             }
             else
             {
-                switch (rb.Text)
+                switch (rb.Name)
                 {
-                    case "Easy":
+                    case "btnEasy":
                         boardSize = 9;
                         mineCount = 10;
                         difficulty = "Easy";
                         break;
-                    case "Medium":
+                    case "btnMedium":
                         boardSize = 16;
                         mineCount = 40;
                         difficulty = "Medium";
                         break;
-                    case "Hard":
+                    case "btnHard":
                         boardSize = 24;
                         mineCount = 99;
                         difficulty = "Hard";
@@ -98,7 +121,6 @@ namespace MinesweeperGUIApp
                 boardGUI.WindowState = FormWindowState.Maximized;
             }
 
-            this.Hide();
         }
 
         /// <summary>
@@ -160,6 +182,28 @@ namespace MinesweeperGUIApp
         {
             FrmHighScore frmHighScore = new FrmHighScore();
             frmHighScore.ShowDialog();
+        }
+
+        private void BtnCustomHoverEnter(object sender, EventArgs e)
+        {
+            PictureBox b = (PictureBox)sender;
+            b.Controls.Add(hoverBtn);
+        }
+
+        private void BtnEnteredForm(object sender, EventArgs e)
+        {
+            btnCustom.Controls.Remove(hoverBtn);
+            btnEasy.Controls.Remove(hoverBtn);
+            btnMedium.Controls.Remove(hoverBtn);
+            btnHard.Controls.Remove(hoverBtn);
+        }
+
+        private void CustomHoverClick(object sender, EventArgs e)
+        {
+            PictureBox b = (PictureBox)sender.GetType().GetProperty("Parent").GetValue(sender, null);
+            DifficultySelected(b, e);
+            selectBtn.BringToFront();
+
         }
     }
 }

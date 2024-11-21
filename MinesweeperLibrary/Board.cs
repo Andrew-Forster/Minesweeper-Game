@@ -408,7 +408,7 @@ namespace MinesweeperLibrary
                         int newRow = random.Next(BoardSize);
                         int newCol = random.Next(BoardSize);
 
-                        if (Cells[newRow, newCol].IsMine && !Cells[newRow, newCol].IsRevealed)
+                        if (Cells[newRow, newCol].IsMine && !Cells[newRow, newCol].IsRevealed && !Cells[newRow, newCol].IsFlagged)
                         {
                             Cells[newRow, newCol].IsRevealed = true;
                             break;
@@ -457,6 +457,10 @@ namespace MinesweeperLibrary
                     if (Cells[row, col].IsFlagged && Cells[row, col].IsMine)
                     {
                         flagged++;
+                    }
+                    if (Cells[row, col].IsFlagged && !Cells[row, col].IsMine)
+                    {
+                        flagged--;
                     }
                 }
             }

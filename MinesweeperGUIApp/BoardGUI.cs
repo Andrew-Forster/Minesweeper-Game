@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,9 @@ using System.Windows.Forms;
 using MinesweeperGUIApp.Models;
 using MinesweeperLibrary;
 using MinesweeperLibrary.BussinessLayer;
+using static System.Net.Mime.MediaTypeNames;
+using Image = System.Drawing.Image;
+using Timer = System.Windows.Forms.Timer;
 
 namespace MinesweeperGUIApp
 {
@@ -25,7 +29,8 @@ namespace MinesweeperGUIApp
         public string difficulty { get; set; }
 
         TimeSpan timeElapsed;
-        MinesweeperBusiness business = new MinesweeperBusiness();
+        private MinesweeperBusiness business = new();
+        private CancellationTokenSource cancelAnimations;
 
 
 
@@ -43,6 +48,7 @@ namespace MinesweeperGUIApp
             minesweeper = m;
             timeElapsed = new TimeSpan(0, 0, 0);
             this.difficulty = difficulty;
+            m.Hide();
         }
 
         /// <summary>
@@ -56,6 +62,7 @@ namespace MinesweeperGUIApp
             imageCache["TileFlat"] = Image.FromFile("Assets/Tile Flat.png");
             imageCache["Tile1"] = Image.FromFile("Assets/Tile 1.png");
             imageCache["Tile2"] = Image.FromFile("Assets/Tile 2.png");
+            imageCache["Explode"] = Image.FromFile("Assets/explode.gif");
 
             for (int i = 1; i <= 8; i++)
             {
@@ -106,10 +113,7 @@ namespace MinesweeperGUIApp
             int col = point.Y;
             Cell cell = board.Cells[row, col];
 
-            //if (board.GameOver)
-            //{
-            //    return;
-            //}
+
 
             // Flag Right Click
             if (e is MouseEventArgs mouseEventArgs && mouseEventArgs.Button == MouseButtons.Right)
@@ -144,13 +148,17 @@ namespace MinesweeperGUIApp
                 cell.RewardType = "None";
             }
 
+            if (board.GameOver)
+            {
+                return;
+            }
             tmrTimer.Enabled = true;
             board.Reveal(row + 1, col + 1);
             UpdateUI(false);
             TestGameState();
         }
 
-        public void TestGameState()
+        public async void TestGameState()
         {
             if (board.CheckGameState() != "Continue")
             {
@@ -161,6 +169,16 @@ namespace MinesweeperGUIApp
 
                 if (board.CheckGameState() == "Lost")
                 {
+                    try
+                    {
+                        await RunExplodeAnimationsAsync();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+
+
                     result = MessageBox.Show("You lost! Play again?", "Game Over", MessageBoxButtons.YesNo);
                 }
                 else // won
@@ -233,7 +251,8 @@ namespace MinesweeperGUIApp
         /// </summary>
         /// <param name="row"></param>
         /// <param name="col"></param>
-        /// <param name="force"></param>
+        /// <param name="force"></param> Forces to show the image even if it is not revealed
+
         private void UpdateButton(int row, int col, bool force)
         {
             PictureBox button = (PictureBox)panelBoard.Controls[row * boardSize + col];
@@ -248,18 +267,6 @@ namespace MinesweeperGUIApp
                     : cell.AdjacentMines == 0 ? imageCache["TileFlat"]
                     : imageCache[$"Num{cell.AdjacentMines}"];
 
-
-                if (cell.IsMine)
-                {
-                    if (board.CheckGameState() == "Lost")
-                    {
-                        button.BackColor = Color.Red;
-                    }
-                    else if (board.CheckGameState() == "Won")
-                    {
-                        button.BackColor = Color.Green;
-                    }
-                }
 
 
                 if (!cell.PointsGiven && board.CheckGameState() != "Lost")
@@ -313,14 +320,143 @@ namespace MinesweeperGUIApp
         {
             const int WM_CLOSE = 0x0010;
 
+
             if (m.Msg == WM_CLOSE && openSelector)
             {
                 minesweeper.Show();
+                cancelAnimations?.Cancel();
             }
 
             // Call the base class method for other messages
             base.WndProc(ref m);
         }
 
-    }
+
+        protected Task RunExplodeAnimationsAsync()
+        {
+            cancelAnimations = new CancellationTokenSource();
+            var tcs = new TaskCompletionSource();
+            List<Point> mineLocations = new List<Point>();
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j = 0; j < boardSize; j++)
+                {
+                    if (board.Cells[i, j].IsMine)
+                    {
+                        mineLocations.Add(new Point(i, j));
+                    }
+                }
+            }
+
+            Random random = new Random();
+            int delayBetweenExplosions = 400;
+            int counter = 0;
+
+            Timer explosionTimer = new Timer { Interval = delayBetweenExplosions };
+            explosionTimer.Tick += (sender, e) =>
+            {
+
+
+                counter++;
+                if (counter > 3) { delayBetweenExplosions = 200; }
+                if (counter > 6) { delayBetweenExplosions = 50; }
+                if (counter > 9) { delayBetweenExplosions = 25; }
+                if (counter > 20) { delayBetweenExplosions = 10; }
+                explosionTimer.Interval = delayBetweenExplosions;
+
+                if (cancelAnimations.Token.IsCancellationRequested)
+                {
+                    explosionTimer.Stop();
+                    explosionTimer.Dispose();
+                    tcs.SetResult();
+                    return;
+                }
+
+                if (mineLocations.Count > 0)
+                {
+                    int index = random.Next(mineLocations.Count);
+                    Point mineLocation = mineLocations[index];
+                    mineLocations.RemoveAt(index);
+
+                    AnimateExplosion(mineLocation);
+                }
+                else
+                {
+                    explosionTimer.Stop();
+                    explosionTimer.Dispose();
+                    tcs.SetResult(); // Signal completion
+                }
+            };
+
+            explosionTimer.Start();
+            return tcs.Task;
+        }
+
+        /// <summary>
+        /// Animate an explosion at the given mine location
+        /// </summary>
+        /// <param name="mineLocation"></param>
+        private void AnimateExplosion(Point mineLocation)
+        {
+            // Get the GIF image from the cache and clone it to prevent modifying the original
+            Image img = (Image)imageCache["Explode"].Clone();
+
+            // Check the total number of frames in the GIF
+            int totalFrames = img.GetFrameCount(FrameDimension.Time);
+            int currentFrame = 0;
+
+            // Create a PictureBox to display the GIF animation
+            PictureBox animation = new PictureBox
+            {
+                Dock = DockStyle.None,
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Size = new Size(50, 50),
+                Image = img
+            };
+
+            // Find the corresponding button (cell) in the game board where the animation should be displayed
+            PictureBox button = (PictureBox)panelBoard.Controls[mineLocation.X * boardSize + mineLocation.Y];
+            button.Controls.Add(animation);
+            animation.BringToFront();
+
+            // Use a Timer to step through the frames
+            Timer animationTimer = new Timer { Interval = 100 }; // Adjust frame speed as needed
+            animationTimer.Tick += (sender, e) =>
+            {
+                // Check if the animation was cancelled
+                if (cancelAnimations.Token.IsCancellationRequested)
+                {
+                    animationTimer.Stop();
+                    animationTimer.Dispose();
+                    button.Controls.Remove(animation);
+                    return;
+                }
+
+                // Increase the current frame number
+                currentFrame++;
+                if (currentFrame >= totalFrames)
+                {
+                    // Stop the animation after the last frame
+                    animationTimer.Stop();
+                    animationTimer.Dispose();
+
+                    // Optionally, remove the animation from the control
+                    button.Controls.Remove(animation);
+                }
+                else
+                {
+                    // Select and display the next frame in the GIF
+                    img.SelectActiveFrame(FrameDimension.Time, currentFrame);
+                    animation.Image = img;
+                }
+            };
+
+            // Start the animation timer
+            animationTimer.Start();
+        }
+
+
+
+
+    } // End of BoardGUI
 }
