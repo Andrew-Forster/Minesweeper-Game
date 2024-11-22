@@ -106,7 +106,7 @@
             btnMedium.BackColor = Color.Transparent;
             btnMedium.Cursor = Cursors.Hand;
             btnMedium.Image = (Image)resources.GetObject("btnMedium.Image");
-            btnMedium.Location = new Point(3, 81);
+            btnMedium.Location = new Point(216, 3);
             btnMedium.Name = "btnMedium";
             btnMedium.Size = new Size(207, 72);
             btnMedium.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -120,7 +120,7 @@
             btnHard.BackColor = Color.Transparent;
             btnHard.Cursor = Cursors.Hand;
             btnHard.Image = (Image)resources.GetObject("btnHard.Image");
-            btnHard.Location = new Point(218, 3);
+            btnHard.Location = new Point(5, 81);
             btnHard.Name = "btnHard";
             btnHard.Size = new Size(207, 72);
             btnHard.SizeMode = PictureBoxSizeMode.StretchImage;

@@ -57,23 +57,25 @@ namespace MinesweeperGUIApp
         private void LoadImages()
         {
             // Load each image once and store it in the dictionary
-            imageCache["Bomb"] = Image.FromFile("Assets/Bomb.png");
-            imageCache["Gold"] = Image.FromFile("Assets/Gold.png");
-            imageCache["TileFlat"] = Image.FromFile("Assets/Tile Flat.png");
-            imageCache["Tile1"] = Image.FromFile("Assets/Tile 1.png");
-            imageCache["Tile2"] = Image.FromFile("Assets/Tile 2.png");
+            imageCache["Bomb"] = Image.FromFile("Assets/Mine.png");
+            imageCache["Gold"] = Image.FromFile("Assets/Reward.png");
+            imageCache["TileFlat"] = Image.FromFile("Assets/Tile Revealed.png");
+            imageCache["Tile1"] = Image.FromFile("Assets/Tile.png");
+            imageCache["Tile2"] = Image.FromFile("Assets/Tile.png");
             imageCache["Explode"] = Image.FromFile("Assets/explode.gif");
+            imageCache["Hover"] = Image.FromFile("Assets/Tile Hover.png");
+            imageCache["Exploded"] = Image.FromFile("Assets/Exploded.png");
 
             for (int i = 1; i <= 8; i++)
             {
-                string numberImagePath = $"Assets/Number {i}.png";
+                string numberImagePath = $"Assets/Num {i}.png";
                 if (File.Exists(numberImagePath))
                 {
                     imageCache[$"Num{i}"] = Image.FromFile(numberImagePath);
                 }
             }
 
-            imageCache["Skull"] = Image.FromFile("Assets/Skull.png");
+            imageCache["Skull"] = Image.FromFile("Assets/Flag.png");
         }
 
         /// <summary>
@@ -92,10 +94,54 @@ namespace MinesweeperGUIApp
                     button.Location = new Point(50 * j, 50 * i);
                     button.Click += Button_Click;
                     button.Tag = new Point(i, j);
+                    button.Cursor = Cursors.Hand;
+                    button.MouseEnter += TileHover;
+                    button.MouseLeave += TileLeave;
                     panelBoard.Controls.Add(button);
                     UpdateButton(i, j, false);
                 }
             }
+        }
+
+        public void TileHover(object sender, EventArgs e)
+        {
+            if (board.CheckGameState() != "Continue")
+            {
+                return;
+            }
+
+            PictureBox button = (PictureBox)sender;
+            Point point = (Point)button.Tag;
+            int row = point.X;
+            int col = point.Y;
+            Cell cell = board.Cells[row, col];
+
+            if (cell.IsRevealed || cell.IsFlagged)
+            {
+                return;
+            }
+
+            button.Image = imageCache["Hover"];
+        }
+
+        public void TileLeave(object sender, EventArgs e)
+        {
+            if (board.CheckGameState() != "Continue")
+            {
+                return;
+            }
+            PictureBox button = (PictureBox)sender;
+            Point point = (Point)button.Tag;
+            int row = point.X;
+            int col = point.Y;
+            Cell cell = board.Cells[row, col];
+
+            if (cell.IsRevealed || cell.IsFlagged)
+            {
+                return;
+            }
+
+            button.Image = (row % 2 == 0 ? imageCache["Tile1"] : imageCache["Tile2"]);
         }
 
         /// <summary>
@@ -124,10 +170,16 @@ namespace MinesweeperGUIApp
                 }
                 board.Flag(row + 1, col + 1);
                 UpdateButton(row, col, false);
+                TestGameState();
                 return;
             }
 
             if (cell.IsFlagged || (cell.IsRevealed && cell.RewardType == "None"))
+            {
+                return;
+            }
+
+            if (board.GameOver)
             {
                 return;
             }
@@ -148,10 +200,6 @@ namespace MinesweeperGUIApp
                 cell.RewardType = "None";
             }
 
-            if (board.GameOver)
-            {
-                return;
-            }
             tmrTimer.Enabled = true;
             board.Reveal(row + 1, col + 1);
             UpdateUI(false);
@@ -401,8 +449,9 @@ namespace MinesweeperGUIApp
             // Get the GIF image from the cache and clone it to prevent modifying the original
             Image img = (Image)imageCache["Explode"].Clone();
 
+
             // Check the total number of frames in the GIF
-            int totalFrames = img.GetFrameCount(FrameDimension.Time);
+            int totalFrames = 6;
             int currentFrame = 0;
 
             // Create a PictureBox to display the GIF animation
@@ -417,6 +466,7 @@ namespace MinesweeperGUIApp
             // Find the corresponding button (cell) in the game board where the animation should be displayed
             PictureBox button = (PictureBox)panelBoard.Controls[mineLocation.X * boardSize + mineLocation.Y];
             button.Controls.Add(animation);
+            button.Image = imageCache["Exploded"];
             animation.BringToFront();
 
             // Use a Timer to step through the frames

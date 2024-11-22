@@ -16,8 +16,6 @@ namespace MinesweeperGUIApp
         public Minesweeper()
         {
             InitializeComponent();
-            boardSize = 0;
-            mineCount = 0;
 
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -48,6 +46,12 @@ namespace MinesweeperGUIApp
             hoverBtn.Size = new Size(207, 67);
             hoverBtn.SizeMode = PictureBoxSizeMode.StretchImage;
             hoverBtn.Click += CustomHoverClick;
+
+            // Initially Select Easy
+            boardSize = 9;
+            mineCount = 10;
+            difficulty = "Easy";
+            btnEasy.Controls.Add(selectBtn);
         }
 
         /// <summary>

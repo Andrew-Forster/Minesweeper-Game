@@ -454,7 +454,7 @@ namespace MinesweeperLibrary
                     {
                         count++;
                     }
-                    if (Cells[row, col].IsFlagged && Cells[row, col].IsMine)
+                    if (Cells[row, col].IsFlagged && Cells[row, col].IsMine || Cells[row, col].IsMine && Cells[row, col].IsRevealed)
                     {
                         flagged++;
                     }
