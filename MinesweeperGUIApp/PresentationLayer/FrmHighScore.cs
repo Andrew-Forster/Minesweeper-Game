@@ -1,5 +1,4 @@
 ﻿using MinesweeperGUIApp.Models;
-using MinesweeperLibrary.BussinessLayer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MinesweeperGUIApp.BusinessLayer;
 
 namespace MinesweeperGUIApp
 {

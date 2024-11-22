@@ -9,8 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using MinesweeperGUIApp.BusinessLayer;
 using MinesweeperLibrary;
-using MinesweeperLibrary.BussinessLayer;
 
 namespace MinesweeperGUIApp
 {

@@ -1,5 +1,5 @@
+using MinesweeperGUIApp.BusinessLayer;
 using MinesweeperLibrary;
-using MinesweeperLibrary.BussinessLayer;
 
 namespace MinesweeperGUIApp
 {
@@ -8,16 +8,13 @@ namespace MinesweeperGUIApp
         public int boardSize;
         public int mineCount;
         MinesweeperBusiness business = new MinesweeperBusiness();
+        Utils utils = new Utils();
         FrmNameEntry frmNameEntry = new FrmNameEntry();
         public string difficulty { get; set; }
         PictureBox selectBtn;
         PictureBox hoverBtn;
-        public Form loader;
 
-        public DifficultySelection(Form l) : this()
-        {
-            loader = l;
-        }
+        List<PictureBox> tileList;
 
         public DifficultySelection()
         {
@@ -58,24 +55,9 @@ namespace MinesweeperGUIApp
             difficulty = "Easy";
             btnEasy.Controls.Add(selectBtn);
 
-        }
+            // Pre gens tiles for the board
+            //tileList = utils.GenerateTiles(24);
 
-        /// <summary>
-        /// Used to Open up the main Form on close or else the program hangs
-        /// </summary>
-        /// <param name="m"></param>
-        protected override void WndProc(ref Message m)
-        {
-            const int WM_CLOSE = 0x0010;
-
-
-            if (m.Msg == WM_CLOSE)
-            {
-                loader.Close();
-            }
-
-            // Call the base class method for other messages
-            base.WndProc(ref m);
         }
 
         /// <summary>

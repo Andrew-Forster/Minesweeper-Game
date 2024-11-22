@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35222.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinesweeperLibrary", "MinesweeperLibrary\MinesweeperLibrary.csproj", "{3606E61C-9B03-4A6B-B789-0B70CDDDFA54}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinesweeperConsoleApp", "MinesweeperConsoleApp\MinesweeperConsoleApp.csproj", "{3F070D77-FC27-4162-B767-DC16287C0E78}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinesweeperGUIApp", "MinesweeperGUIApp\MinesweeperGUIApp.csproj", "{601B4403-C432-44F1-A924-7521D621909B}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Minesweeper Installer", "Minesweeper Installer\Minesweeper Installer.vdproj", "{C0783494-3ACD-4B92-9F39-D22E0D6E0802}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3606E61C-9B03-4A6B-B789-0B70CDDDFA54}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{3606E61C-9B03-4A6B-B789-0B70CDDDFA54}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{3606E61C-9B03-4A6B-B789-0B70CDDDFA54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3606E61C-9B03-4A6B-B789-0B70CDDDFA54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F070D77-FC27-4162-B767-DC16287C0E78}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{3F070D77-FC27-4162-B767-DC16287C0E78}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{3F070D77-FC27-4162-B767-DC16287C0E78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F070D77-FC27-4162-B767-DC16287C0E78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{601B4403-C432-44F1-A924-7521D621909B}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{601B4403-C432-44F1-A924-7521D621909B}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{601B4403-C432-44F1-A924-7521D621909B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{601B4403-C432-44F1-A924-7521D621909B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0783494-3ACD-4B92-9F39-D22E0D6E0802}.Debug|Any CPU.ActiveCfg = Debug
+		{C0783494-3ACD-4B92-9F39-D22E0D6E0802}.Release|Any CPU.ActiveCfg = Release
+		{C0783494-3ACD-4B92-9F39-D22E0D6E0802}.Release|Any CPU.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {61DC9D21-4969-43E3-8466-BD60A69C2284}
+	EndGlobalSection
+EndGlobal
