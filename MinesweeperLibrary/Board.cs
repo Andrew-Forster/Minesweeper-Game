@@ -490,14 +490,10 @@ namespace MinesweeperLibrary
                 return;
             }
             Cell c = Cells[row, col];
+            c.IsFlagged = false;
+
             if (c.IsRevealed || c.AdjacentMines != 0)
             {
-                //if (c.RewardType != "None" && c.RewardType != "")
-                //{
-                //    RewardsInventory.Add(c.RewardType);
-                //    Utils.RewardFound(c.RewardType);
-                //    c.RewardType = "None";
-                //}
                 // Reveals the edges of the flood fill
                 c.IsRevealed = true;
                 return;
