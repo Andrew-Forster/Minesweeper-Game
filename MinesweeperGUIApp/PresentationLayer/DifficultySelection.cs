@@ -1,5 +1,6 @@
 using MinesweeperGUIApp.BusinessLayer;
 using MinesweeperLibrary;
+using Utils = MinesweeperGUIApp.BusinessLayer.Utils;
 
 namespace MinesweeperGUIApp
 {
@@ -13,8 +14,6 @@ namespace MinesweeperGUIApp
         public string difficulty { get; set; }
         PictureBox selectBtn;
         PictureBox hoverBtn;
-
-        List<PictureBox> tileList;
 
         public DifficultySelection()
         {
@@ -54,9 +53,6 @@ namespace MinesweeperGUIApp
             mineCount = 10;
             difficulty = "Easy";
             btnEasy.Controls.Add(selectBtn);
-
-            // Pre gens tiles for the board
-            //tileList = utils.GenerateTiles(24);
 
         }
 
@@ -123,8 +119,6 @@ namespace MinesweeperGUIApp
                 50 * boardSize + 300,
                 50 * boardSize + 100);
             boardGUI.Show();
-
-            //boardGUI.MinimumSize = boardGUI.Size; // Uncomment this line to lock the window size
 
             if (boardSize >= 18)
             {

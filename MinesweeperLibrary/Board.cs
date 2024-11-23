@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace MinesweeperLibrary
         public Cell[,] Cells { get; set; }
         public bool GameOver { get; set; }
         public List<string> RewardsInventory { get; set; }
+        public bool Shuffled { get; set; } = false;
 
         // Implement Later
         //public string StartTime { get; set; }
@@ -28,13 +30,12 @@ namespace MinesweeperLibrary
         /// </summary>
         public Board()
         {
-
             Difficulty = 1;
             SetDifficulty(Difficulty); // Sets Board Size And Bomb Count
             GameOver = false;
             RewardsInventory = new List<string>();
             RewardCount = 0;
-            InitBoard(); // Sets Cells
+            InitBoard();
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace MinesweeperLibrary
             GameOver = false;
             RewardsInventory = new List<string>();
             RewardCount = difficulty;
-            InitBoard(); // Sets Cells
+            InitBoard();
         }
 
         public Board(int boardSize, int bombCount)
@@ -60,6 +61,8 @@ namespace MinesweeperLibrary
             RewardCount = (BombCount / BoardSize) + 1;
             InitBoard();
         }
+
+
 
 
 
@@ -109,26 +112,33 @@ namespace MinesweeperLibrary
                 }
             }
 
-            ShuffleBoard();
-            CalculateAdjacentMines();
-            SetRewards(RewardCount + 1);
-
         }
 
         /// <summary>
-        /// Overloaded ShuffleBoard method to shuffle board 5 times by default
+        /// Overloaded Shuffle Board method to shuffle board 5 times by default
         /// </summary>
-        public void ShuffleBoard()
+        public void ShuffleBoard(Point startClick = new Point())
         {
-            ShuffleBoard(5);
+            ShuffleBoard(3, startClick);
         }
 
         /// <summary>
         /// Shuffles Game Board to randomize bomb placement
+        /// Ensures that the start click will never be a mine
+        /// if a point is passed in
+        /// * MUST CALL THIS METHOD *
         /// </summary>
         /// <param name="num"></param>
-        public void ShuffleBoard(int num)
+        public void ShuffleBoard(int num, Point startClick = new Point())
         {
+            int distance = 3;
+
+            if (BoardSize < 10)
+            {
+                distance = 2;
+            }
+
+            Shuffled = true;
             for (int i = 0; i < num; i++)
             {
                 Random random = new Random();
@@ -136,15 +146,27 @@ namespace MinesweeperLibrary
                 {
                     for (int col = 0; col < BoardSize; col++)
                     {
-                        int newRow = random.Next(BoardSize);
-                        int newCol = random.Next(BoardSize);
 
-                        Cell temp = Cells[row, col];
-                        Cells[row, col] = Cells[newRow, newCol];
-                        Cells[newRow, newCol] = temp;
+                        int newRow, newCol;
+                        do
+                        {
+                            newRow = random.Next(BoardSize);
+                            newCol = random.Next(BoardSize);
+                        }
+                        while (startClick != new Point() &&
+                               Math.Abs(newRow - startClick.X) < distance &&
+                               Math.Abs(newCol - startClick.Y) < distance &&
+                               Cells[row, col].IsMine || 
+                               Cells[newRow, newCol].IsMine);
+
+                        // Swap cells
+                        (Cells[row, col], Cells[newRow, newCol]) = (Cells[newRow, newCol], Cells[row, col]);
+
                     }
                 }
             }
+            CalculateAdjacentMines();
+            SetRewards(RewardCount + 1);
         }
 
         /// <summary>

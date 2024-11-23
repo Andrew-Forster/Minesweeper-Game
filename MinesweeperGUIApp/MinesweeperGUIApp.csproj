@@ -89,6 +89,9 @@
     <None Update="Assets\Custom.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\Defuse.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\Easy.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -14,6 +14,7 @@ using MinesweeperLibrary;
 using static System.Net.Mime.MediaTypeNames;
 using Image = System.Drawing.Image;
 using Timer = System.Windows.Forms.Timer;
+using Utils = MinesweeperGUIApp.BusinessLayer.Utils;
 
 namespace MinesweeperGUIApp
 {
@@ -23,6 +24,8 @@ namespace MinesweeperGUIApp
         int boardSize;
         public Dictionary<string, Image> imageCache = new Dictionary<string, Image>();
         public DifficultySelection minesweeper;
+        Utils utils = new Utils();
+
         // Triggers reopeneing of the main form if true
         public bool openSelector = true;
         public int score { get; set; }
@@ -43,12 +46,12 @@ namespace MinesweeperGUIApp
         {
             InitializeComponent();
             this.board = board;
+            this.difficulty = difficulty;
             boardSize = board.BoardSize;
-            GenerateUI();
             minesweeper = m;
             timeElapsed = new TimeSpan(0, 0, 0);
-            this.difficulty = difficulty;
             m.Hide();
+            GenerateUI();
         }
 
         /// <summary>
@@ -62,7 +65,8 @@ namespace MinesweeperGUIApp
             imageCache["TileFlat"] = Image.FromFile("Assets/Tile Revealed.png");
             imageCache["Tile1"] = Image.FromFile("Assets/Tile.png");
             imageCache["Tile2"] = Image.FromFile("Assets/Tile.png");
-            imageCache["Explode"] = Image.FromFile("Assets/explode.gif");
+            imageCache["Explode"] = Image.FromFile("Assets/Explode.gif");
+            imageCache["Defuse"] = Image.FromFile("Assets/Defuse.gif");
             imageCache["Hover"] = Image.FromFile("Assets/Tile Hover.png");
             imageCache["Exploded"] = Image.FromFile("Assets/Exploded.png");
 
@@ -89,11 +93,8 @@ namespace MinesweeperGUIApp
                 for (int j = 0; j < boardSize; j++)
                 {
                     PictureBox button = new PictureBox();
-                    button.SizeMode = PictureBoxSizeMode.StretchImage;
-                    button.Size = new Size(50, 50);
-                    button.Location = new Point(50 * j, 50 * i);
-                    button.Tag = new Point(i, j);
-                    button.Cursor = Cursors.Hand;
+                    button = utils.MakeTile(i, j);
+                    Point point = (Point)button.Tag;
                     button.Click += Button_Click;
                     button.MouseEnter += TileHover;
                     button.MouseLeave += TileLeave;
@@ -152,13 +153,16 @@ namespace MinesweeperGUIApp
         private void Button_Click(object sender, EventArgs e)
         {
 
-
             PictureBox button = (PictureBox)sender;
             Point point = (Point)button.Tag;
             int row = point.X;
             int col = point.Y;
             Cell cell = board.Cells[row, col];
 
+            if (board.Shuffled == false)
+            {
+                board.ShuffleBoard(point);
+            }
 
 
             // Flag Right Click
@@ -219,7 +223,7 @@ namespace MinesweeperGUIApp
                 {
                     try
                     {
-                        await RunExplodeAnimationsAsync();
+                        await RunEndAnimationsAsync("Explode");
                     }
                     catch (Exception e)
                     {
@@ -231,6 +235,15 @@ namespace MinesweeperGUIApp
                 }
                 else // won
                 {
+                    try
+                    {
+                        await RunEndAnimationsAsync("Defuse");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+
                     result = MessageBox.Show("You won! Play again?", "Game Over", MessageBoxButtons.YesNo);
                     business.SaveHighScore(new HighScore(business.GetUserName(), score, DateTime.Now, difficulty));
                 }
@@ -380,7 +393,7 @@ namespace MinesweeperGUIApp
         }
 
 
-        protected Task RunExplodeAnimationsAsync()
+        protected Task RunEndAnimationsAsync(string fileName)
         {
             cancelAnimations = new CancellationTokenSource();
             var tcs = new TaskCompletionSource();
@@ -426,7 +439,7 @@ namespace MinesweeperGUIApp
                     Point mineLocation = mineLocations[index];
                     mineLocations.RemoveAt(index);
 
-                    AnimateExplosion(mineLocation);
+                    AnimateBombs(mineLocation, fileName);
                 }
                 else
                 {
@@ -444,10 +457,10 @@ namespace MinesweeperGUIApp
         /// Animate an explosion at the given mine location
         /// </summary>
         /// <param name="mineLocation"></param>
-        private void AnimateExplosion(Point mineLocation)
+        private void AnimateBombs(Point mineLocation, string fileName)
         {
             // Get the GIF image from the cache and clone it to prevent modifying the original
-            Image img = (Image)imageCache["Explode"].Clone();
+            Image img = (Image)imageCache[fileName].Clone();
 
 
             // Check the total number of frames in the GIF
