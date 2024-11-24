@@ -118,6 +118,11 @@ namespace MinesweeperGUIApp
                 s = new Size(
                     Screen.PrimaryScreen.WorkingArea.Width,
                     Screen.PrimaryScreen.WorkingArea.Height);
+
+                //s = new Size(
+                //    boardSize * 40 + 200,
+                //    boardSize * 30 + 100**
+                //);
             }
 
 

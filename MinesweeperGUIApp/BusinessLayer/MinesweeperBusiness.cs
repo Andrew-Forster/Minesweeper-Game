@@ -28,6 +28,7 @@ namespace MinesweeperGUIApp.BusinessLayer
         public bool UsernameIsNotSet() => dao.UsernameIsNotSet();
         /// <summary>
         /// Retuns the High Score
+        /// Sort = the difficulty of the game
         /// </summary>
         /// <returns></returns>
         public List<HighScore> GetHighScores(string sort) => dao.GetHighScores(sort);

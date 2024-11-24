@@ -107,8 +107,21 @@ namespace MinesweeperLibrary
             {
                 for (int col = 0; col < BoardSize; col++)
                 {
+                    Cells[row, col] = new Cell(false, false, false, 0, (row, col), "None");
+                }
+            }
+
+            Random random = new Random();
+
+            while (i < BombCount)
+            {
+                int row = random.Next(BoardSize);
+                int col = random.Next(BoardSize);
+
+                if (!Cells[row, col].IsMine)
+                {
+                    Cells[row, col] = new Cell(true, false, false, 0, (row, col), "None");
                     i++;
-                    Cells[row, col] = new Cell((BombCount >= i), false, false, 0, (row, col), "None");
                 }
             }
 
@@ -119,7 +132,7 @@ namespace MinesweeperLibrary
         /// </summary>
         public void ShuffleBoard(Point startClick = new Point())
         {
-            ShuffleBoard(5, startClick);
+            ShuffleBoard(10, startClick);
         }
 
         /// <summary>
@@ -138,33 +151,37 @@ namespace MinesweeperLibrary
                 distance = 2;
             }
 
+            Random random = new Random();
             Shuffled = true;
+
+            // Shuffle board num times
             for (int i = 0; i < num; i++)
             {
-                Random random = new Random();
+                var cellList = Cells.Cast<Cell>().ToList();
+
+                for (int currentIndex = cellList.Count - 1; currentIndex > 0; currentIndex--)
+                {
+                    int randomIndex = random.Next(currentIndex + 1);
+                    if (startClick != new Point() &&
+                        Math.Abs(randomIndex / BoardSize - startClick.X) < distance &&
+                        Math.Abs(randomIndex % BoardSize - startClick.Y) < distance &&
+                        !Cells[currentIndex / BoardSize, currentIndex % BoardSize].IsMine &&
+                        !Cells[randomIndex / BoardSize, currentIndex % BoardSize].IsMine)
+                    {
+                        (cellList[currentIndex], cellList[randomIndex]) = (cellList[randomIndex], cellList[currentIndex]);
+                    }
+                }
+                // Reassign shuffled board back to Cells
                 for (int row = 0; row < BoardSize; row++)
                 {
                     for (int col = 0; col < BoardSize; col++)
                     {
-
-                        int newRow, newCol;
-                        do
-                        {
-                            newRow = random.Next(BoardSize);
-                            newCol = random.Next(BoardSize);
-                        }
-                        while (startClick != new Point() &&
-                               Math.Abs(newRow - startClick.X) < distance &&
-                               Math.Abs(newCol - startClick.Y) < distance &&
-                               Cells[row, col].IsMine || 
-                               Cells[newRow, newCol].IsMine);
-
-                        // Swap cells
-                        (Cells[row, col], Cells[newRow, newCol]) = (Cells[newRow, newCol], Cells[row, col]);
-
+                        Cells[row, col] = cellList[row * BoardSize + col];
                     }
                 }
             }
+
+
             CalculateAdjacentMines();
             SetRewards(RewardCount + 1);
         }

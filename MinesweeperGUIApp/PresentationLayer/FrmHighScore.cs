@@ -42,6 +42,8 @@ namespace MinesweeperGUIApp
 
             this.Region = new Region(path);
 
+            panelScores.FlowDirection = FlowDirection.TopDown;
+
         }
 
 
@@ -131,7 +133,6 @@ namespace MinesweeperGUIApp
             container.Controls.Add(pScore);
             container.Controls.Add(pName);
             container.Size = new Size(400, 65);
-            container.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
             pScore.BackgroundImage = Image.FromFile($"Assets/score{fileNum}.png");
             pScore.BackgroundImageLayout = ImageLayout.Stretch;

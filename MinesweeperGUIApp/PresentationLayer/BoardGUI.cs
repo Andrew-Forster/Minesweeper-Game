@@ -37,6 +37,8 @@ namespace MinesweeperGUIApp
 
         public int tileSize = 50;
 
+        List<HighScore> HighScores = new List<HighScore>();
+
 
 
         /// <summary>
@@ -66,6 +68,8 @@ namespace MinesweeperGUIApp
             quit.Click += BtnQuitOnClick;
             btnQuit.Controls.Add(quit);
             quit.BringToFront();
+
+            HighScores = business.GetHighScores("All");
         }
 
         /// <summary>
@@ -316,11 +320,7 @@ namespace MinesweeperGUIApp
                     newBoard.Size = this.Size;
                     newBoard.Text = this.Text;
                     openSelector = false;
-
-                    if (boardSize >= 18)
-                    {
-                        newBoard.WindowState = FormWindowState.Maximized;
-                    }
+                    newBoard.WindowState = this.WindowState;
                     newBoard.Show();
                     this.Close();
                 }
@@ -375,6 +375,7 @@ namespace MinesweeperGUIApp
 
         private void UpdateButton(int row, int col, bool force)
         {
+            Point cursorPosition = this.PointToClient(Cursor.Position);
             PictureBox button = utils.FindPictureBoxWithTag(panelBoard, new Point(row, col));
             Cell cell = board.Cells[row, col];
 
@@ -393,7 +394,27 @@ namespace MinesweeperGUIApp
                 {
                     score += cell.AdjacentMines * 100;
                     cell.PointsGiven = true;
-                    lblScore.Text = score.ToString();
+                    try
+                    {
+                        lblScoreIncrement.Text = $"+{(int.Parse(lblScoreIncrement.Text.Replace("+", "")) + (cell.AdjacentMines * 100))}";
+                    }
+                    catch
+                    {
+                        lblScoreIncrement.Text = $"+{(cell.AdjacentMines * 100)}";
+                    }
+                    lblScoreIncrement.Visible = true;
+                    lblScoreIncrement.Location = new Point(cursorPosition.X, cursorPosition.Y);
+                    lblScoreIncrement.BringToFront();
+
+                    Task.Delay(700).ContinueWith(t =>
+                    {
+                        lblScoreIncrement.Invoke(new Action(() =>
+                        {
+                            lblScoreIncrement.Text = "+0";
+                            lblScoreIncrement.Visible = false;
+                        }));
+                    });
+
                 }
             }
             else
@@ -409,13 +430,42 @@ namespace MinesweeperGUIApp
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Timer_OnTick(object sender, EventArgs e)
+        private void TimerOnTick(object sender, EventArgs e)
         {
             timeElapsed = timeElapsed.Add(new TimeSpan(0, 0, 1));
             lblTimer.Text = timeElapsed.ToString(@"hh\:mm\:ss");
 
-            score -= 10;
-            lblScore.Text = score.ToString();
+            score -= 30;
+
+            int placement = 1;
+
+            foreach (HighScore highScore in HighScores)
+            {
+                if (score < highScore.score)
+                {
+                    placement++;
+                }
+            }
+
+            switch (placement)
+            {
+                case 1:
+                    lblScore.Text = $"1. {score.ToString()}";
+                    panelScoreHolder.BackgroundImage = Image.FromFile("Assets/score1.png");
+                    break;
+                case 2:
+                    lblScore.Text = $"2. {score.ToString()}";
+                    panelScoreHolder.BackgroundImage = Image.FromFile("Assets/score2.png");
+                    break;
+                case 3:
+                    lblScore.Text = $"3. {score.ToString()}";
+                    panelScoreHolder.BackgroundImage = Image.FromFile("Assets/score3.png");
+                    break;
+                default:
+                    lblScore.Text = $"{placement}. {score.ToString()}";
+                    panelScoreHolder.BackgroundImage = Image.FromFile("Assets/score4.png");
+                    break;
+            }
 
         }
 
@@ -598,6 +648,5 @@ namespace MinesweeperGUIApp
             panelBoard.Top = (panelCenterBoard.Height - panelBoard.Height) / 2;
 
         }
-
     } // End of BoardGUI
 }

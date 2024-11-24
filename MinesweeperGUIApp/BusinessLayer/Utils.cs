@@ -72,7 +72,7 @@ namespace MinesweeperGUIApp.BusinessLayer
         {
             PictureBox btn = new PictureBox();
             btn.SizeMode = PictureBoxSizeMode.StretchImage;
-            btn.Size = new Size(237, 72);
+            btn.Size = new Size(175, 72);
             btn.Cursor = Cursors.Hand;
             btn.Image = Image.FromFile("Assets/BtnYellow.png");
 

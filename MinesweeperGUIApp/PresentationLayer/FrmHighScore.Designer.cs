@@ -40,9 +40,9 @@
             panelScores.AutoScroll = true;
             panelScores.BackColor = Color.Transparent;
             panelScores.BorderStyle = BorderStyle.FixedSingle;
-            panelScores.Location = new Point(47, 218);
+            panelScores.Location = new Point(27, 218);
             panelScores.Name = "panelScores";
-            panelScores.Size = new Size(822, 262);
+            panelScores.Size = new Size(845, 262);
             panelScores.TabIndex = 0;
             // 
             // btnCancel
