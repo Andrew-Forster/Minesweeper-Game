@@ -10,15 +10,25 @@ namespace MinesweeperGUIApp.Data_Access
 {
     internal class AppDAO
     {
-        private string usernameFile = "Data/Username.txt";
-        private string highscoresFile = "Data/Highscores.txt";
+        private static string baseDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Minesweeper");
+        private string usernameFile = Path.Combine(baseDirectory, "Data/Username.txt");
+        private string highscoresFile = Path.Combine(baseDirectory, "Data/HighScores.txt");
 
 
         /// <summary>
         /// Gets the username from the file.
         /// </summary>
         /// <returns></returns>
-        public string GetUserName() => File.ReadLines(usernameFile).FirstOrDefault() ?? "Anonymous";
+        public string GetUserName()
+        {
+            if (!CheckDataFiles())
+            {
+                return "Could not create data files!";
+            }
+
+            try { return File.ReadAllText(usernameFile); }
+            catch (Exception e) { return $"Error reading username: {e}"; }
+        }
 
 
         /// <summary>
@@ -28,14 +38,19 @@ namespace MinesweeperGUIApp.Data_Access
         /// <returns></returns>
         public string SaveUserName(string username)
         {
+            if (!CheckDataFiles())
+            {
+                return "Could not create data files!";
+            }
+
             try
             {
                 File.WriteAllText(usernameFile, username);
-                return "Username saved successfully!";
+                return "Success";
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return "Error saving username!";
+                return $"Error saving username: {e}";
             }
         }
 
@@ -45,14 +60,12 @@ namespace MinesweeperGUIApp.Data_Access
         /// <returns></returns>
         public bool UsernameIsNotSet()
         {
-            if (!File.Exists(usernameFile))
+            if (!CheckDataFiles())
             {
                 return true;
             }
-            else
-            {
-                return File.ReadAllText(usernameFile).Trim() == "";
-            }
+
+            return File.ReadAllText(usernameFile).Trim() == "";
         }
 
         /// <summary>
@@ -61,32 +74,35 @@ namespace MinesweeperGUIApp.Data_Access
         /// <returns></returns>
         public List<HighScore> GetHighScores(string sort)
         {
+
+            if (CheckDataFiles() == false)
+            {
+                return new List<HighScore>();
+            }
+
             List<HighScore> scores = new List<HighScore>();
 
-
-            if (File.Exists(highscoresFile))
+            string[] lines = File.ReadAllLines(highscoresFile);
+            if (lines.Length == 0)
             {
-                string[] lines = File.ReadAllLines(highscoresFile);
-                if (lines.Length == 0)
-                {
-                    return scores;
-                }
-
-                foreach (string line in lines)
-                {
-                    string[] parts = line.Split(',');
-                    if (parts.Length != 4)
-                    {
-                        continue;
-                    }
-                    try
-                    {
-                        HighScore highScore = new HighScore(parts[0], int.Parse(parts[1]), DateTime.Parse(parts[2]), parts[3].Trim());
-                        scores.Add(highScore);
-                    }
-                    catch (Exception e) {}
-                }
+                return scores;
             }
+
+            foreach (string line in lines)
+            {
+                string[] parts = line.Split(',');
+                if (parts.Length != 4)
+                {
+                    continue;
+                }
+                try
+                {
+                    HighScore highScore = new HighScore(parts[0], int.Parse(parts[1]), DateTime.Parse(parts[2]), parts[3].Trim());
+                    scores.Add(highScore);
+                }
+                catch (Exception e) { }
+            }
+
 
             scores = scores.OrderByDescending(x => x.score).ToList();
             scores = sort == "All" ? scores : scores.Where(x => x.mode == sort).ToList();
@@ -102,6 +118,40 @@ namespace MinesweeperGUIApp.Data_Access
         /// </summary>
         /// <param name="highScore"></param>
         public void SaveHighScore(HighScore highScore) => File.AppendAllText(highscoresFile, highScore.ToString());
+
+
+        public bool CheckDataFiles()
+        {
+            try
+            {
+
+                if (!Directory.Exists(baseDirectory))
+                {
+                    Directory.CreateDirectory(baseDirectory);
+                }
+
+                if (!Directory.Exists(Path.Combine(baseDirectory, "Data")))
+                {
+                    Directory.CreateDirectory(Path.Combine(baseDirectory, "Data"));
+                }
+
+                if (!File.Exists(usernameFile))
+                {
+                    File.Create(usernameFile).Close();
+                }
+
+                if (!File.Exists(highscoresFile))
+                {
+                    File.Create(highscoresFile).Close();
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+        }
 
     }
 

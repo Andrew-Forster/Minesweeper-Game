@@ -75,8 +75,15 @@ namespace MinesweeperGUIApp
                 tbName.Text = "Anonymous";
             }
 
-            MessageBox.Show(business.SaveUserName(tbName.Text));
-            this.Close();
+            string res = business.SaveUserName(tbName.Text);
+            if (res == "Success")
+            {
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show(res);
+            }
 
         }
 

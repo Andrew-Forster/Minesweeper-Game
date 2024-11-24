@@ -21,13 +21,25 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_09BB08A382A944979C15E4B20C44B32A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2D2B48487EFD4786A865679EA828BC69"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_C25AB20133F04EADBE984BE44F27F99E"
+        "MsmKey" = "8:_A78C21E4CE9E4CD9B3DDE1E97C398DFF"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DB79FD22F0FE44E6BE62F4691CDAFA7D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -56,6 +68,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -140,12 +160,52 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C25AB20133F04EADBE984BE44F27F99E"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_09BB08A382A944979C15E4B20C44B32A"
             {
-            "SourcePath" = "8:..\\MinesweeperGUIApp\\Assets\\icon.ico"
-            "TargetName" = "8:icon.ico"
+            "SourcePath" = "8:..\\MinesweeperGUIApp\\Data\\Highscores.txt"
+            "TargetName" = "8:Highscores.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_CFE68F6F02454354A2518CF28B5CFEA3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A78C21E4CE9E4CD9B3DDE1E97C398DFF"
+            {
+            "SourcePath" = "8:..\\MinesweeperGUIApp\\Assets\\logo.ico"
+            "TargetName" = "8:logo.ico"
             "Tag" = "8:"
             "Folder" = "8:_BA709FB64BDA42E49331ABD5BC46E18E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DB79FD22F0FE44E6BE62F4691CDAFA7D"
+            {
+            "SourcePath" = "8:..\\MinesweeperGUIApp\\Data\\Username.txt"
+            "TargetName" = "8:Username.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_CFE68F6F02454354A2518CF28B5CFEA3"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -187,6 +247,17 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_CFE68F6F02454354A2518CF28B5CFEA3"
+                    {
+                    "Name" = "8:Data"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_E23649BAAA774E83B4C2169D31BB9D3F"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_F6BA817CCE0D4AD8B13E8ED94E05F732"
@@ -216,15 +287,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Minesweeper"
-        "ProductCode" = "8:{493463EC-0DBC-4C2D-9EEF-4305F168DBDF}"
-        "PackageCode" = "8:{D942F20E-EF9A-4CBE-B9A8-F3DE67E7087F}"
+        "ProductCode" = "8:{2C894437-CDE0-4ACA-976D-137B9B06FD29}"
+        "PackageCode" = "8:{A752F854-C255-437C-ACB2-CBFB326B9904}"
         "UpgradeCode" = "8:{A8EC350E-E902-4799-B6E9-F63217BB4748}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.3"
         "Manufacturer" = "8:Andrew Forster"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -348,7 +419,7 @@
             "Target" = "8:_0974B9CD792047018FE8E63821634C29"
             "Folder" = "8:_26C880EF9FBA49759BD61419B750AD02"
             "WorkingFolder" = "8:_BA709FB64BDA42E49331ABD5BC46E18E"
-            "Icon" = "8:_C25AB20133F04EADBE984BE44F27F99E"
+            "Icon" = "8:_A78C21E4CE9E4CD9B3DDE1E97C398DFF"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_F95ED21F360C48BDAF963B63A948E30C"
@@ -362,7 +433,7 @@
             "Target" = "8:_0974B9CD792047018FE8E63821634C29"
             "Folder" = "8:_F6BA817CCE0D4AD8B13E8ED94E05F732"
             "WorkingFolder" = "8:_BA709FB64BDA42E49331ABD5BC46E18E"
-            "Icon" = "8:_C25AB20133F04EADBE984BE44F27F99E"
+            "Icon" = "8:_A78C21E4CE9E4CD9B3DDE1E97C398DFF"
             "Feature" = "8:"
             }
         }

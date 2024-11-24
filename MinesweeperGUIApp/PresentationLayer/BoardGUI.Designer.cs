@@ -128,7 +128,7 @@
             panelBoard.AutoSize = true;
             panelBoard.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             panelBoard.BackColor = Color.Transparent;
-            panelBoard.Location = new Point(208, 198);
+            panelBoard.Location = new Point(208, 193);
             panelBoard.Margin = new Padding(4, 2, 4, 2);
             panelBoard.Name = "panelBoard";
             panelBoard.Size = new Size(0, 0);
@@ -139,9 +139,9 @@
             lblUsingReward.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lblUsingReward.BackColor = Color.Transparent;
             lblUsingReward.ForeColor = Color.FromArgb(255, 255, 192);
-            lblUsingReward.Location = new Point(270, 490);
+            lblUsingReward.Location = new Point(264, 478);
             lblUsingReward.Name = "lblUsingReward";
-            lblUsingReward.Size = new Size(518, 22);
+            lblUsingReward.Size = new Size(518, 34);
             lblUsingReward.TabIndex = 4;
             lblUsingReward.TextAlign = ContentAlignment.MiddleCenter;
             // 
@@ -152,7 +152,7 @@
             panelCenterBoard.Controls.Add(panelBoard);
             panelCenterBoard.Location = new Point(264, 7);
             panelCenterBoard.Name = "panelCenterBoard";
-            panelCenterBoard.Size = new Size(524, 502);
+            panelCenterBoard.Size = new Size(524, 493);
             panelCenterBoard.TabIndex = 5;
             // 
             // lblScoreIncrement
@@ -174,10 +174,10 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(800, 521);
+            Controls.Add(lblUsingReward);
             Controls.Add(lblScoreIncrement);
             Controls.Add(btnQuit);
             Controls.Add(panelCenterBoard);
-            Controls.Add(lblUsingReward);
             Controls.Add(panelSidebar);
             Font = new Font("Azonix", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ForeColor = Color.White;
