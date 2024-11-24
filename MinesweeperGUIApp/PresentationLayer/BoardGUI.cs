@@ -35,6 +35,8 @@ namespace MinesweeperGUIApp
         private MinesweeperBusiness business = new();
         private CancellationTokenSource cancelAnimations;
 
+        public int tileSize = 50;
+
 
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace MinesweeperGUIApp
         /// </summary>
         /// <param name="board"></param>
         /// <param name="m"></param>
-        public BoardGUI(Board board, DifficultySelection m, string difficulty)
+        public BoardGUI(Board board, DifficultySelection m, string difficulty, Size s)
         {
             InitializeComponent();
             this.board = board;
@@ -50,8 +52,20 @@ namespace MinesweeperGUIApp
             boardSize = board.BoardSize;
             minesweeper = m;
             timeElapsed = new TimeSpan(0, 0, 0);
+            tileSize = utils.DetermineTileSize(boardSize, s.Height);
+
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+
             m.Hide();
             GenerateUI();
+
+            panelBoard.Left = (panelCenterBoard.Width - panelBoard.Width) / 2;
+            panelBoard.Top = (panelCenterBoard.Height - panelBoard.Height) / 2;
+
+            Label quit = utils.CreateLabel("Quit Game", Color.FromArgb(222, 183, 180), 16F);
+            quit.Click += BtnQuitOnClick;
+            btnQuit.Controls.Add(quit);
+            quit.BringToFront();
         }
 
         /// <summary>
@@ -93,7 +107,8 @@ namespace MinesweeperGUIApp
                 for (int j = 0; j < boardSize; j++)
                 {
                     PictureBox button = new PictureBox();
-                    button = utils.MakeTile(i, j);
+                    button = utils.MakeTile(i, j, tileSize);
+
                     Point point = (Point)button.Tag;
                     button.Click += Button_Click;
                     button.MouseEnter += TileHover;
@@ -102,6 +117,25 @@ namespace MinesweeperGUIApp
                     UpdateButton(i, j, false);
                 }
             }
+
+        }
+
+        public void ResizeUI()
+        {
+            tileSize = utils.DetermineTileSize(boardSize, this.Height);
+            foreach (Control control in panelBoard.Controls)
+            {
+                try
+                {
+
+                    PictureBox button = (PictureBox)control;
+                    Point p = (Point)button.Tag;
+                    button.Size = new Size(tileSize, tileSize);
+                    button.Location = new Point(p.Y * tileSize, p.X * tileSize);
+                }
+                catch { }
+            }
+
         }
 
         public void TileHover(object sender, EventArgs e)
@@ -188,18 +222,46 @@ namespace MinesweeperGUIApp
                 return;
             }
 
-            // Rewards Usage
-            if (lblRewards.Text != "")
+
+            if (lblUsingReward.Text != "" && lblUsingReward.Tag != null)
             {
-                UseRewardFunction(row, col);
-                TestGameState();
-                return;
+                UseRewardFunction(row, col, lblUsingReward.Tag.ToString());
+
+                lblUsingReward.Text = "";
+                lblUsingReward.Tag = "";
+
             }
 
 
-            if (cell.RewardType != "None" && !cell.RewardUsed && lblRewards.Text == "")
+            if (cell.RewardType != "None" && !cell.RewardUsed)
             {
-                lblRewards.Text += $"{cell.RewardType}, This will be used on your next click!\n\n";
+                // if sidebar has 3 reward buttons already, don't add more
+                if (panelRewards.Controls.Count >= 3)
+                {
+                    MessageBox.Show("Please use a reward before claiming more.");
+                    return;
+                }
+
+                PictureBox btn = utils.CreateButton($"Use {cell.RewardType}");
+                btn.Tag = cell.RewardType;
+                panelRewards.Controls.Add(btn);
+
+                Label btnLbl = (Label)btn.Controls[0];
+
+                btnLbl.Click += (s, ev) =>
+                {
+                    if ((string)btn.Tag == "Detector")
+                    {
+                        lblUsingReward.Text = "Using Detector, If you click a mine you won't lose.";
+                        lblUsingReward.Tag = "Detector";
+                    }
+                    else
+                    {
+                        UseRewardFunction(row, col, (string)btn.Tag);
+                    }
+                    panelRewards.Controls.Remove(btn);
+                };
+
                 cell.RewardUsed = true;
                 cell.RewardType = "None";
             }
@@ -250,7 +312,7 @@ namespace MinesweeperGUIApp
 
                 if (result == DialogResult.Yes)
                 {
-                    BoardGUI newBoard = new BoardGUI(new Board(boardSize, board.BombCount), minesweeper, difficulty);
+                    BoardGUI newBoard = new BoardGUI(new Board(boardSize, board.BombCount), minesweeper, difficulty, this.Size);
                     newBoard.Size = this.Size;
                     newBoard.Text = this.Text;
                     openSelector = false;
@@ -287,21 +349,18 @@ namespace MinesweeperGUIApp
         /// </summary>
         /// <param name="row"></param>
         /// <param name="col"></param>
-        private void UseRewardFunction(int row, int col)
+        private void UseRewardFunction(int row, int col, string reward)
         {
-            string reward = lblRewards.Text.Split(',')[0];
             switch (reward)
             {
                 case "Detector":
                     UpdateButton(row, col, true);
                     board.Cells[row, col].IsRevealed = true;
-                    lblRewards.Text = "";
                     break;
                 // For Sweep, Scavenge
                 default:
                     board.UseReward(reward, row, col);
                     UpdateUI(false);
-                    lblRewards.Text = "";
                     break;
             }
 
@@ -316,7 +375,7 @@ namespace MinesweeperGUIApp
 
         private void UpdateButton(int row, int col, bool force)
         {
-            PictureBox button = (PictureBox)panelBoard.Controls[row * boardSize + col];
+            PictureBox button = utils.FindPictureBoxWithTag(panelBoard, new Point(row, col));
             Cell cell = board.Cells[row, col];
 
 
@@ -365,7 +424,7 @@ namespace MinesweeperGUIApp
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void BtnQuit_OnClick(object sender, EventArgs e)
+        private void BtnQuitOnClick(object sender, EventArgs e)
         {
             this.Close();
             minesweeper.Show();
@@ -472,12 +531,12 @@ namespace MinesweeperGUIApp
             {
                 Dock = DockStyle.None,
                 SizeMode = PictureBoxSizeMode.StretchImage,
-                Size = new Size(50, 50),
+                Size = new Size(tileSize, tileSize),
                 Image = img
             };
 
             // Find the corresponding button (cell) in the game board where the animation should be displayed
-            PictureBox button = (PictureBox)panelBoard.Controls[mineLocation.X * boardSize + mineLocation.Y];
+            PictureBox button = utils.FindPictureBoxWithTag(panelBoard, mineLocation);
             button.Controls.Add(animation);
             button.Image = imageCache["Exploded"];
             animation.BringToFront();
@@ -518,8 +577,27 @@ namespace MinesweeperGUIApp
             animationTimer.Start();
         }
 
+        private void FrmResizeEnd(object sender, EventArgs e)
+        {
+            if (this.Width > this.Height)
+            {
+                ResizeUI();
+                panelBoard.Left = (panelCenterBoard.Width - panelBoard.Width) / 2;
+                panelBoard.Top = (panelCenterBoard.Height - panelBoard.Height) / 2;
+            }
 
+        }
 
+        private void FrmMaximizedCheck(object sender, EventArgs e)
+        {
+            if (this.WindowState != FormWindowState.Minimized)
+            {
+                ResizeUI();
+            }
+            panelBoard.Left = (panelCenterBoard.Width - panelBoard.Width) / 2;
+            panelBoard.Top = (panelCenterBoard.Height - panelBoard.Height) / 2;
+
+        }
 
     } // End of BoardGUI
 }

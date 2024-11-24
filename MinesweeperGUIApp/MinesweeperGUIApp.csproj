@@ -83,6 +83,9 @@
     <None Update="Assets\BtnStart.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\BtnYellow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\changenameBg.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

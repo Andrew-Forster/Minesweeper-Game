@@ -112,18 +112,25 @@ namespace MinesweeperGUIApp
         /// <param name="e"></param>
         private void StartGameOnClick(object sender, EventArgs e)
         {
-            Board board = new Board(boardSize, mineCount);
-            BoardGUI boardGUI = new BoardGUI(board, this, difficulty);
-            boardGUI.Text = $"Minesweeper - {boardSize}x{boardSize}";
-            boardGUI.Size = new Size(
-                50 * boardSize + 300,
-                50 * boardSize + 100);
-            boardGUI.Show();
+            Size s = new Size(800, 500);
+            if (boardSize > 16)
+            {
+                s = new Size(
+                    Screen.PrimaryScreen.WorkingArea.Width,
+                    Screen.PrimaryScreen.WorkingArea.Height);
+            }
 
-            if (boardSize >= 18)
+
+            Board board = new Board(boardSize, mineCount);
+            BoardGUI boardGUI = new BoardGUI(board, this, difficulty, s);
+            boardGUI.Text = $"Minesweeper - {boardSize}x{boardSize}";
+            boardGUI.Size = s;
+
+            if (boardSize > 16)
             {
                 boardGUI.WindowState = FormWindowState.Maximized;
             }
+            boardGUI.Show();
 
         }
 

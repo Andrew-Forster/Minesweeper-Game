@@ -119,7 +119,7 @@ namespace MinesweeperLibrary
         /// </summary>
         public void ShuffleBoard(Point startClick = new Point())
         {
-            ShuffleBoard(3, startClick);
+            ShuffleBoard(5, startClick);
         }
 
         /// <summary>

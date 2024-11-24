@@ -11,12 +11,14 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using MinesweeperGUIApp.BusinessLayer;
 using MinesweeperLibrary;
+using Utils = MinesweeperGUIApp.BusinessLayer.Utils;
 
 namespace MinesweeperGUIApp
 {
     public partial class FrmNameEntry : Form
     {
         MinesweeperBusiness business = new MinesweeperBusiness();
+        Utils utils = new Utils();
 
         public FrmNameEntry()
         {
@@ -42,22 +44,10 @@ namespace MinesweeperGUIApp
         }
         private void AddLabels()
         {
-            Label enter = new Label();
-            enter.Text = "Enter";
-            enter.Font = new Font("Azonix", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            enter.ForeColor = Color.FromArgb(48, 33, 33);
-            enter.BackColor = Color.Transparent;
-            enter.Dock = DockStyle.Fill;
-            enter.TextAlign = ContentAlignment.MiddleCenter;
+            Label enter = utils.CreateLabel("Enter");
             enter.Click += BtnEnterNameOnClick;
 
-            Label cancel = new Label();
-            cancel.Text = "Cancel";
-            cancel.Font = new Font("Azonix", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            cancel.ForeColor = Color.FromArgb(48, 33, 33);
-            cancel.BackColor = Color.Transparent;
-            cancel.Dock = DockStyle.Fill;
-            cancel.TextAlign = ContentAlignment.MiddleCenter;
+            Label cancel = utils.CreateLabel("Cancel");
             cancel.Click += BtnCancelClick;
 
 
