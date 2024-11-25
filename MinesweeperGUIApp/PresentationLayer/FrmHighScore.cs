@@ -41,9 +41,6 @@ namespace MinesweeperGUIApp
             path.CloseFigure();
 
             this.Region = new Region(path);
-
-            panelScores.FlowDirection = FlowDirection.TopDown;
-
         }
 
 
@@ -164,6 +161,7 @@ namespace MinesweeperGUIApp
         {
             if (e.KeyChar == (char)Keys.Escape)
             {
+                // SFX: Main Button Sound
                 this.Close();
             }
         }
@@ -175,13 +173,15 @@ namespace MinesweeperGUIApp
         /// <param name="e"></param>
         private void BtnCloseOnClick(object sender, EventArgs e)
         {
+            // SFX: Main Button Sound
             this.Close();
         }
 
         private void BtnSortOnClick(object sender, EventArgs e)
         {
+            // SFX: Main Button Sound
             sort++;
-
+            panelScores.FlowDirection = FlowDirection.LeftToRight;
             switch (sort)
             {
                 case 1:
@@ -211,6 +211,8 @@ namespace MinesweeperGUIApp
                     sort = 0;
                     break;
             }
+            panelScores.FlowDirection = FlowDirection.TopDown;
+
         }
     }
 }

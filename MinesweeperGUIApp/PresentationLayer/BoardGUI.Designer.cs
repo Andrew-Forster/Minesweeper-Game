@@ -32,8 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BoardGUI));
             lblTimer = new Label();
             panelSidebar = new FlowLayoutPanel();
-            panelScoreHolder = new Panel();
-            lblScore = new Label();
+            panelTimerHolder = new Panel();
             panelRewards = new FlowLayoutPanel();
             btnQuit = new PictureBox();
             tmrTimer = new System.Windows.Forms.Timer(components);
@@ -41,20 +40,23 @@
             lblUsingReward = new Label();
             panelCenterBoard = new Panel();
             lblScoreIncrement = new Label();
+            panelScoreHolder = new Panel();
+            lblScore = new Label();
             panelSidebar.SuspendLayout();
-            panelScoreHolder.SuspendLayout();
+            panelTimerHolder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnQuit).BeginInit();
             panelCenterBoard.SuspendLayout();
+            panelScoreHolder.SuspendLayout();
             SuspendLayout();
             // 
             // lblTimer
             // 
             lblTimer.Font = new Font("Azonix", 12F);
-            lblTimer.ForeColor = Color.FromArgb(192, 255, 192);
-            lblTimer.Location = new Point(4, 66);
+            lblTimer.ForeColor = Color.Silver;
+            lblTimer.Location = new Point(3, 7);
             lblTimer.Margin = new Padding(4, 0, 4, 0);
             lblTimer.Name = "lblTimer";
-            lblTimer.Size = new Size(174, 44);
+            lblTimer.Size = new Size(168, 44);
             lblTimer.TabIndex = 1;
             lblTimer.Text = "00:00:00";
             lblTimer.TextAlign = ContentAlignment.MiddleCenter;
@@ -64,7 +66,7 @@
             panelSidebar.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             panelSidebar.BackColor = Color.Transparent;
             panelSidebar.Controls.Add(panelScoreHolder);
-            panelSidebar.Controls.Add(lblTimer);
+            panelSidebar.Controls.Add(panelTimerHolder);
             panelSidebar.Controls.Add(panelRewards);
             panelSidebar.Location = new Point(7, 4);
             panelSidebar.Margin = new Padding(4, 2, 4, 2);
@@ -72,33 +74,20 @@
             panelSidebar.Size = new Size(250, 435);
             panelSidebar.TabIndex = 2;
             // 
-            // panelScoreHolder
+            // panelTimerHolder
             // 
-            panelScoreHolder.BackgroundImage = (Image)resources.GetObject("panelScoreHolder.BackgroundImage");
-            panelScoreHolder.BackgroundImageLayout = ImageLayout.Stretch;
-            panelScoreHolder.Controls.Add(lblScore);
-            panelScoreHolder.Location = new Point(3, 3);
-            panelScoreHolder.Name = "panelScoreHolder";
-            panelScoreHolder.Size = new Size(175, 60);
-            panelScoreHolder.TabIndex = 4;
-            // 
-            // lblScore
-            // 
-            lblScore.Font = new Font("Azonix", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblScore.ForeColor = Color.Black;
-            lblScore.ImageAlign = ContentAlignment.MiddleLeft;
-            lblScore.Location = new Point(17, 9);
-            lblScore.Margin = new Padding(4, 0, 4, 0);
-            lblScore.Name = "lblScore";
-            lblScore.Size = new Size(154, 38);
-            lblScore.TabIndex = 3;
-            lblScore.Text = "0";
-            lblScore.TextAlign = ContentAlignment.MiddleLeft;
+            panelTimerHolder.BackgroundImage = (Image)resources.GetObject("panelTimerHolder.BackgroundImage");
+            panelTimerHolder.BackgroundImageLayout = ImageLayout.Stretch;
+            panelTimerHolder.Controls.Add(lblTimer);
+            panelTimerHolder.Location = new Point(3, 69);
+            panelTimerHolder.Name = "panelTimerHolder";
+            panelTimerHolder.Size = new Size(175, 60);
+            panelTimerHolder.TabIndex = 4;
             // 
             // panelRewards
             // 
             panelRewards.Dock = DockStyle.Bottom;
-            panelRewards.Location = new Point(3, 113);
+            panelRewards.Location = new Point(3, 135);
             panelRewards.Name = "panelRewards";
             panelRewards.Size = new Size(237, 315);
             panelRewards.TabIndex = 18;
@@ -166,6 +155,29 @@
             lblScoreIncrement.TabIndex = 18;
             lblScoreIncrement.Text = "+0";
             // 
+            // panelScoreHolder
+            // 
+            panelScoreHolder.BackgroundImage = (Image)resources.GetObject("panelScoreHolder.BackgroundImage");
+            panelScoreHolder.BackgroundImageLayout = ImageLayout.Stretch;
+            panelScoreHolder.Controls.Add(lblScore);
+            panelScoreHolder.Location = new Point(3, 3);
+            panelScoreHolder.Name = "panelScoreHolder";
+            panelScoreHolder.Size = new Size(175, 60);
+            panelScoreHolder.TabIndex = 5;
+            // 
+            // lblScore
+            // 
+            lblScore.Font = new Font("Azonix", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblScore.ForeColor = Color.Black;
+            lblScore.ImageAlign = ContentAlignment.MiddleLeft;
+            lblScore.Location = new Point(17, 9);
+            lblScore.Margin = new Padding(4, 0, 4, 0);
+            lblScore.Name = "lblScore";
+            lblScore.Size = new Size(154, 38);
+            lblScore.TabIndex = 3;
+            lblScore.Text = "0";
+            lblScore.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // BoardGUI
             // 
             AutoScaleDimensions = new SizeF(11F, 15F);
@@ -189,10 +201,11 @@
             ResizeEnd += FrmResizeEnd;
             Resize += FrmMaximizedCheck;
             panelSidebar.ResumeLayout(false);
-            panelScoreHolder.ResumeLayout(false);
+            panelTimerHolder.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)btnQuit).EndInit();
             panelCenterBoard.ResumeLayout(false);
             panelCenterBoard.PerformLayout();
+            panelScoreHolder.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -202,12 +215,13 @@
         private FlowLayoutPanel panelSidebar;
         private System.Windows.Forms.Timer tmrTimer;
         private Panel panelBoard;
-        private Label lblScore;
         private PictureBox btnQuit;
         private FlowLayoutPanel panelRewards;
         private Label lblUsingReward;
         private Panel panelCenterBoard;
-        private Panel panelScoreHolder;
+        private Panel panelTimerHolder;
         private Label lblScoreIncrement;
+        private Panel panelScoreHolder;
+        private Label lblScore;
     }
 }

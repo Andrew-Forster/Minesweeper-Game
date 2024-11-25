@@ -26,12 +26,12 @@ namespace MinesweeperGUIApp
         public DifficultySelection minesweeper;
         Utils utils = new Utils();
 
-        // Triggers reopeneing of the main form if true
+        // Triggers re-opening of the main form if true
         public bool openSelector = true;
         public int score { get; set; }
         public string difficulty { get; set; }
 
-        TimeSpan timeElapsed;
+        public TimeSpan timeElapsed;
         private MinesweeperBusiness business = new();
         private CancellationTokenSource cancelAnimations;
 
@@ -101,6 +101,62 @@ namespace MinesweeperGUIApp
         }
 
         /// <summary>
+        /// Saves the game data to be resumed later
+        /// </summary>
+        public void SaveData()
+        {
+            if (board.CheckGameState() != "Continue")
+            {
+                business.NoGameData();
+                return;
+            }
+
+            string[] activeRewards = new string[panelRewards.Controls.Count];
+            foreach (Control control in panelRewards.Controls)
+            {
+                PictureBox btn = (PictureBox)control;
+                activeRewards[panelRewards.Controls.IndexOf(control)] = (string)btn.Tag;
+            }
+
+            SaveData saveData = new SaveData(board, activeRewards, timeElapsed, score, difficulty);
+            business.SaveGameData(saveData);
+        }
+
+        /// <summary>
+        /// Resumes the game from the saved data
+        /// </summary>
+        /// <param name="rewards">Any picked up rewards</param>
+        public void ResumeGame(string[] rewards)
+        {
+            tmrTimer.Enabled = true;
+            TimerOnTick(this, EventArgs.Empty);
+
+            foreach (string reward in rewards)
+            {
+                PictureBox btn = utils.CreateButton($"Use {reward}");
+                btn.Tag = reward;
+                panelRewards.Controls.Add(btn);
+
+                Label btnLbl = (Label)btn.Controls[0];
+
+                btnLbl.Click += (s, ev) =>
+                {
+                    if ((string)btn.Tag == "Detector")
+                    {
+                        lblUsingReward.Text = "Using Detector, If you click a mine you won't lose.";
+                        lblUsingReward.Tag = "Detector";
+                    }
+                    else
+                    {
+                        UseRewardFunction(0, 0, (string)btn.Tag);
+
+                    }
+                    panelRewards.Controls.Remove(btn);
+                };
+            }
+        }
+
+        /// <summary>
         /// Generates the UI for the board and adds the buttons to the panel
         /// </summary>
         public void GenerateUI()
@@ -114,7 +170,7 @@ namespace MinesweeperGUIApp
                     button = utils.MakeTile(i, j, tileSize);
 
                     Point point = (Point)button.Tag;
-                    button.Click += Button_Click;
+                    button.Click += ButtonClick;
                     button.MouseEnter += TileHover;
                     button.MouseLeave += TileLeave;
                     panelBoard.Controls.Add(button);
@@ -131,7 +187,6 @@ namespace MinesweeperGUIApp
             {
                 try
                 {
-
                     PictureBox button = (PictureBox)control;
                     Point p = (Point)button.Tag;
                     button.Size = new Size(tileSize, tileSize);
@@ -188,7 +243,7 @@ namespace MinesweeperGUIApp
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Button_Click(object sender, EventArgs e)
+        private void ButtonClick(object sender, EventArgs e)
         {
 
             PictureBox button = (PictureBox)sender;
@@ -210,6 +265,9 @@ namespace MinesweeperGUIApp
                 {
                     return;
                 }
+
+                // SFX: Flag sound
+
                 board.Flag(row + 1, col + 1);
                 UpdateButton(row, col, false);
                 TestGameState();
@@ -246,6 +304,8 @@ namespace MinesweeperGUIApp
                     return;
                 }
 
+                // SFX: Reward found sound
+
                 PictureBox btn = utils.CreateButton($"Use {cell.RewardType}");
                 btn.Tag = cell.RewardType;
                 panelRewards.Controls.Add(btn);
@@ -254,6 +314,8 @@ namespace MinesweeperGUIApp
 
                 btnLbl.Click += (s, ev) =>
                 {
+                    // SFX: Main Button Sound
+
                     if ((string)btn.Tag == "Detector")
                     {
                         lblUsingReward.Text = "Using Detector, If you click a mine you won't lose.";
@@ -270,10 +332,15 @@ namespace MinesweeperGUIApp
                 cell.RewardType = "None";
             }
 
+
+            // SFX: Tile click sound
+
             tmrTimer.Enabled = true;
             board.Reveal(row + 1, col + 1);
             UpdateUI(false);
             TestGameState();
+
+
         }
 
         public async void TestGameState()
@@ -296,7 +363,7 @@ namespace MinesweeperGUIApp
                         Console.WriteLine(e.Message);
                     }
 
-
+                    // SFX: Lost sound
                     result = MessageBox.Show("You lost! Play again?", "Game Over", MessageBoxButtons.YesNo);
                 }
                 else // won
@@ -310,8 +377,10 @@ namespace MinesweeperGUIApp
                         Console.WriteLine(e.Message);
                     }
 
+                    // SFX: Win sound
                     result = MessageBox.Show("You won! Play again?", "Game Over", MessageBoxButtons.YesNo);
                     business.SaveHighScore(new HighScore(business.GetUserName(), score, DateTime.Now, difficulty));
+
                 }
 
                 if (result == DialogResult.Yes)
@@ -379,6 +448,10 @@ namespace MinesweeperGUIApp
             PictureBox button = utils.FindPictureBoxWithTag(panelBoard, new Point(row, col));
             Cell cell = board.Cells[row, col];
 
+            if (!cell.IsFlagged && (cell.RewardType == "None") && cell.IsRevealed)
+            {
+                button.Cursor = Cursors.Default;
+            }
 
             if (cell.IsRevealed || force)
             {
@@ -403,10 +476,10 @@ namespace MinesweeperGUIApp
                         lblScoreIncrement.Text = $"+{(cell.AdjacentMines * 100)}";
                     }
                     lblScoreIncrement.Visible = true;
-                    lblScoreIncrement.Location = new Point(cursorPosition.X, cursorPosition.Y);
+                    lblScoreIncrement.Location = new Point(cursorPosition.X, cursorPosition.Y - 2);
                     lblScoreIncrement.BringToFront();
 
-                    Task.Delay(700).ContinueWith(t =>
+                    Task.Delay(500).ContinueWith(t =>
                     {
                         lblScoreIncrement.Invoke(new Action(() =>
                         {
@@ -435,7 +508,10 @@ namespace MinesweeperGUIApp
             timeElapsed = timeElapsed.Add(new TimeSpan(0, 0, 1));
             lblTimer.Text = timeElapsed.ToString(@"hh\:mm\:ss");
 
-            score -= 30;
+            if (score >= 30)
+            {
+                score -= 30;
+            }
 
             int placement = 1;
 
@@ -462,7 +538,7 @@ namespace MinesweeperGUIApp
                     panelScoreHolder.BackgroundImage = Image.FromFile("Assets/score3.png");
                     break;
                 default:
-                    lblScore.Text = $"{placement}. {score.ToString()}";
+                    lblScore.Text = $"{score.ToString()}";
                     panelScoreHolder.BackgroundImage = Image.FromFile("Assets/score4.png");
                     break;
             }
@@ -476,6 +552,8 @@ namespace MinesweeperGUIApp
         /// <param name="e"></param>
         private void BtnQuitOnClick(object sender, EventArgs e)
         {
+            // SFX: Main Button Sound
+            SaveData();
             this.Close();
             minesweeper.Show();
 
@@ -493,8 +571,10 @@ namespace MinesweeperGUIApp
 
             if (m.Msg == WM_CLOSE && openSelector)
             {
+                SaveData();
                 minesweeper.Show();
                 cancelAnimations?.Cancel();
+
             }
 
             // Call the base class method for other messages
@@ -571,6 +651,15 @@ namespace MinesweeperGUIApp
             // Get the GIF image from the cache and clone it to prevent modifying the original
             Image img = (Image)imageCache[fileName].Clone();
 
+            if (fileName == "Explode")
+            {
+                // SFX: Explosion sound
+            }
+            else
+            {
+                // SFX: Defuse sound
+            }
+
 
             // Check the total number of frames in the GIF
             int totalFrames = 6;
@@ -592,7 +681,7 @@ namespace MinesweeperGUIApp
             animation.BringToFront();
 
             // Use a Timer to step through the frames
-            Timer animationTimer = new Timer { Interval = 100 }; // Adjust frame speed as needed
+            Timer animationTimer = new Timer { Interval = 30 };
             animationTimer.Tick += (sender, e) =>
             {
                 // Check if the animation was cancelled

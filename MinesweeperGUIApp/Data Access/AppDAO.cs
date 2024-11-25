@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using MinesweeperGUIApp.Models;
+using MinesweeperLibrary;
+using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace MinesweeperGUIApp.Data_Access
 {
@@ -13,6 +16,7 @@ namespace MinesweeperGUIApp.Data_Access
         private static string baseDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Minesweeper");
         private string usernameFile = Path.Combine(baseDirectory, "Data/Username.txt");
         private string highscoresFile = Path.Combine(baseDirectory, "Data/HighScores.txt");
+        private string saveFile = Path.Combine(baseDirectory, "Data/SavedGame.txt");
 
 
         /// <summary>
@@ -120,6 +124,10 @@ namespace MinesweeperGUIApp.Data_Access
         public void SaveHighScore(HighScore highScore) => File.AppendAllText(highscoresFile, highScore.ToString());
 
 
+        /// <summary>
+        /// Ensures that the data files exist.
+        /// </summary>
+        /// <returns></returns>
         public bool CheckDataFiles()
         {
             try
@@ -144,6 +152,11 @@ namespace MinesweeperGUIApp.Data_Access
                 {
                     File.Create(highscoresFile).Close();
                 }
+
+                if (!File.Exists(saveFile))
+                {
+                    File.Create(saveFile).Close();
+                }
             }
             catch (Exception)
             {
@@ -151,6 +164,59 @@ namespace MinesweeperGUIApp.Data_Access
             }
 
             return true;
+        }
+
+
+        /// <summary>
+        /// Saves the game data to a file.
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="activeRewards"></param>
+        /// <param name="time"></param>
+        /// <param name="score"></param>
+        public void SaveGameData(SaveData saveData)
+        {
+            if (!CheckDataFiles())
+            {
+                return;
+            }
+
+            string json = JsonConvert.SerializeObject(saveData, Formatting.Indented);
+
+            File.WriteAllText(saveFile, json);
+        }
+
+        public void NoGameData()
+        {
+            if (!CheckDataFiles())
+            {
+                return;
+            }
+
+            File.WriteAllText(saveFile, "");
+        }
+
+        /// <summary>
+        /// Retrieves the game data from the file.
+        /// </summary>
+        /// <returns></returns>
+        public SaveData? GetGameData()
+        {
+            if (!CheckDataFiles())
+            {
+                return null;
+            }
+
+            string json = File.ReadAllText(saveFile);
+
+            if (json == "")
+            {
+                return null;
+            }
+
+            SaveData saveData = JsonConvert.DeserializeObject<SaveData>(json);
+
+            return saveData;
         }
 
     }

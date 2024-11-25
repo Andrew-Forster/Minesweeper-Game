@@ -47,6 +47,9 @@
             Btn = new PictureBox();
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
+            btnSound = new PictureBox();
+            tipSound = new ToolTip(components);
+            btnResume = new PictureBox();
             panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnCustom).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnEasy).BeginInit();
@@ -58,6 +61,8 @@
             ((System.ComponentModel.ISupportInitialize)Btn).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btnSound).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btnResume).BeginInit();
             SuspendLayout();
             // 
             // panelMain
@@ -229,7 +234,7 @@
             pictureBox1.BackColor = Color.Transparent;
             pictureBox1.Cursor = Cursors.Hand;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(12, 239);
+            pictureBox1.Location = new Point(12, 207);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(207, 72);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -242,13 +247,46 @@
             pictureBox2.BackColor = Color.Transparent;
             pictureBox2.Cursor = Cursors.Hand;
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(12, 329);
+            pictureBox2.Location = new Point(12, 285);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(207, 72);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.TabIndex = 15;
             pictureBox2.TabStop = false;
             pictureBox2.Click += BtnHighScoresOnClick;
+            // 
+            // btnSound
+            // 
+            btnSound.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnSound.BackColor = Color.Transparent;
+            btnSound.Cursor = Cursors.Hand;
+            btnSound.Image = (Image)resources.GetObject("btnSound.Image");
+            btnSound.Location = new Point(849, 494);
+            btnSound.Name = "btnSound";
+            btnSound.Size = new Size(50, 50);
+            btnSound.SizeMode = PictureBoxSizeMode.StretchImage;
+            btnSound.TabIndex = 16;
+            btnSound.TabStop = false;
+            btnSound.Click += BtnSoundClick;
+            // 
+            // tipSound
+            // 
+            tipSound.AutomaticDelay = 200;
+            tipSound.BackColor = SystemColors.ControlLightLight;
+            tipSound.ToolTipTitle = "Music & Sound on";
+            // 
+            // btnResume
+            // 
+            btnResume.BackColor = Color.Transparent;
+            btnResume.Cursor = Cursors.Hand;
+            btnResume.Image = (Image)resources.GetObject("btnResume.Image");
+            btnResume.Location = new Point(12, 363);
+            btnResume.Name = "btnResume";
+            btnResume.Size = new Size(207, 72);
+            btnResume.SizeMode = PictureBoxSizeMode.StretchImage;
+            btnResume.TabIndex = 17;
+            btnResume.TabStop = false;
+            btnResume.Click += BtnResumeGameClick;
             // 
             // DifficultySelection
             // 
@@ -259,6 +297,8 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(911, 556);
+            Controls.Add(btnResume);
+            Controls.Add(btnSound);
             Controls.Add(pictureBox2);
             Controls.Add(pictureBox1);
             Controls.Add(Btn);
@@ -271,6 +311,7 @@
             Name = "DifficultySelection";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Minesweeper";
+            VisibleChanged += FrmShown;
             MouseEnter += BtnEnteredForm;
             panelMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)btnCustom).EndInit();
@@ -284,6 +325,8 @@
             ((System.ComponentModel.ISupportInitialize)Btn).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btnSound).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btnResume).EndInit();
             ResumeLayout(false);
         }
 
@@ -306,5 +349,8 @@
         private PictureBox Btn;
         private PictureBox pictureBox1;
         private PictureBox pictureBox2;
+        private PictureBox btnSound;
+        private ToolTip tipSound;
+        private PictureBox btnResume;
     }
 }

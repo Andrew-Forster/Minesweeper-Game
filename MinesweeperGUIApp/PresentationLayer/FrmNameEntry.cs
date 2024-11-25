@@ -70,6 +70,8 @@ namespace MinesweeperGUIApp
         /// <param name="e"></param>
         private void BtnEnterNameOnClick(object sender, EventArgs e)
         {
+            // SFX: Main Button Sound
+
             if (tbName.Text.Trim() == "")
             {
                 tbName.Text = "Anonymous";
@@ -94,6 +96,7 @@ namespace MinesweeperGUIApp
         /// <param name="e"></param>
         private void BtnCancelClick(object sender, EventArgs e)
         {
+            // SFX: Main Button Sound
             this.Close();
         }
 
@@ -106,11 +109,13 @@ namespace MinesweeperGUIApp
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
+                // SFX: Main Button Sound
                 BtnEnterNameOnClick(sender, e);
             }
 
             if (e.KeyChar == (char)Keys.Escape)
             {
+                // SFX: Main Button Sound
                 BtnCancelClick(sender, e);
             }
         }

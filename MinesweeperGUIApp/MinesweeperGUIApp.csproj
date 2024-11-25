@@ -25,6 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MinesweeperLibrary\MinesweeperLibrary.csproj" />
   </ItemGroup>
 
@@ -140,6 +144,12 @@
     <None Update="Assets\Mine.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\Mute.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\MuteAll.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\Num 1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -230,6 +240,9 @@
     <None Update="Assets\Skull.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\Sound.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\Tile 1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -250,12 +263,6 @@
     </None>
     <None Update="Assets\Tile_Clicked.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Highscores.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Username.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

@@ -1,4 +1,5 @@
 using MinesweeperGUIApp.BusinessLayer;
+using MinesweeperGUIApp.Models;
 using MinesweeperLibrary;
 using Utils = MinesweeperGUIApp.BusinessLayer.Utils;
 
@@ -14,6 +15,7 @@ namespace MinesweeperGUIApp
         public string difficulty { get; set; }
         PictureBox selectBtn;
         PictureBox hoverBtn;
+        int soundMode = 0;
 
         public DifficultySelection()
         {
@@ -29,6 +31,7 @@ namespace MinesweeperGUIApp
             tipEasy.SetToolTip(btnEasy, "9x9 board with 10 mines.");
             tipMedium.SetToolTip(btnMedium, "16x16 board with 40 mines.");
             tipHard.SetToolTip(btnHard, "24x24 board with 99 mines.");
+            tipSound.SetToolTip(btnSound, "Music & Sound are currently on.");
 
             if (business.UsernameIsNotSet())
             {
@@ -54,6 +57,10 @@ namespace MinesweeperGUIApp
             difficulty = "Easy";
             btnEasy.Controls.Add(selectBtn);
 
+            Label ResumeLabel = utils.CreateLabel("Resume Game", 14F);
+            ResumeLabel.Click += BtnResumeGameClick;
+            btnResume.Controls.Add(ResumeLabel);
+
         }
 
         /// <summary>
@@ -63,6 +70,8 @@ namespace MinesweeperGUIApp
         /// <param name="e"></param>
         private void DifficultySelected(object sender, EventArgs e)
         {
+            // SFX: Main Button Sound
+
             PictureBox rb = (PictureBox)sender;
 
             btnCustom.Controls.Remove(selectBtn);
@@ -112,7 +121,18 @@ namespace MinesweeperGUIApp
         /// <param name="e"></param>
         private void StartGameOnClick(object sender, EventArgs e)
         {
-            Size s = new Size(800, 500);
+            // SFX: Main Button Sound
+            if (business.GetGameData() != null)
+            {
+                DialogResult res = MessageBox.Show("Are you sure you want to start a new game? Your current game will be lost.", "New Game", MessageBoxButtons.YesNo);
+
+                if (res == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
+                Size s = new Size(800, 500);
             if (boardSize > 16)
             {
                 s = new Size(
@@ -133,11 +153,61 @@ namespace MinesweeperGUIApp
 
             if (boardSize > 16)
             {
+                boardGUI.MaximizeBox = false;
                 boardGUI.WindowState = FormWindowState.Maximized;
             }
             boardGUI.Show();
 
         }
+        private void BtnResumeGameClick(object sender, EventArgs e)
+        {
+
+            SaveData data = business.GetGameData();
+            if (data == null)
+            {
+                MessageBox.Show("No game data found. Please start a new game.");
+                btnResume.Visible = false;
+                return;
+            }
+
+            Board board = data.Board;
+
+            Size s = new Size(800, 500);
+            if (board.BoardSize > 16)
+            {
+                s = new Size(
+                    Screen.PrimaryScreen.WorkingArea.Width,
+                    Screen.PrimaryScreen.WorkingArea.Height);
+
+                //s = new Size(
+                //    boardSize * 40 + 200,
+                //    boardSize * 30 + 100**
+                //);
+            }
+
+
+            try
+            {
+                BoardGUI boardGUI = new BoardGUI(board, this, data.Difficulty, s);
+                boardGUI.Text = $"Minesweeper - {board.BoardSize}x{board.BoardSize}";
+                boardGUI.Size = s;
+                boardGUI.score = data.Score;
+                boardGUI.timeElapsed = data.Time;
+
+                if (board.BoardSize > 16)
+                {
+                    boardGUI.MaximizeBox = false;
+                    boardGUI.WindowState = FormWindowState.Maximized;
+                }
+                boardGUI.Show();
+                boardGUI.ResumeGame(data.ActiveRewards);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while trying to resume the game. Please start a new game: " + ex);
+            }
+        }
+
 
         /// <summary>
         /// Event handler for when the mine count is changed.
@@ -190,12 +260,14 @@ namespace MinesweeperGUIApp
 
         private void BtnChangeNameOnClick(object sender, EventArgs e)
         {
+            // SFX: Main Button Sound
             frmNameEntry.ShowDialog();
 
         }
 
         private void BtnHighScoresOnClick(object sender, EventArgs e)
         {
+            // SFX: Main Button Sound
             FrmHighScore frmHighScore = new FrmHighScore();
             frmHighScore.ShowDialog();
         }
@@ -222,6 +294,41 @@ namespace MinesweeperGUIApp
 
         }
 
+        private void BtnSoundClick(object sender, EventArgs e)
+        {
+            switch (soundMode)
+            {
+                case 0:
+                    btnSound.Image = Image.FromFile("Assets/Mute.png");
+                    soundMode = 1;
+                    tipSound.ToolTipTitle = "Music is off";
+                    tipSound.SetToolTip(btnSound, "Sound effects will continue to play");
+                    break;
+                case 1:
+                    btnSound.Image = Image.FromFile("Assets/MuteAll.png");
+                    soundMode = 2;
+                    tipSound.ToolTipTitle = "All Sounds Muted";
+                    tipSound.SetToolTip(btnSound, "No music and no sound effects will continue to play");
+                    break;
+                default:
+                    btnSound.Image = Image.FromFile("Assets/Sound.png");
+                    soundMode = 0;
+                    tipSound.ToolTipTitle = "Music & Sound on";
+                    tipSound.SetToolTip(btnSound, "Music & Sound are currently on");
+                    break;
+            }
+        }
 
+        private void FrmShown(object sender, EventArgs e)
+        {
+            if (business.GetGameData() == null)
+            {
+                btnResume.Visible = false;
+            }
+            else
+            {
+                btnResume.Visible = true;
+            }
+        }
     }
 }
