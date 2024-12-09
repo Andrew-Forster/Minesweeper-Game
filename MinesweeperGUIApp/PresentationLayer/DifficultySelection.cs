@@ -132,7 +132,7 @@ namespace MinesweeperGUIApp
                 }
             }
 
-                Size s = new Size(800, 500);
+            Size s = new Size(800, 500);
             if (boardSize > 16)
             {
                 s = new Size(

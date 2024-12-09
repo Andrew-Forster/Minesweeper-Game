@@ -37,7 +37,15 @@ namespace MinesweeperGUIApp.BusinessLayer
 
         public int DetermineTileSize(int boardSize, int windowHeight)
         {
-            windowHeight -= 100;
+            if (boardSize <= 0 || windowHeight <= 0)
+            {
+                return 40;
+            }
+
+            if (windowHeight - 100 > 200)
+            {
+                windowHeight -= 100;
+            }
             int size = windowHeight / boardSize;
             return size;
         }

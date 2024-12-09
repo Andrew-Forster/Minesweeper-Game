@@ -21,12 +21,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_2D2B48487EFD4786A865679EA828BC69"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_A78C21E4CE9E4CD9B3DDE1E97C398DFF"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -225,7 +219,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Minesweeper"
         "ProductCode" = "8:{2C894437-CDE0-4ACA-976D-137B9B06FD29}"
-        "PackageCode" = "8:{A752F854-C255-437C-ACB2-CBFB326B9904}"
+        "PackageCode" = "8:{6AD1D96F-6CE8-493D-89E9-E799A6DB3E93}"
         "UpgradeCode" = "8:{A8EC350E-E902-4799-B6E9-F63217BB4748}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -772,34 +766,6 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2D2B48487EFD4786A865679EA828BC69"
-            {
-            "SourcePath" = "8:..\\MinesweeperGUIApp\\obj\\Release\\net8.0-windows\\apphost.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_BA709FB64BDA42E49331ABD5BC46E18E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:PublishItems"
-            "OutputProjectGuid" = "8:{601B4403-C432-44F1-A924-7521D621909B}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
         }
     }
 }

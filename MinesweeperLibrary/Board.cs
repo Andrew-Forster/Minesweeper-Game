@@ -10,8 +10,8 @@ namespace MinesweeperLibrary
     public class Board
     {
 
-        public int BoardSize { get; set; }
-        public int BombCount { get; set; }
+        public int BoardSize { get; set; } = 9;
+        public int BombCount { get; set; } = 10;
         public int Difficulty { get; set; }
         public int RewardCount { get; set; }
         public Cell[,] Cells { get; set; }
