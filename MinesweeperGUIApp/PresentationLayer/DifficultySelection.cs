@@ -263,7 +263,8 @@ namespace MinesweeperGUIApp
 
         private void BtnChangeNameOnClick(object sender, EventArgs e)
         {
-            //main
+            
+            Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
             frmNameEntry.ShowDialog();
 
         }
