@@ -2,6 +2,7 @@ using MinesweeperGUIApp.BusinessLayer;
 using MinesweeperGUIApp.Models;
 using MinesweeperLibrary;
 using Utils = MinesweeperGUIApp.BusinessLayer.Utils;
+using System.Media;
 
 namespace MinesweeperGUIApp
 {
@@ -15,7 +16,7 @@ namespace MinesweeperGUIApp
         public string difficulty { get; set; }
         PictureBox selectBtn;
         PictureBox hoverBtn;
-        int soundMode = 0;
+        public int soundMode = 0;
 
         public DifficultySelection()
         {
@@ -71,6 +72,7 @@ namespace MinesweeperGUIApp
         private void DifficultySelected(object sender, EventArgs e)
         {
             // SFX: Main Button Sound
+            Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
 
             PictureBox rb = (PictureBox)sender;
 
@@ -80,7 +82,6 @@ namespace MinesweeperGUIApp
             btnHard.Controls.Remove(selectBtn);
 
             rb.Controls.Add(selectBtn);
-
 
             if (rb.Name == "btnCustom")
             {
@@ -122,6 +123,7 @@ namespace MinesweeperGUIApp
         private void StartGameOnClick(object sender, EventArgs e)
         {
             // SFX: Main Button Sound
+            Utils.PlaySound("Assets/SoundEffects/boing.mp3");
             if (business.GetGameData() != null)
             {
                 DialogResult res = MessageBox.Show("Are you sure you want to start a new game? Your current game will be lost.", "New Game", MessageBoxButtons.YesNo);
@@ -318,6 +320,7 @@ namespace MinesweeperGUIApp
                     break;
             }
         }
+
 
         private void FrmShown(object sender, EventArgs e)
         {

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using NAudio.Wave;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -102,6 +104,44 @@ namespace MinesweeperGUIApp.BusinessLayer
             }
             return null;
         }
+
+
+
+
+        public static void PlaySound(string soundPath)
+        {
+
+            if (!System.IO.File.Exists(soundPath))
+            {
+                MessageBox.Show("Sound file not found: " + soundPath);
+                return;
+            }
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    using (var audioFile = new AudioFileReader(soundPath))
+                    using (var outputDevice = new WaveOutEvent())
+                    {
+                        outputDevice.Init(audioFile);
+                        outputDevice.Play();
+
+                        // Keep the application running until the sound has finished playing
+                        while (outputDevice.PlaybackState == PlaybackState.Playing)
+                        {
+                            System.Threading.Thread.Sleep(100);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle exceptions
+                    Console.WriteLine($"Error playing sound: {ex.Message}");
+                }
+            });
+        }
+
 
 
 
