@@ -271,7 +271,7 @@ namespace MinesweeperGUIApp
 
         private void BtnHighScoresOnClick(object sender, EventArgs e)
         {
-            //main
+            Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
             FrmHighScore frmHighScore = new FrmHighScore();
             frmHighScore.ShowDialog();
         }
