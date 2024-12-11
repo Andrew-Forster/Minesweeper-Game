@@ -122,7 +122,7 @@ namespace MinesweeperGUIApp
         /// <param name="e"></param>
         private void StartGameOnClick(object sender, EventArgs e)
         {
-            
+
             Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
 
             if (business.GetGameData() != null)
@@ -164,7 +164,7 @@ namespace MinesweeperGUIApp
         }
         private void BtnResumeGameClick(object sender, EventArgs e)
         {
-            Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
+            // main 
             SaveData data = business.GetGameData();
             if (data == null)
             {
@@ -263,14 +263,14 @@ namespace MinesweeperGUIApp
 
         private void BtnChangeNameOnClick(object sender, EventArgs e)
         {
-            Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
+            //main
             frmNameEntry.ShowDialog();
 
         }
 
         private void BtnHighScoresOnClick(object sender, EventArgs e)
         {
-            Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
+            //main
             FrmHighScore frmHighScore = new FrmHighScore();
             frmHighScore.ShowDialog();
         }
