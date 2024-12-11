@@ -163,8 +163,8 @@ namespace MinesweeperGUIApp
 
         }
         private void BtnResumeGameClick(object sender, EventArgs e)
-        {
-            // main 
+        { 
+            Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
             SaveData data = business.GetGameData();
             if (data == null)
             {
