@@ -71,7 +71,7 @@ namespace MinesweeperGUIApp
         /// <param name="e"></param>
         private void DifficultySelected(object sender, EventArgs e)
         {
-            // SFX: Main Button Sound
+            
             Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
 
             PictureBox rb = (PictureBox)sender;
@@ -122,8 +122,9 @@ namespace MinesweeperGUIApp
         /// <param name="e"></param>
         private void StartGameOnClick(object sender, EventArgs e)
         {
-            // SFX: Main Button Sound
-            Utils.PlaySound("Assets/SoundEffects/boing.mp3");
+            
+            Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
+
             if (business.GetGameData() != null)
             {
                 DialogResult res = MessageBox.Show("Are you sure you want to start a new game? Your current game will be lost.", "New Game", MessageBoxButtons.YesNo);
@@ -163,7 +164,7 @@ namespace MinesweeperGUIApp
         }
         private void BtnResumeGameClick(object sender, EventArgs e)
         {
-
+            Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
             SaveData data = business.GetGameData();
             if (data == null)
             {
@@ -262,14 +263,14 @@ namespace MinesweeperGUIApp
 
         private void BtnChangeNameOnClick(object sender, EventArgs e)
         {
-            // SFX: Main Button Sound
+            Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
             frmNameEntry.ShowDialog();
 
         }
 
         private void BtnHighScoresOnClick(object sender, EventArgs e)
         {
-            // SFX: Main Button Sound
+            Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
             FrmHighScore frmHighScore = new FrmHighScore();
             frmHighScore.ShowDialog();
         }
