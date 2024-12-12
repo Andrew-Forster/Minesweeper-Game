@@ -305,7 +305,8 @@ namespace MinesweeperGUIApp
                     return;
                 }
 
-                // SFX: Reward found sound
+                
+                Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\Reward.mp3"));
 
                 PictureBox btn = utils.CreateButton($"Use {cell.RewardType}");
                 btn.Tag = cell.RewardType;
