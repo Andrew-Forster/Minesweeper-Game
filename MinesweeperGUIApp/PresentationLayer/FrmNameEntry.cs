@@ -109,7 +109,7 @@ namespace MinesweeperGUIApp
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3")); d
+                Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3")); 
                 BtnEnterNameOnClick(sender, e);
             }
 

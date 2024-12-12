@@ -12,6 +12,7 @@ using MinesweeperGUIApp.BusinessLayer;
 using MinesweeperGUIApp.Models;
 using MinesweeperLibrary;
 using static System.Net.Mime.MediaTypeNames;
+using Application = System.Windows.Forms.Application;
 using Image = System.Drawing.Image;
 using Timer = System.Windows.Forms.Timer;
 using Utils = MinesweeperGUIApp.BusinessLayer.Utils;
@@ -314,7 +315,7 @@ namespace MinesweeperGUIApp
 
                 btnLbl.Click += (s, ev) =>
                 {
-                    // SFX: Main Button Sound
+                    Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
 
                     if ((string)btn.Tag == "Detector")
                     {
@@ -552,7 +553,7 @@ namespace MinesweeperGUIApp
         /// <param name="e"></param>
         private void BtnQuitOnClick(object sender, EventArgs e)
         {
-            // SFX: Main Button Sound
+            Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
             SaveData();
             this.Close();
             minesweeper.Show();
