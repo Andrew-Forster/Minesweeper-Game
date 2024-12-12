@@ -109,13 +109,13 @@ namespace MinesweeperGUIApp
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                // SFX: Main Button Sound
+                Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3")); d
                 BtnEnterNameOnClick(sender, e);
             }
 
             if (e.KeyChar == (char)Keys.Escape)
             {
-                // SFX: Main Button Sound
+                Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
                 BtnCancelClick(sender, e);
             }
         }
