@@ -395,6 +395,7 @@ namespace MinesweeperGUIApp
 
                 if (result == DialogResult.Yes)
                 {
+                    Utils.StopSounds();
                     BoardGUI newBoard = new BoardGUI(new Board(boardSize, board.BombCount), minesweeper, difficulty, this.Size);
                     newBoard.Size = this.Size;
                     newBoard.Text = this.Text;
