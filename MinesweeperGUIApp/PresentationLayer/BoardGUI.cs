@@ -187,6 +187,9 @@ namespace MinesweeperGUIApp
 
         }
 
+        /// <summary>
+        /// Resizes the Board
+        /// </summary>
         public void ResizeUI()
         {
             tileSize = utils.DetermineTileSize(boardSize, this.Height);
@@ -204,6 +207,11 @@ namespace MinesweeperGUIApp
 
         }
 
+        /// <summary>
+        /// Hover effect
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void TileHover(object sender, EventArgs e)
         {
             if (board.CheckGameState() != "Continue")
@@ -225,6 +233,11 @@ namespace MinesweeperGUIApp
             button.Image = imageCache["Hover"];
         }
 
+        /// <summary>
+        /// Removes hover effect
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void TileLeave(object sender, EventArgs e)
         {
             if (board.CheckGameState() != "Continue")
@@ -352,6 +365,9 @@ namespace MinesweeperGUIApp
 
         }
 
+        /// <summary>
+        /// Checks if you won or not
+        /// </summary>
         public async void TestGameState()
         {
             if (board.CheckGameState() != "Continue")

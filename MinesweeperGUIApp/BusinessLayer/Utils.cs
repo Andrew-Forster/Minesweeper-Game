@@ -81,6 +81,11 @@ namespace MinesweeperGUIApp.BusinessLayer
 
         }
 
+        /// <summary>
+        ///  Creates a button with the specified text
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public PictureBox CreateButton(string text)
         {
             PictureBox btn = new PictureBox();
@@ -96,6 +101,12 @@ namespace MinesweeperGUIApp.BusinessLayer
             return btn;
         }
 
+        /// <summary>
+        /// Finds
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="tag"></param>
+        /// <returns></returns>
         public PictureBox FindPictureBoxWithTag(Control parent, object tag)
         {
             foreach (Control control in parent.Controls)
@@ -110,7 +121,10 @@ namespace MinesweeperGUIApp.BusinessLayer
 
 
 
-
+        /// <summary>
+        /// Plays a singular sound
+        /// </summary>
+        /// <param name="filePath"></param>
         public static void PlaySound(string filePath)
         {
 
@@ -168,7 +182,6 @@ namespace MinesweeperGUIApp.BusinessLayer
         /// Used to play a sound file in a loop
         /// </summary>
         /// <param name="filePath"></param>
-
         public static void PlayLoopingSound(string filePath)
         {
             try
@@ -192,6 +205,9 @@ namespace MinesweeperGUIApp.BusinessLayer
             }
         }
 
+        /// <summary>
+        /// Method to stop sounds
+        /// </summary>
         public static void StopSounds()
         {
             try
@@ -215,6 +231,11 @@ namespace MinesweeperGUIApp.BusinessLayer
             }
         }
 
+        /// <summary>
+        /// Stops sounds
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private static void WaveOut_PlaybackStopped(object sender, StoppedEventArgs e)
         {
             try
@@ -231,6 +252,10 @@ namespace MinesweeperGUIApp.BusinessLayer
             }
         }
 
+        /// <summary>
+        /// Checks if a sound is playing
+        /// </summary>
+        /// <returns></returns>
         public static bool IsSoundPlaying()
         {
             // Check if waveOut is initialized and currently playing
