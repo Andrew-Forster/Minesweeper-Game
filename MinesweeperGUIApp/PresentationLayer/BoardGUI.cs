@@ -335,7 +335,8 @@ namespace MinesweeperGUIApp
             }
 
 
-            // SFX: Tile click sound
+            Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\tileclick.mp3"));
+
 
             tmrTimer.Enabled = true;
             board.Reveal(row + 1, col + 1);
