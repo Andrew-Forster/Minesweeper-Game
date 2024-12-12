@@ -8,6 +8,7 @@ namespace MinesweeperLibrary
 {
     public class Utils
     {
+        public static string SoundMode { get; set; } = "on";
 
         /// <summary>
         /// Get user input as a string

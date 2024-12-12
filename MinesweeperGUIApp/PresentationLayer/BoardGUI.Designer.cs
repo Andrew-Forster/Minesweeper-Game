@@ -71,7 +71,7 @@
             panelSidebar.Location = new Point(7, 4);
             panelSidebar.Margin = new Padding(4, 2, 4, 2);
             panelSidebar.Name = "panelSidebar";
-            panelSidebar.Size = new Size(250, 421);
+            panelSidebar.Size = new Size(285, 421);
             panelSidebar.TabIndex = 2;
             // 
             // panelScoreHolder
@@ -109,10 +109,11 @@
             // 
             // panelRewards
             // 
+            panelRewards.AutoSize = true;
             panelRewards.Dock = DockStyle.Bottom;
-            panelRewards.Location = new Point(3, 135);
+            panelRewards.Location = new Point(184, 129);
             panelRewards.Name = "panelRewards";
-            panelRewards.Size = new Size(237, 315);
+            panelRewards.Size = new Size(0, 0);
             panelRewards.TabIndex = 18;
             // 
             // btnQuit
@@ -123,7 +124,7 @@
             btnQuit.Image = (Image)resources.GetObject("btnQuit.Image");
             btnQuit.Location = new Point(7, 432);
             btnQuit.Name = "btnQuit";
-            btnQuit.Size = new Size(237, 72);
+            btnQuit.Size = new Size(251, 72);
             btnQuit.SizeMode = PictureBoxSizeMode.StretchImage;
             btnQuit.TabIndex = 17;
             btnQuit.TabStop = false;
@@ -141,7 +142,7 @@
             panelBoard.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             panelBoard.BackColor = Color.Transparent;
             panelBoard.Font = new Font("Azonix", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            panelBoard.Location = new Point(208, 186);
+            panelBoard.Location = new Point(190, 186);
             panelBoard.Margin = new Padding(4, 2, 4, 20);
             panelBoard.Name = "panelBoard";
             panelBoard.Size = new Size(0, 0);
@@ -164,9 +165,9 @@
             panelCenterBoard.AutoScroll = true;
             panelCenterBoard.BackColor = Color.Transparent;
             panelCenterBoard.Controls.Add(panelBoard);
-            panelCenterBoard.Location = new Point(264, 7);
+            panelCenterBoard.Location = new Point(299, 7);
             panelCenterBoard.Name = "panelCenterBoard";
-            panelCenterBoard.Size = new Size(524, 479);
+            panelCenterBoard.Size = new Size(489, 479);
             panelCenterBoard.TabIndex = 5;
             // 
             // lblScoreIncrement
@@ -176,13 +177,14 @@
             lblScoreIncrement.ForeColor = Color.FromArgb(128, 255, 128);
             lblScoreIncrement.Location = new Point(264, 503);
             lblScoreIncrement.Name = "lblScoreIncrement";
-            lblScoreIncrement.Size = new Size(32, 18);
+            lblScoreIncrement.Size = new Size(28, 15);
             lblScoreIncrement.TabIndex = 18;
             lblScoreIncrement.Text = "+0";
+            lblScoreIncrement.Visible = false;
             // 
             // BoardGUI
             // 
-            AutoScaleDimensions = new SizeF(14F, 18F);
+            AutoScaleDimensions = new SizeF(11F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
@@ -203,6 +205,7 @@
             ResizeEnd += FrmResizeEnd;
             Resize += FrmMaximizedCheck;
             panelSidebar.ResumeLayout(false);
+            panelSidebar.PerformLayout();
             panelScoreHolder.ResumeLayout(false);
             panelTimerHolder.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)btnQuit).EndInit();

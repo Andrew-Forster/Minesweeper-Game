@@ -71,6 +71,10 @@ namespace MinesweeperGUIApp
             quit.BringToFront();
 
             HighScores = business.GetHighScores("All");
+            if (Utils.SoundMode == "all")
+            {
+                Utils.PlayLoopingSound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\gameplay.mp3"));
+            }
 
 
         }
@@ -307,7 +311,7 @@ namespace MinesweeperGUIApp
                     return;
                 }
 
-                
+
                 Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\Reward.mp3"));
 
                 PictureBox btn = utils.CreateButton($"Use {cell.RewardType}");
@@ -577,6 +581,7 @@ namespace MinesweeperGUIApp
 
             if (m.Msg == WM_CLOSE && openSelector)
             {
+                Utils.StopSounds();
                 SaveData();
                 minesweeper.Show();
                 cancelAnimations?.Cancel();

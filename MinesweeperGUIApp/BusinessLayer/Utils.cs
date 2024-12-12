@@ -1,5 +1,6 @@
 ﻿using NAudio.Wave;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Media;
@@ -10,6 +11,8 @@ namespace MinesweeperGUIApp.BusinessLayer
 {
     internal class Utils
     {
+        public static ConcurrentBag<IWavePlayer> players = new ConcurrentBag<IWavePlayer>();
+        public static string SoundMode { get; set; } = "all"; // all, nobg, none
         Image tile = Image.FromFile("Assets/Tile.png");
 
 
@@ -108,12 +111,11 @@ namespace MinesweeperGUIApp.BusinessLayer
 
 
 
-        public static void PlaySound(string soundPath)
+        public static void PlaySound(string filePath)
         {
 
-            if (!System.IO.File.Exists(soundPath))
+            if (SoundMode == "none")
             {
-                MessageBox.Show("Sound file not found: " + soundPath);
                 return;
             }
 
@@ -121,27 +123,119 @@ namespace MinesweeperGUIApp.BusinessLayer
             {
                 try
                 {
-                    using (var audioFile = new AudioFileReader(soundPath))
-                    using (var outputDevice = new WaveOutEvent())
-                    {
-                        outputDevice.Init(audioFile);
-                        outputDevice.Play();
+                    var waveOut = new WaveOutEvent();
+                    var audioFile = new AudioFileReader(filePath);
+                    waveOut.Init(audioFile);
 
-                        // Keep the application running until the sound has finished playing
-                        while (outputDevice.PlaybackState == PlaybackState.Playing)
+                    players.Add(waveOut);
+
+                    waveOut.Play();
+                    waveOut.PlaybackStopped += (s, e) =>
+                    {
+                        try
                         {
-                            System.Threading.Thread.Sleep(100);
+                            waveOut.Dispose();
+                            audioFile.Dispose();
+                            if (players.TryTake(out IWavePlayer player))
+                            {
+                                var specificPlayer = player as WaveOutEvent;
+                                specificPlayer?.Dispose();
+                            }
                         }
-                    }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error during playback stop: {ex.Message}");
+                        }
+
+
+                    };
+
                 }
                 catch (Exception ex)
                 {
-                    // Handle exceptions
                     Console.WriteLine($"Error playing sound: {ex.Message}");
                 }
             });
+
         }
 
+
+
+        public static IWavePlayer waveOut;
+        public static AudioFileReader audioFile;
+
+        /// <summary>
+        /// Used to play a sound file in a loop
+        /// </summary>
+        /// <param name="filePath"></param>
+
+        public static void PlayLoopingSound(string filePath)
+        {
+            try
+            {
+                // Initialize WaveOutEvent and AudioFileReader
+                waveOut = new WaveOutEvent();
+                audioFile = new AudioFileReader(filePath);
+
+                // Initialize WaveOutEvent with AudioFileReader
+                waveOut.Init(audioFile);
+
+                // Start playing the sound
+                waveOut.Play();
+
+                // Loop the sound manually by resetting its position when it ends
+                waveOut.PlaybackStopped += WaveOut_PlaybackStopped;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error playing sound: {ex.Message}");
+            }
+        }
+
+        public static void StopSounds()
+        {
+            try
+            {
+                // Safely stop and dispose of waveOut
+                if (waveOut != null)
+                {
+                    waveOut.Stop();
+                    waveOut.PlaybackStopped -= WaveOut_PlaybackStopped; // Unsubscribe from event
+                    waveOut.Dispose();
+                    waveOut = null;
+                }
+
+                // Dispose of audioFile
+                audioFile?.Dispose();
+                audioFile = null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error stopping sounds: {ex.Message}");
+            }
+        }
+
+        private static void WaveOut_PlaybackStopped(object sender, StoppedEventArgs e)
+        {
+            try
+            {
+                if (audioFile != null && waveOut != null)
+                {
+                    audioFile.Position = 0;
+                    waveOut.Play();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in playback loop: {ex.Message}");
+            }
+        }
+
+        public static bool IsSoundPlaying()
+        {
+            // Check if waveOut is initialized and currently playing
+            return waveOut != null && waveOut.PlaybackState == PlaybackState.Playing;
+        }
 
 
 

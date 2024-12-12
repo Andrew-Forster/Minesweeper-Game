@@ -26,7 +26,6 @@ namespace MinesweeperGUIApp
             this.MinimizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
 
-
             tipCustom.SetToolTip(btnCustom, "Allows you to set your own board size and mine count.");
 
             tipEasy.SetToolTip(btnEasy, "9x9 board with 10 mines.");
@@ -148,6 +147,7 @@ namespace MinesweeperGUIApp
                 //);
             }
 
+            Utils.StopSounds();
 
             Board board = new Board(boardSize, mineCount);
             BoardGUI boardGUI = new BoardGUI(board, this, difficulty, s);
@@ -172,6 +172,8 @@ namespace MinesweeperGUIApp
                 btnResume.Visible = false;
                 return;
             }
+
+            Utils.StopSounds();
 
             Board board = data.Board;
 
@@ -307,18 +309,23 @@ namespace MinesweeperGUIApp
                     soundMode = 1;
                     tipSound.ToolTipTitle = "Music is off";
                     tipSound.SetToolTip(btnSound, "Sound effects will continue to play");
+                    Utils.SoundMode = "nobg";
+                    Utils.StopSounds();
                     break;
                 case 1:
                     btnSound.Image = Image.FromFile("Assets/MuteAll.png");
                     soundMode = 2;
                     tipSound.ToolTipTitle = "All Sounds Muted";
                     tipSound.SetToolTip(btnSound, "No music and no sound effects will continue to play");
+                    Utils.SoundMode = "none";
                     break;
                 default:
                     btnSound.Image = Image.FromFile("Assets/Sound.png");
                     soundMode = 0;
                     tipSound.ToolTipTitle = "Music & Sound on";
                     tipSound.SetToolTip(btnSound, "Music & Sound are currently on");
+                    Utils.SoundMode = "all";
+                    Utils.PlayLoopingSound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\mainMenu.mp3"));
                     break;
             }
         }
@@ -326,6 +333,10 @@ namespace MinesweeperGUIApp
 
         private void FrmShown(object sender, EventArgs e)
         {
+            if (!Utils.IsSoundPlaying() && this.Visible && Utils.SoundMode == "all")
+            {
+                Utils.PlayLoopingSound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\mainMenu.mp3"));
+            }
             if (business.GetGameData() == null)
             {
                 btnResume.Visible = false;
