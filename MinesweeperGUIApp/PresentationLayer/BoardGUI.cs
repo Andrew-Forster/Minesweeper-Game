@@ -267,7 +267,7 @@ namespace MinesweeperGUIApp
                     return;
                 }
 
-                // SFX: Flag sound
+                Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\flag.mp3"));
 
                 board.Flag(row + 1, col + 1);
                 UpdateButton(row, col, false);
