@@ -365,7 +365,8 @@ namespace MinesweeperGUIApp
                         Console.WriteLine(e.Message);
                     }
 
-                    // SFX: Lost sound
+                    Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\lost.mp3"));
+
                     result = MessageBox.Show("You lost! Play again?", "Game Over", MessageBoxButtons.YesNo);
                 }
                 else // won
@@ -660,7 +661,8 @@ namespace MinesweeperGUIApp
             }
             else
             {
-                // SFX: Defuse sound
+                Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\defuse.mp3"));
+
             }
 
 
