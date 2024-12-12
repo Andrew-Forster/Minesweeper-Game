@@ -96,7 +96,7 @@ namespace MinesweeperGUIApp
         /// <param name="e"></param>
         private void BtnCancelClick(object sender, EventArgs e)
         {
-            // SFX: Main Button Sound
+            Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
             this.Close();
         }
 
