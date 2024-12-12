@@ -41,14 +41,14 @@ namespace MinesweeperGUIApp.BusinessLayer
         {
             if (boardSize <= 0 || windowHeight <= 0)
             {
-                return 40;
+                return 20;
             }
 
             if (windowHeight - 100 > 200)
             {
                 windowHeight -= 100;
             }
-            int size = windowHeight / boardSize;
+            int size = (windowHeight / boardSize) - 4;
             return size;
         }
 

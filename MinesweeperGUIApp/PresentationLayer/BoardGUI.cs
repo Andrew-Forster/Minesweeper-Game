@@ -71,6 +71,8 @@ namespace MinesweeperGUIApp
             quit.BringToFront();
 
             HighScores = business.GetHighScores("All");
+
+
         }
 
         /// <summary>
