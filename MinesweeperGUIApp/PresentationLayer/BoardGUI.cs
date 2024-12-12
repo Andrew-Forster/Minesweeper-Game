@@ -379,7 +379,7 @@ namespace MinesweeperGUIApp
                         Console.WriteLine(e.Message);
                     }
 
-                    // SFX: Win sound
+                    Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\victory.mp3"));
                     result = MessageBox.Show("You won! Play again?", "Game Over", MessageBoxButtons.YesNo);
                     business.SaveHighScore(new HighScore(business.GetUserName(), score, DateTime.Now, difficulty));
 
@@ -655,7 +655,8 @@ namespace MinesweeperGUIApp
 
             if (fileName == "Explode")
             {
-                // SFX: Explosion sound
+                Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\explosion.mp3"));
+
             }
             else
             {
