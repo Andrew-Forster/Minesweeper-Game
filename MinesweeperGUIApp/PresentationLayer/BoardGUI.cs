@@ -609,7 +609,11 @@ namespace MinesweeperGUIApp
             base.WndProc(ref m);
         }
 
-
+        /// <summary>
+        /// Run the end animations for the game
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         protected Task RunEndAnimationsAsync(string fileName)
         {
             cancelAnimations = new CancellationTokenSource();
@@ -745,7 +749,11 @@ namespace MinesweeperGUIApp
             // Start the animation timer
             animationTimer.Start();
         }
-
+        /// <summary>
+        /// Resize the board when the form is resized
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FrmResizeEnd(object sender, EventArgs e)
         {
             if (this.Width > this.Height)
@@ -756,7 +764,11 @@ namespace MinesweeperGUIApp
             }
 
         }
-
+        /// <summary>
+        /// Resize the board when the form is maximized
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FrmMaximizedCheck(object sender, EventArgs e)
         {
             if (this.WindowState != FormWindowState.Minimized)

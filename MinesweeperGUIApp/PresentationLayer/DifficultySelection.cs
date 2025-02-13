@@ -17,7 +17,9 @@ namespace MinesweeperGUIApp
         PictureBox selectBtn;
         PictureBox hoverBtn;
         public int soundMode = 0;
-
+        /// <summary>
+        /// Constructor for the DifficultySelection form.
+        /// </summary>
         public DifficultySelection()
         {
             InitializeComponent();
@@ -162,6 +164,11 @@ namespace MinesweeperGUIApp
             boardGUI.Show();
 
         }
+        /// <summary>
+        /// Event handler for when the resume button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnResumeGameClick(object sender, EventArgs e)
         { 
             Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
@@ -262,7 +269,11 @@ namespace MinesweeperGUIApp
                 lblMineCount.Text = "Mine Count: " + mineCount.ToString();
             }
         }
-
+        /// <summary>
+        /// Event handler for when the change name button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnChangeNameOnClick(object sender, EventArgs e)
         {
             
@@ -270,20 +281,32 @@ namespace MinesweeperGUIApp
             frmNameEntry.ShowDialog();
 
         }
-
+        /// <summary>
+        /// Event handler for when the high scores button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnHighScoresOnClick(object sender, EventArgs e)
         {
             Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
             FrmHighScore frmHighScore = new FrmHighScore();
             frmHighScore.ShowDialog();
         }
-
+        /// <summary>
+        /// Event handler for when the exit button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnCustomHoverEnter(object sender, EventArgs e)
         {
             PictureBox b = (PictureBox)sender;
             b.Controls.Add(hoverBtn);
         }
-
+        /// <summary>
+        /// Event handler for when the exit button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnEnteredForm(object sender, EventArgs e)
         {
             btnCustom.Controls.Remove(hoverBtn);
@@ -291,7 +314,11 @@ namespace MinesweeperGUIApp
             btnMedium.Controls.Remove(hoverBtn);
             btnHard.Controls.Remove(hoverBtn);
         }
-
+        /// <summary>
+        /// Event handler for when the exit button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CustomHoverClick(object sender, EventArgs e)
         {
             PictureBox b = (PictureBox)sender.GetType().GetProperty("Parent").GetValue(sender, null);
@@ -299,7 +326,11 @@ namespace MinesweeperGUIApp
             selectBtn.BringToFront();
 
         }
-
+        /// <summary>
+        /// Event handler for when the exit button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnSoundClick(object sender, EventArgs e)
         {
             switch (soundMode)
@@ -330,7 +361,11 @@ namespace MinesweeperGUIApp
             }
         }
 
-
+        /// <summary>
+        /// Event handler for when the form is shown.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FrmShown(object sender, EventArgs e)
         {
             if (!Utils.IsSoundPlaying() && this.Visible && Utils.SoundMode == "all")

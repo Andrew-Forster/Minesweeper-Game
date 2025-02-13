@@ -13,6 +13,9 @@ using MinesweeperGUIApp.BusinessLayer;
 
 namespace MinesweeperGUIApp
 {
+    /// <summary>
+    /// Form for displaying the high scores.
+    /// </summary>
     public partial class FrmHighScore : Form
     {
         MinesweeperBusiness business = new MinesweeperBusiness();
@@ -177,7 +180,11 @@ namespace MinesweeperGUIApp
             Utils.PlaySound(Path.Combine(Application.StartupPath, @"..\..\..\Assets\SoundEffects\MainButton.mp3"));
             this.Close();
         }
-
+        /// <summary>
+        /// Sorts the scores by difficulty.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnSortOnClick(object sender, EventArgs e)
         {
             

@@ -15,11 +15,14 @@ using Utils = MinesweeperGUIApp.BusinessLayer.Utils;
 
 namespace MinesweeperGUIApp
 {
+
     public partial class FrmNameEntry : Form
     {
         MinesweeperBusiness business = new MinesweeperBusiness();
         Utils utils = new Utils();
-
+        /// <summary>
+        /// Form for entering the user's name.
+        /// </summary>
         public FrmNameEntry()
         {
             InitializeComponent();
@@ -42,6 +45,9 @@ namespace MinesweeperGUIApp
 
             this.Region = new Region(path);
         }
+        /// <summary>
+        /// Add the labels to the form.
+        /// </summary>
         private void AddLabels()
         {
             Label enter = utils.CreateLabel("Enter");

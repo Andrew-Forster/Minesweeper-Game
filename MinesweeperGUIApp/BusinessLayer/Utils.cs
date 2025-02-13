@@ -11,13 +11,26 @@ namespace MinesweeperGUIApp.BusinessLayer
 {
     internal class Utils
     {
+        /// <summary>
+        /// Used to play a sound file in a loop
+        /// </summary>
         public static ConcurrentBag<IWavePlayer> players = new ConcurrentBag<IWavePlayer>();
+        /// <summary>
+        /// Used to play a sound file in a loop
+        /// </summary>
         public static string SoundMode { get; set; } = "all"; // all, nobg, none
         Image tile = Image.FromFile("Assets/Tile.png");
 
 
 
-
+        /// <summary>
+        /// Creates a tile for the board
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="boardSize"></param>
+        /// <param name="windowHeight"></param>
+        /// <returns></returns>
         public PictureBox MakeTile(int x, int y, int boardSize, int windowHeight) => MakeTile(x, y, DetermineTileSize(boardSize, windowHeight));
         /// <summary>
         /// Creates a tile for the board
@@ -39,7 +52,12 @@ namespace MinesweeperGUIApp.BusinessLayer
 
             return button;
         }
-
+        /// <summary>
+        /// Determines the size of the tile based on the board size and window height
+        /// </summary>
+        /// <param name="boardSize"></param>
+        /// <param name="windowHeight"></param>
+        /// <returns></returns>
         public int DetermineTileSize(int boardSize, int windowHeight)
         {
             if (boardSize <= 0 || windowHeight <= 0)
@@ -174,8 +192,13 @@ namespace MinesweeperGUIApp.BusinessLayer
         }
 
 
-
+        /// <summary>
+        /// Used to play a sound file in a loop
+        /// </summary>
         public static IWavePlayer waveOut;
+        /// <summary>
+        /// Used to play a sound file in a loop
+        /// </summary>
         public static AudioFileReader audioFile;
 
         /// <summary>
